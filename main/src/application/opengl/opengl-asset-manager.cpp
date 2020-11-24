@@ -1,5 +1,5 @@
 #include "opengl-asset-manager.hpp"
-#include "../../core/assets.hpp"
+#include "../../core/utils/assets.hpp"
 #include <unordered_map>
 
 using ast::OpenGLAssetManager;

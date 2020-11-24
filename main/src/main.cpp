@@ -1,5 +1,5 @@
 #include "core/engine.hpp"
-#include "core/sdl-wrapper.hpp"
+#include "core/utils/sdl-wrapper.hpp"
 
 int main(int, char* [])
 {

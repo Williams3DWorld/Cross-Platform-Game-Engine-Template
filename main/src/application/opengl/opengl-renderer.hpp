@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../core/internal-ptr.hpp"
-#include "../../core/renderer.hpp"
+#include "../../core/utils/internal-ptr.hpp"
+#include "../../core/renderer/renderer.hpp"
 #include "opengl-asset-manager.hpp"
 #include <memory>
 

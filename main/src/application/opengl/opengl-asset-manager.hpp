@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../core/asset-manager.hpp"
-#include "../../core/internal-ptr.hpp"
-#include "opengl-mesh.hpp"
+#include "../../core/experimental/asset-manager.hpp"
+#include "../../core/utils/internal-ptr.hpp"
+#include "experimental/opengl-mesh.hpp"
 #include "opengl-pipeline.hpp"
 #include "opengl-texture.hpp"
 

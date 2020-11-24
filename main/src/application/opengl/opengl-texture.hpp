@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../core/bitmap.hpp"
-#include "../../core/internal-ptr.hpp"
+#include "../../core/renderer/bitmap.hpp"
+#include "../../core/utils/internal-ptr.hpp"
 
 namespace ast
 {

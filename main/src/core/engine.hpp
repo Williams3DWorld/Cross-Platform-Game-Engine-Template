@@ -1,6 +1,6 @@
 #pragma once
 
-#include "internal-ptr.hpp"
+#include "utils/internal-ptr.hpp"
 
 namespace ast
 {

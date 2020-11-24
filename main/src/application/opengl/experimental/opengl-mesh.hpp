@@ -1,8 +1,10 @@
 #pragma once
 
-#include "../../core/graphics-wrapper.hpp"
-#include "../../core/internal-ptr.hpp"
-#include "../../core/mesh.hpp"
+#include "../../../core/utils/glm-wrapper.hpp"
+#include "../../../core/utils/internal-ptr.hpp"
+#include "../../../core/experimental/mesh.hpp"
+#include <SDL.h>
+#include <GL/glew.h>
 
 namespace ast
 {

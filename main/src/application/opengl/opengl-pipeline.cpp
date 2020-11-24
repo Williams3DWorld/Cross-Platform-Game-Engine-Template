@@ -1,6 +1,6 @@
 #include "opengl-pipeline.hpp"
-#include "../../core/assets.hpp"
-#include "../../core/log.hpp"
+#include "../../core/utils/assets.hpp"
+#include "../../core/utils/log.hpp"
 #include "opengl-asset-manager.hpp"
 #include <stdexcept>
 #include <vector>

@@ -1,5 +1,5 @@
 #include "opengl-texture.hpp"
-#include "../../core/graphics-wrapper.hpp"
+#include "../../core/utils/graphics-wrapper.hpp"
 
 using ast::OpenGLTexture;
 

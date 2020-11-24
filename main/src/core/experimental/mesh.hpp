@@ -1,7 +1,7 @@
 #pragma once
 
-#include "internal-ptr.hpp"
-#include "vertex.hpp"
+#include "../utils/internal-ptr.hpp"
+#include "../renderer/vertex.hpp"
 #include <vector>
 
 namespace ast

@@ -1,8 +1,8 @@
 #include "engine.hpp"
 #include "../application/application.hpp"
 #include "../application/opengl/opengl-application.hpp"
-#include "log.hpp"
-#include "sdl-wrapper.hpp"
+#include "utils/log.hpp"
+#include "utils/sdl-wrapper.hpp"
 #include <SDL_image.h>
 #include <stdexcept>
 #include <string>

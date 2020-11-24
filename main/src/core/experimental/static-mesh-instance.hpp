@@ -1,8 +1,8 @@
 #pragma once
 
 #include "asset-inventory.hpp"
-#include "glm-wrapper.hpp"
-#include "internal-ptr.hpp"
+#include "../utils/glm-wrapper.hpp"
+#include "../utils/internal-ptr.hpp"
 
 namespace ast
 {

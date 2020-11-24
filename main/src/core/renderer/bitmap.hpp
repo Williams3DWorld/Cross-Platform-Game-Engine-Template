@@ -1,7 +1,7 @@
 #pragma once
 
-#include "internal-ptr.hpp"
-#include "sdl-wrapper.hpp"
+#include "../utils/internal-ptr.hpp"
+#include "../utils/sdl-wrapper.hpp"
 
 namespace ast
 {

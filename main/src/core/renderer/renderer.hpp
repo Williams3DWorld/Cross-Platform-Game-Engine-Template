@@ -1,7 +1,7 @@
 #pragma once
 
-#include "asset-inventory.hpp"
-#include "static-mesh-instance.hpp"
+#include "../experimental/asset-inventory.hpp"
+#include "../experimental/static-mesh-instance.hpp"
 #include <vector>
 
 namespace ast

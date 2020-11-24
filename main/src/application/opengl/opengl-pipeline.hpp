@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../core/internal-ptr.hpp"
-#include "../../core/static-mesh-instance.hpp"
+#include "../../core/utils/internal-ptr.hpp"
+#include "../../core/experimental/static-mesh-instance.hpp"
 #include <string>
 #include <vector>
 

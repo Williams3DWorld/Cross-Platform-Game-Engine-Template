@@ -1,6 +1,9 @@
 #include "opengl-mesh.hpp"
-#include "../../core/glm-wrapper.hpp"
+#include "../../../core/utils/glm-wrapper.hpp"
 #include <vector>
+#include <SDL.h>
+#include <GL/glew.h>
+
 
 using ast::OpenGLMesh;
 

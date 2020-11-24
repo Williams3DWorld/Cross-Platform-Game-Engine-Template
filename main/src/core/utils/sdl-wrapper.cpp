@@ -3,7 +3,7 @@
 #endif
 
 #include "sdl-wrapper.hpp"
-#include "platform.hpp"
+#include "../platform.hpp"
 
 namespace
 {

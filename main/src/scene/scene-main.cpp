@@ -1,7 +1,7 @@
 #include "scene-main.hpp"
-#include "../core/perspective-camera.hpp"
-#include "../core/static-mesh-instance.hpp"
-#include "../core/sdl-wrapper.hpp"
+#include "../core/experimental/perspective-camera.hpp"
+#include "../core/experimental/static-mesh-instance.hpp"
+#include "../core/utils/sdl-wrapper.hpp"
 #include "player.hpp"
 #include "../core/camera/ortho-camera-2d.hpp"
 
@@ -25,15 +25,15 @@ namespace
 
 struct SceneMain::Internal
 {
-    ast::PerspectiveCamera camera;
+    ast::OrthoCamera2D camera;
     std::vector<ast::StaticMeshInstance> staticMeshes;
     ast::Player player;
     const uint8_t* keyboardState;
 
 
     Internal(const float& screenWidth, const float& screenHeight)
-        : camera(::createPerspectiveCamera(screenWidth, screenHeight)),
-          player(ast::Player(glm::vec3{0.0f, 0.0f, 2.0f})),
+        : camera(::createOrthoCamera(screenWidth, screenHeight)),
+          player(ast::Player(glm::vec3{0.0f, 0.0f, 300.0f})),
           keyboardState(SDL_GetKeyboardState(nullptr)) {}
 
     void prepare(ast::AssetManager& assetManager)
@@ -45,8 +45,8 @@ struct SceneMain::Internal
         staticMeshes.push_back(ast::StaticMeshInstance{
             StaticMesh::Crate,           // Mesh
             Texture::Crate,              // Texture
-            glm::vec3{0.4f, 0.6f, 0.0f}, // Position
-            glm::vec3{0.6f, 0.6f, 0.6f}, // Scale
+            glm::vec3{0.0f, 0.0f, 0.0f}, // Position
+            glm::vec3{200}, // Scale
             glm::vec3{0.0f, 0.4f, 0.9f}, // Rotation axis
             0.0f});                      // Initial rotation
 
@@ -79,7 +79,7 @@ struct SceneMain::Internal
     {
         processInput(delta);
 
-        camera.configure(player.getPosition(), player.getDirection());
+        camera.configure(player.getPosition());
 
         const glm::mat4 cameraMatrix{camera.getProjectionMatrix() * camera.getViewMatrix()};
 

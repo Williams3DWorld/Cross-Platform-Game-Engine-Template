@@ -8,7 +8,7 @@ struct OrthoCamera2D::Internal
     glm::vec3 position;
 
     Internal(const float& width, const float& height) 
-        : projectionMatrix(glm::ortho(0.0f, width, 0.0f, height, -1.0f, 1.0f)),
+        : projectionMatrix(glm::ortho(0.0f, width, height, 0.0f, -1.0f, 1.0f)),
           position(glm::vec3(0.0f)) {}
 
 };
@@ -27,5 +27,5 @@ glm::mat4 OrthoCamera2D::getProjectionMatrix() const
 
 glm::mat4 OrthoCamera2D::getViewMatrix() const
 {
-    return glm::lookAt(internal->position, glm::vec3(0, 0, 1), glm::vec3(0, 1, 0));
+    return glm::lookAt(internal->position, glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 }

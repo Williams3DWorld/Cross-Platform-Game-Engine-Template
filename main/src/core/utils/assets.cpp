@@ -2,7 +2,7 @@
 
 #include "assets.hpp"
 #include "sdl-wrapper.hpp"
-#include "vertex.hpp"
+#include "../renderer/vertex.hpp"
 #include <SDL_image.h>
 #include <sstream>
 #include <tiny_obj_loader.h>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../core/internal-ptr.hpp"
+#include "../core/utils/internal-ptr.hpp"
 #include "scene.hpp"
 
 namespace ast

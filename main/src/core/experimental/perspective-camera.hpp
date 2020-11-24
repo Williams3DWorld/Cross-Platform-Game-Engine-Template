@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../core/glm-wrapper.hpp"
-#include "../core/internal-ptr.hpp"
+#include "../utils/glm-wrapper.hpp"
+#include "../utils/internal-ptr.hpp"
 
 namespace ast
 {

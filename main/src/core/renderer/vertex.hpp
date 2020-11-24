@@ -1,6 +1,6 @@
 #pragma once
 
-#include "glm-wrapper.hpp"
+#include "../utils/glm-wrapper.hpp"
 
 namespace ast
 {

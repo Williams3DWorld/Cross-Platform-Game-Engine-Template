@@ -1,7 +1,7 @@
 #pragma once
 
-#include "bitmap.hpp"
-#include "mesh.hpp"
+#include "../renderer/bitmap.hpp"
+#include "../experimental/mesh.hpp"
 #include <string>
 
 namespace ast::assets
