@@ -3,6 +3,7 @@
 namespace ast
 {
     unsigned int GameObject::_idCounter;
+    std::unordered_map<const char*, std::shared_ptr<GameObject>> GameObjectPool::gameObjects;
 
     uint16_t& GameObject::getType()  {
         return this->_type;

@@ -86,6 +86,7 @@ namespace ast
         {
             if (this->_children.find(value->getName()) == this->_children.end())
             {
+                std::dynamic_pointer_cast<TransformObject>(value)->setZIndex(this->_zIndex);
                 value->setParent(std::shared_ptr<GameObject>(this));
                 this->_children[value->getName()] = value;
 
@@ -95,7 +96,13 @@ namespace ast
 
     }
 
-    TransformObject::TransformObject(const char* name = "TransformObject", glm::vec2 position = {0, 0}, bool updatable = false) : _zIndex(0.0f), _rotation(0), _scale({0, 0}), _position(position), _model(IDENTITY_MATRIX), _updatable(updatable)
+    TransformObject::TransformObject() : _zIndex(0.0f), _rotation(0), _scale({0, 0}), _position(glm::vec2(.0f)), _model(IDENTITY_MATRIX), _updatable(true)
+    {
+        this->_name = "TransformObject";
+        this->_type = TRANSFORM_OBJECT;
+    }
+
+    TransformObject::TransformObject(const char* name = "TransformObject", glm::vec2 position = {.0f, .0f}, bool updatable = true) : _zIndex(0.0f), _rotation(0), _scale({0, 0}), _position(position), _model(IDENTITY_MATRIX), _updatable(updatable)
     {
         this->_name = name;
         this->_position = position;
