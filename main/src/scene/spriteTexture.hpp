@@ -9,7 +9,7 @@ namespace ast
         float _vOffset;
         float _uScale;
         float _vScale;
-        unsigned int _textureID;
+        float _textureID;
 
     public:
         bool& isRepeat();
@@ -17,15 +17,15 @@ namespace ast
         float& getVOffset();
         float& getUScale();
         float& getVScale();
-        unsigned int& getTextureID();
+        float& getTextureID();
 
         void setUOffset(float value);
         void setVOffset(float value);
         void setUScale(float value);
         void setVScale(float value);
-        void setTextureID(unsigned int value);
+        void setTextureID(float value);
 
         SpriteTexture();
-        SpriteTexture(unsigned int textureID, float uOffset, float vOffset, float uScale, float vScale, bool repeat);
+        SpriteTexture(float textureID, float uOffset, float vOffset, float uScale, float vScale, bool repeat);
     };
 } // namespace ast

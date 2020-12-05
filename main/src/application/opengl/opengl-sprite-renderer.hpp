@@ -1,25 +1,35 @@
 #include "../../scene/game-objects/sprite.hpp"
+#include <array>
+
+#define NUM_ATTRIBS 3
+#define VERTEX_STRIDE 8
+
+/* [ x, y, z, uOffset, vOffset, uScale, vScale, textureID ] */
 
 namespace ast
 {
-    struct SpriteBufferData
+
+    struct SpriteBatch
     {
-        unsigned int textureID;
-
-        unsigned int transformVbo;
-        unsigned int textureVbo;
-
         unsigned int vao;
         unsigned int vbo;
         unsigned int ibo;
 
-        std::vector<glm::mat4> transformData;
-        std::vector<glm::vec4> textureData; // uOffset, vOffset, uScale, vScale
+        std::vector<float> vertexData;
+        std::vector<unsigned int> indexData;
+        std::unordered_map<unsigned int, unsigned int> offsetData;
 
-        SpriteBufferData(unsigned int texID) : textureID(0), transformVbo(0), textureVbo(0), vbo(0), vao(0), ibo(0)
+        void updateSubData(unsigned int spriteID, float data[])
         {
-            this->textureID = texID;
+            auto vertex = 0;
+            for (auto i = spriteID * VERTEX_STRIDE; i < VERTEX_STRIDE; i++)
+            {
+                this->vertexData[i] = data[vertex];
+                vertex++;
+            }
         }
+
+        SpriteBatch() : vbo(0), vao(0), ibo(0) {}
     };
 
     class OpenGLSpriteRenderer

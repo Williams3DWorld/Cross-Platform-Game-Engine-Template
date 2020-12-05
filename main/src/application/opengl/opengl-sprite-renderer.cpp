@@ -1,58 +1,58 @@
 #include "opengl-sprite-renderer.hpp"
-#include "../../core/renderer/arbitrary-data.hpp"
+#include "../../core/renderer/sprite-vertex.hpp"
 #include <GL/glew.h>
 
 namespace ast
 {
     struct OpenGLSpriteRenderer::Internal
     {
-        std::vector<SpriteBufferData> bufferData;
-
-        bool textureIdAlreadyExists(unsigned int textureID)
-        {
-            for (unsigned int i = 0; i < bufferData.size(); i++)
-            {
-                if (bufferData[i].textureID == textureID)
-                    return true;
-            }
-
-            return false;
-        }
+        SpriteBatch batch;
 
         void compileData()
         {
-            std::vector<unsigned int> textureIDs;
             for (auto object : GameObjectPool::gameObjects)
             {
+                auto offsetCount = 0;
                 if (object.second->getType() == SPRITE)
                 {
                     const std::shared_ptr<Sprite> sprite = std::dynamic_pointer_cast<Sprite>(object.second);
-                    const unsigned int spriteTextureID = sprite->getTexture().getTextureID();
-                    if (!textureIdAlreadyExists(spriteTextureID))
+                    const auto spriteID = sprite->getSpriteID();
+                    const auto position = sprite->getPosition();
+
+                    const SpriteVertex spriteVertex = SpriteVertex(position);
+                    for (auto vertexFloatValue : spriteVertex.vertexData)
+                        this->batch.vertexData.emplace_back(vertexFloatValue);
+                    for (auto indexValue : spriteVertex.indexData)
                     {
-                        this->bufferData.emplace_back(SpriteBufferData(spriteTextureID));
+                        unsigned int indexOffset = indexValue * static_cast<unsigned int>(batch.offsetData.size()) + RECT_VERTEX_COUNT;
+                        this->batch.indexData.emplace_back(indexOffset);
                     }
+
+                    this->batch.offsetData[spriteID] = offsetCount;
+                    offsetCount++;
                 }
             }
         }
 
         void createBuffers()
         {
-            // Get constant vertex and index data for each rect
-            const RectData rd = RectData();
+            // VAO
+            glGenVertexArrays(1, &batch.vao);
+            glBindVertexArray(batch.vao);
 
-            // One instance per unique texture
-            for (auto buffer : this->bufferData)
-            {
-                // Model matrices
-                glGenBuffers(1, &buffer.transformVbo);
-                glBindBuffer(GL_ARRAY_BUFFER, buffer.transformVbo);
-                glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * buffer.transformData.size(), buffer.transformData.data(), GL_STATIC_DRAW);
-                glBindBuffer(GL_ARRAY_BUFFER, 0);
+            // VBO
+            glGenBuffers(1, &this->batch.vbo);
+            glBindBuffer(GL_ARRAY_BUFFER, batch.vbo);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(this->batch.vertexData), this->batch.vertexData.data(), GL_DYNAMIC_DRAW);
+            glEnableVertexAttribArray(0); // Positions
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+            glEnableVertexAttribArray(1); // TextureIDs
+            glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(3 * sizeof(float)));
 
-                // Texture offset & scale data
-
-            }
+            // IBO
+            glGenBuffers(1, &this->batch.ibo);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, batch.ibo);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(this->batch.indexData), this->batch.indexData.data(), GL_DYNAMIC_DRAW);
         }
 
         Internal()
@@ -63,22 +63,16 @@ namespace ast
 
         ~Internal()
         {
-            const auto numBuffers = this->bufferData.size();
-            for (unsigned int i = 0; i < numBuffers; i++)
-            {
-                const auto buffer = this->bufferData[i];
-
-                glDeleteBuffers(1, &buffer.transformVbo);
-                glDeleteBuffers(1, &buffer.textureVbo);
-                glDeleteBuffers(1, &buffer.vbo);
-                glDeleteBuffers(1, &buffer.ibo);
-                glDeleteVertexArrays(1, &buffer.vao);
-            }
+            glDeleteBuffers(1, &this->batch.vbo);
+            glDeleteBuffers(1, &this->batch.ibo);
+            glDeleteVertexArrays(1, &this->batch.vao);
         }
     };
 
     void OpenGLSpriteRenderer::render()
     {
+        // Bind uniform textures here..?
+        glDrawElements(GL_TRIANGLES, internal->batch.indexData.size(), GL_UNSIGNED_INT, 0);
     }
 
     OpenGLSpriteRenderer::OpenGLSpriteRenderer() : internal(ast::make_internal_ptr<Internal>()) {}
