@@ -11,23 +11,23 @@ namespace ast
         bool _updatable;
         float _zIndex;
         float _rotation;
-        glm::vec2 _scale;
-        glm::vec2 _position;
+        glm::vec3 _scale;
+        glm::vec3 _position;
         glm::mat4x4 _model;
 
     public:
         bool& updatable();
         float& getZIndex();
         float& getRotation();
-        glm::vec2& getScale();
-        glm::vec2& getPosition();
+        glm::vec3& getScale();
+        glm::vec3& getPosition();
         glm::mat4& getModel();
 
         void setUpdatable(bool value);
         void setZIndex(float value);
         void setRotation(float value);
-        void setScale(glm::vec2 value);
-        void setPosition(glm::vec2 value);
+        void setScale(glm::vec3 value);
+        void setPosition(glm::vec3 value);
         void setModel(glm::mat4 value);
 
         void updateModel();
@@ -37,6 +37,6 @@ namespace ast
         virtual void update(float dt) {}
 
         TransformObject();
-        TransformObject(const char* name, glm::vec2 position, bool updatable);
+        TransformObject(const char* name, glm::vec3 position, bool updatable);
     };
 } // namespace ast
