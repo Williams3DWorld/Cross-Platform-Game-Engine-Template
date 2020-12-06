@@ -9,10 +9,9 @@ struct OpenGLRenderer::Internal
     Internal(std::shared_ptr<ast::OpenGLAssetManager> assetManager) : assetManager(assetManager) {}
 
     void render(
-        const ast::assets::Pipeline& pipeline,
-        const std::vector<ast::StaticMeshInstance>& staticMeshInstances)
+        const ast::assets::Pipeline& pipeline, ast::OrthoCamera2D& camera)
     {
-        assetManager->getPipeline(pipeline).render(*assetManager, staticMeshInstances);
+        assetManager->getPipeline(pipeline).render(camera);
     }
 };
 
@@ -20,8 +19,7 @@ OpenGLRenderer::OpenGLRenderer(std::shared_ptr<ast::OpenGLAssetManager> assetMan
     : internal(ast::make_internal_ptr<Internal>(assetManager)) {}
 
 void OpenGLRenderer::render(
-    const ast::assets::Pipeline& pipeline,
-    const std::vector<ast::StaticMeshInstance>& staticMeshInstances)
+    const ast::assets::Pipeline& pipeline, ast::OrthoCamera2D& camera)
 {
-    internal->render(pipeline, staticMeshInstances);
+    internal->render(pipeline, camera);
 }

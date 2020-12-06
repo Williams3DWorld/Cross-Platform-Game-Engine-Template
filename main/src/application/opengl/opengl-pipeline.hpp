@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../core/utils/internal-ptr.hpp"
-#include "../../core/experimental/static-mesh-instance.hpp"
+#include "../../core/camera/ortho-camera-2d.hpp"
 #include <string>
 #include <vector>
 
@@ -13,9 +13,7 @@ namespace ast
     {
         OpenGLPipeline(const std::string& shaderName);
 
-        void render(
-            const ast::OpenGLAssetManager& assetManager,
-            const std::vector<ast::StaticMeshInstance>& staticMeshInstances) const;
+        void render(ast::OrthoCamera2D& camera) const;
 
     private:
         struct Internal;

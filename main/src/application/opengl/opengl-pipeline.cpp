@@ -1,4 +1,5 @@
 #include "opengl-pipeline.hpp"
+#include "../../application/opengl/opengl-sprite-renderer.hpp"
 #include "../../core/utils/assets.hpp"
 #include "../../core/utils/log.hpp"
 #include "opengl-asset-manager.hpp"
@@ -85,76 +86,37 @@ struct OpenGLPipeline::Internal
 {
     const GLuint shaderProgramId;
     const GLuint uniformLocationMVP;
-    const GLuint attributeLocationVertexPosition;
-    const GLuint attributeLocationTexCoord;
-    const GLsizei stride;
-    const GLsizei offsetPosition;
-    const GLsizei offsetTexCoord;
+
+    // TEST
+    std::unique_ptr<ast::OpenGLSpriteRenderer> spriteRenderer;
 
     Internal(const std::string& shaderName)
         : shaderProgramId(::createShaderProgram(shaderName)),
-          uniformLocationMVP(glGetUniformLocation(shaderProgramId, "u_mvp")),
-          attributeLocationVertexPosition(glGetAttribLocation(shaderProgramId, "a_vertexPosition")),
-          attributeLocationTexCoord(glGetAttribLocation(shaderProgramId, "a_texCoord")),
-          stride(5 * sizeof(float)),
-          offsetPosition(0),
-          offsetTexCoord(3 * sizeof(float)) {}
-
-    void render(
-        const ast::OpenGLAssetManager& assetManager,
-        const std::vector<ast::StaticMeshInstance>& staticMeshInstances) const
+          uniformLocationMVP(glGetUniformLocation(shaderProgramId, "u_mvp"))
     {
+
+        // TEST
+        GameObjectPool::gameObjects["Sprite1"] = std::make_shared<Sprite>("Sprite1");
+        this->spriteRenderer = std::make_unique<OpenGLSpriteRenderer>();
+    }
+
+    void render(ast::OrthoCamera2D& camera) const
+    {
+        const glm::mat4 identity = glm::mat4(1.f);
+        const glm::mat4 cameraMatrix{camera.getProjectionMatrix() * camera.getViewMatrix()};
+        const glm::mat4 mvp = cameraMatrix *
+                                          glm::translate(identity, glm::vec3(.0f, .0f, .0f)) *
+                                          glm::rotate(identity, glm::radians(0.f), glm::vec3(0.f, 0.f, 1.f)) *
+                                          glm::scale(identity, glm::vec3(1.f));
+
         // Instruct OpenGL to starting using our shader program.
         glUseProgram(shaderProgramId);
 
-        // Enable the 'a_vertexPosition' attribute.
-        glEnableVertexAttribArray(attributeLocationVertexPosition);
+        // Populate the 'u_mvp' uniform in the shader program.
+        glUniformMatrix4fv(uniformLocationMVP, 1, GL_FALSE, &mvp[0][0]);
 
-        // Enable the 'a_texCoord' attribute.
-        glEnableVertexAttribArray(attributeLocationTexCoord);
-
-        for (const auto& staticMeshInstance : staticMeshInstances)
-        {
-            const ast::OpenGLMesh& mesh = assetManager.getStaticMesh(staticMeshInstance.getMesh());
-
-            // Populate the 'u_mvp' uniform in the shader program.
-            glUniformMatrix4fv(uniformLocationMVP, 1, GL_FALSE, &staticMeshInstance.getTransformMatrix()[0][0]);
-
-            // Apply the texture we want to paint the mesh with.
-            assetManager.getTexture(staticMeshInstance.getTexture()).bind();
-
-            // Bind the vertex and index buffers.
-            glBindBuffer(GL_ARRAY_BUFFER, mesh.getVertexBufferId());
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.getIndexBufferId());
-
-            // Configure the 'a_vertexPosition' attribute.
-            glVertexAttribPointer(
-				attributeLocationVertexPosition,
-				3,
-				GL_FLOAT,
-				GL_FALSE,
-				stride,
-				reinterpret_cast<const GLvoid*>(offsetPosition));
-
-            // Configure the 'a_texCoord' attribute.
-            glVertexAttribPointer(attributeLocationTexCoord,
-				2,
-				GL_FLOAT,
-				GL_FALSE,
-				stride,
-				reinterpret_cast<const GLvoid*>(offsetTexCoord));
-
-            // Execute the draw command - with how many indices to iterate.
-            glDrawElements(
-				GL_TRIANGLES,
-				mesh.getNumIndices(),
-				GL_UNSIGNED_INT,
-				reinterpret_cast<const GLvoid*>(0));
-        }
-
-        // Tidy up.
-        glDisableVertexAttribArray(attributeLocationVertexPosition);
-        glDisableVertexAttribArray(attributeLocationTexCoord);
+        // TEST
+        this->spriteRenderer->render();
     }
 
     ~Internal()
@@ -166,9 +128,7 @@ struct OpenGLPipeline::Internal
 OpenGLPipeline::OpenGLPipeline(const std::string& shaderName)
     : internal(ast::make_internal_ptr<Internal>(shaderName)) {}
 
-void OpenGLPipeline::render(
-    const ast::OpenGLAssetManager& assetManager,
-    const std::vector<ast::StaticMeshInstance>& staticMeshInstances) const
+void OpenGLPipeline::render(ast::OrthoCamera2D& camera) const
 {
-    internal->render(assetManager, staticMeshInstances);
+    internal->render(camera);
 }
