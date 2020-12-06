@@ -7,7 +7,7 @@ using ast::OpenGLAssetManager;
 struct OpenGLAssetManager::Internal
 {
     std::unordered_map<ast::assets::Pipeline, ast::OpenGLPipeline> pipelineCache;
-    std::unordered_map<ast::assets::StaticMesh, ast::OpenGLMesh> staticMeshCache;
+    //std::unordered_map<ast::assets::StaticMesh, ast::OpenGLMesh> staticMeshCache;
     std::unordered_map<ast::assets::Texture, ast::OpenGLTexture> textureCache;
 
     Internal() {}
@@ -25,7 +25,7 @@ struct OpenGLAssetManager::Internal
         }
     }
 
-    void loadStaticMeshes(const std::vector<ast::assets::StaticMesh>& staticMeshes)
+    /*void loadStaticMeshes(const std::vector<ast::assets::StaticMesh>& staticMeshes)
     {
         for (const auto& staticMesh : staticMeshes)
         {
@@ -36,7 +36,7 @@ struct OpenGLAssetManager::Internal
                     ast::OpenGLMesh(ast::assets::loadOBJFile(ast::assets::resolveStaticMeshPath(staticMesh)))));
             }
         }
-    }
+    }*/
 
     void loadTextures(const std::vector<ast::assets::Texture>& textures)
     {
@@ -59,10 +59,10 @@ void OpenGLAssetManager::loadPipelines(const std::vector<ast::assets::Pipeline>&
     internal->loadPipelines(pipelines);
 }
 
-void OpenGLAssetManager::loadStaticMeshes(const std::vector<ast::assets::StaticMesh>& staticMeshes)
-{
-    internal->loadStaticMeshes(staticMeshes);
-}
+//void OpenGLAssetManager::loadStaticMeshes(const std::vector<ast::assets::StaticMesh>& staticMeshes)
+//{
+//    internal->loadStaticMeshes(staticMeshes);
+//}
 
 void OpenGLAssetManager::loadTextures(const std::vector<ast::assets::Texture>& textures)
 {
@@ -74,10 +74,10 @@ const ast::OpenGLPipeline& OpenGLAssetManager::getPipeline(const ast::assets::Pi
     return internal->pipelineCache.at(pipeline);
 }
 
-const ast::OpenGLMesh& OpenGLAssetManager::getStaticMesh(const ast::assets::StaticMesh& staticMesh) const
-{
-    return internal->staticMeshCache.at(staticMesh);
-}
+//const ast::OpenGLMesh& OpenGLAssetManager::getStaticMesh(const ast::assets::StaticMesh& staticMesh) const
+//{
+//    return internal->staticMeshCache.at(staticMesh);
+//}
 
 const ast::OpenGLTexture& OpenGLAssetManager::getTexture(const ast::assets::Texture& texture) const
 {

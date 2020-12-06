@@ -1,3 +1,4 @@
+#include <GL/glew.h>
 #include "opengl-pipeline.hpp"
 #include "../../application/opengl/opengl-sprite-renderer.hpp"
 #include "../../core/utils/assets.hpp"
@@ -97,6 +98,10 @@ struct OpenGLPipeline::Internal
 
         // TEST
         GameObjectPool::gameObjects["Sprite1"] = std::make_shared<Sprite>("Sprite1");
+        std::dynamic_pointer_cast<TransformObject>(GameObjectPool::gameObjects["Sprite1"])->setPosition(glm::vec3(100.0f, .0f, .0f));
+        GameObjectPool::gameObjects["Sprite2"] = std::make_shared<Sprite>("Sprite2");
+        std::dynamic_pointer_cast<TransformObject>(GameObjectPool::gameObjects["Sprite2"])->setPosition(glm::vec3(100.0f, 300.0f, .0f));
+        
         this->spriteRenderer = std::make_unique<OpenGLSpriteRenderer>();
     }
 

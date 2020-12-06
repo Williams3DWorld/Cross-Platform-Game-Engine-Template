@@ -2,8 +2,6 @@
 #include "../../core/renderer/sprite-vertex.hpp"
 #include <GL/glew.h>
 
-#include <iostream>
-
 namespace ast
 {
     struct OpenGLSpriteRenderer::Internal
@@ -61,8 +59,6 @@ namespace ast
         {
             this->compileData();
             this->createBuffers();
-
-            std::cout << "Initialised batched buffer!\n";
         }
 
         ~Internal()

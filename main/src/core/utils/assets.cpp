@@ -30,69 +30,69 @@ std::string ast::assets::loadTextFile(const std::string& path)
     return result;
 }
 
-ast::Mesh ast::assets::loadOBJFile(const std::string& path)
-{
-    // Load the .obj file into a string and wrap it as a stream.
-    std::istringstream sourceStream(ast::assets::loadTextFile(path));
-
-    tinyobj::attrib_t attributes;
-    std::vector<tinyobj::shape_t> shapes;
-    std::vector<tinyobj::material_t> materials;
-    std::string warning;
-    std::string error;
-
-    // Ask tinyobj to parse the string loaded from our file.
-    if (!tinyobj::LoadObj(
-            &attributes,
-            &shapes,
-            &materials,
-            &warning,
-            &error,
-            &sourceStream))
-    {
-        throw std::runtime_error("ast::assets::loadOBJFile: Error: " + warning + error);
-    }
-
-    std::vector<ast::Vertex> vertices;
-    std::vector<uint32_t> indices;
-    std::unordered_map<ast::Vertex, uint32_t> uniqueVertices;
-
-    // Loop through all the shapes that there found.
-    for (const auto& shape : shapes)
-    {
-        // For each shape, loop through its indices.
-        for (const auto& index : shape.mesh.indices)
-        {
-            // Construct a new (x, y, z) position for the current mesh index.
-            glm::vec3 position{
-                attributes.vertices[3 * index.vertex_index + 0],
-                attributes.vertices[3 * index.vertex_index + 1],
-                attributes.vertices[3 * index.vertex_index + 2]};
-
-            // Construct a new (u, v) texture coordinate for the current mesh index.
-            glm::vec2 texCoord{
-                attributes.texcoords[2 * index.texcoord_index + 0],
-                1.0f - attributes.texcoords[2 * index.texcoord_index + 1]};
-
-            // Construct a vertex with the extracted data.
-            ast::Vertex vertex{position, texCoord};
-
-            // This will help deduplicate vertices - we maintain a hash map where a
-            // vertex is used as a unique key with its value being which index can
-            // be used to locate the vertex. The vertex is only added if it has not
-            // been added before.
-            if (uniqueVertices.count(vertex) == 0)
-            {
-                uniqueVertices[vertex] = static_cast<uint32_t>(vertices.size());
-                vertices.push_back(vertex);
-            }
-
-            indices.push_back(uniqueVertices[vertex]);
-        }
-    }
-
-    return ast::Mesh{vertices, indices};
-}
+//ast::Mesh ast::assets::loadOBJFile(const std::string& path)
+//{
+//    // Load the .obj file into a string and wrap it as a stream.
+//    std::istringstream sourceStream(ast::assets::loadTextFile(path));
+//
+//    tinyobj::attrib_t attributes;
+//    std::vector<tinyobj::shape_t> shapes;
+//    std::vector<tinyobj::material_t> materials;
+//    std::string warning;
+//    std::string error;
+//
+//    // Ask tinyobj to parse the string loaded from our file.
+//    if (!tinyobj::LoadObj(
+//            &attributes,
+//            &shapes,
+//            &materials,
+//            &warning,
+//            &error,
+//            &sourceStream))
+//    {
+//        throw std::runtime_error("ast::assets::loadOBJFile: Error: " + warning + error);
+//    }
+//
+//    std::vector<ast::Vertex> vertices;
+//    std::vector<uint32_t> indices;
+//    std::unordered_map<ast::Vertex, uint32_t> uniqueVertices;
+//
+//    // Loop through all the shapes that there found.
+//    for (const auto& shape : shapes)
+//    {
+//        // For each shape, loop through its indices.
+//        for (const auto& index : shape.mesh.indices)
+//        {
+//            // Construct a new (x, y, z) position for the current mesh index.
+//            glm::vec3 position{
+//                attributes.vertices[3 * index.vertex_index + 0],
+//                attributes.vertices[3 * index.vertex_index + 1],
+//                attributes.vertices[3 * index.vertex_index + 2]};
+//
+//            // Construct a new (u, v) texture coordinate for the current mesh index.
+//            glm::vec2 texCoord{
+//                attributes.texcoords[2 * index.texcoord_index + 0],
+//                1.0f - attributes.texcoords[2 * index.texcoord_index + 1]};
+//
+//            // Construct a vertex with the extracted data.
+//            ast::Vertex vertex{position, texCoord};
+//
+//            // This will help deduplicate vertices - we maintain a hash map where a
+//            // vertex is used as a unique key with its value being which index can
+//            // be used to locate the vertex. The vertex is only added if it has not
+//            // been added before.
+//            if (uniqueVertices.count(vertex) == 0)
+//            {
+//                uniqueVertices[vertex] = static_cast<uint32_t>(vertices.size());
+//                vertices.push_back(vertex);
+//            }
+//
+//            indices.push_back(uniqueVertices[vertex]);
+//        }
+//    }
+//
+//    return ast::Mesh{vertices, indices};
+//}
 
 ast::Bitmap ast::assets::loadBitmap(const std::string& path)
 {
