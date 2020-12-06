@@ -1,7 +1,3 @@
-// TODO: CONVERT THIS TO ARRAY!
-uniform sampler2D u_sampler;
-
-varying float v_textureID;
 
 void main()
 {

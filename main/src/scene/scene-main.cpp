@@ -26,7 +26,6 @@ namespace
 struct SceneMain::Internal
 {
     ast::OrthoCamera2D camera;
-    std::vector<ast::StaticMeshInstance> staticMeshes;
     ast::Player player;
     const uint8_t* keyboardState;
 
@@ -39,40 +38,7 @@ struct SceneMain::Internal
     void prepare(ast::AssetManager& assetManager)
     {
         assetManager.loadPipelines({Pipeline::Default});
-        assetManager.loadStaticMeshes({StaticMesh::Crate, StaticMesh::Torus});
         assetManager.loadTextures({Texture::Crate, Texture::RedCrossHatch});
-
-        staticMeshes.push_back(ast::StaticMeshInstance{
-            StaticMesh::Crate,           // Mesh
-            Texture::Crate,              // Texture
-            glm::vec3{0.0f, 0.0f, 0.0f}, // Position
-            glm::vec3{200}, // Scale
-            glm::vec3{0.0f, 0.4f, 0.9f}, // Rotation axis
-            0.0f});                      // Initial rotation
-
-        staticMeshes.push_back(ast::StaticMeshInstance{
-            StaticMesh::Torus,            // Mesh
-            Texture::RedCrossHatch,       // Texture
-            glm::vec3{-0.6f, 0.4f, 0.0f}, // Position
-            glm::vec3{0.4f, 0.4f, 0.4f},  // Scale
-            glm::vec3{0.2f, 1.0f, 0.4f},  // Rotation axis
-            0.0f});                       // Initial rotation
-
-        staticMeshes.push_back(ast::StaticMeshInstance{
-            StaticMesh::Crate,             // Mesh
-            Texture::Crate,                // Texture
-            glm::vec3{-0.5f, -0.5f, 0.0f}, // Position
-            glm::vec3{0.7f, 0.3f, 0.3f},   // Scale
-            glm::vec3{0.2f, 0.6f, 0.1f},   // Rotation axis
-            90.0f});                       // Initial rotation
-
-        staticMeshes.push_back(ast::StaticMeshInstance{
-            StaticMesh::Torus,            // Mesh
-            Texture::RedCrossHatch,       // Texture
-            glm::vec3{0.6f, -0.4f, 0.0f}, // Position
-            glm::vec3{0.4f, 0.4f, 0.4f},  // Scale
-            glm::vec3{0.6f, 0.3f, 0.1f},  // Rotation axis
-            50.0f});                      // Initial rotation
     }
 
     void update(const float& delta)
@@ -81,18 +47,19 @@ struct SceneMain::Internal
 
         camera.configure(player.getPosition());
 
-        const glm::mat4 cameraMatrix{camera.getProjectionMatrix() * camera.getViewMatrix()};
+        //const glm::mat4 cameraMatrix{camera.getProjectionMatrix() * camera.getViewMatrix()};
 
-        for (auto& staticMesh : staticMeshes)
+
+        /*for (auto& staticMesh : staticMeshes)
         {
             staticMesh.rotateBy(delta * 45.0f);
             staticMesh.update(cameraMatrix);
-        }
+        }*/
     }
 
     void render(ast::Renderer& renderer)
     {
-        renderer.render(Pipeline::Default, staticMeshes);
+        renderer.render(Pipeline::Default, camera);
     }
 
     void processInput(const float& delta)

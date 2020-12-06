@@ -24,6 +24,10 @@ namespace ast
         void setChunkID(unsigned int value);
         void setTexture(SpriteTexture value);
 
-        Sprite(const char* name, unsigned int chunkID, glm::vec3 position, SpriteTexture texture, bool updatable);
+        Sprite(const char* name = "Sprite" + (Sprite::spriteIdCounter + 48),
+               unsigned int chunkID = 0,
+               glm::vec3 position = glm::vec3(.0f),
+               SpriteTexture texture = SpriteTexture(),
+               bool updatable = true);
     };
 } // namespace ast

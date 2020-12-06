@@ -39,11 +39,7 @@ namespace ast
         this->_texture = value;
     }
 
-    Sprite::Sprite(     const char* name = "Sprite", 
-                        unsigned int chunkID = 0, 
-                        glm::vec3 position = glm::vec3(.0f), 
-                        SpriteTexture texture = SpriteTexture(), 
-                        bool updatable = true) :  
+    Sprite::Sprite(const char* name, unsigned int chunkID, glm::vec3 position, SpriteTexture texture, bool updatable) :  
         _spriteID(Sprite::spriteIdCounter),
         _chunkID(chunkID),
         _visible(true), _texture(texture) 

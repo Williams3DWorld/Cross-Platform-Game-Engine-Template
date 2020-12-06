@@ -1,7 +1,8 @@
 #pragma once
 
 #include "../experimental/asset-inventory.hpp"
-#include "../experimental/static-mesh-instance.hpp"
+#include "../../scene/game-objects/sprite.hpp"
+#include "../../core/camera/ortho-camera-2d.hpp"
 #include <vector>
 
 namespace ast
@@ -9,7 +10,6 @@ namespace ast
     struct Renderer
     {
         virtual void render(
-            const ast::assets::Pipeline& pipeline,
-            const std::vector<ast::StaticMeshInstance>& staticMeshInstances) = 0;
+            const ast::assets::Pipeline& pipeline, ast::OrthoCamera2D& camera) = 0;
     };
 } // namespace ast

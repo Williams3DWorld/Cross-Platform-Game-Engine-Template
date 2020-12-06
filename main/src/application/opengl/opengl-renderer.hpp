@@ -12,8 +12,7 @@ namespace ast
         OpenGLRenderer(std::shared_ptr<ast::OpenGLAssetManager> assetManager);
 
         void render(
-            const ast::assets::Pipeline& pipeline,
-            const std::vector<ast::StaticMeshInstance>& staticMeshInstances) override;
+            const ast::assets::Pipeline& pipeline, ast::OrthoCamera2D& camera) override;
 
     private:
         struct Internal;

@@ -6,6 +6,7 @@
 #include "opengl-asset-manager.hpp"
 #include "opengl-renderer.hpp"
 
+
 using ast::OpenGLApplication;
 
 namespace
@@ -29,6 +30,7 @@ namespace
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LEQUAL);
         glEnable(GL_CULL_FACE);
+        glCullFace(GL_FRONT);
         glViewport(0, 0, viewportWidth, viewportHeight);
 
         return context;
@@ -66,7 +68,10 @@ struct OpenGLApplication::Internal
     Internal() : window(ast::sdl::createWindow(SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI)),
                  context(::createContext(window)),
                  assetManager(::createAssetManager()),
-                 renderer(::createRenderer(assetManager)) {}
+                 renderer(::createRenderer(assetManager)){
+                
+        
+    }
 
     ast::Scene& getScene()
     {

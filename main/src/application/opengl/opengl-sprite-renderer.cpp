@@ -2,6 +2,8 @@
 #include "../../core/renderer/sprite-vertex.hpp"
 #include <GL/glew.h>
 
+#include <iostream>
+
 namespace ast
 {
     struct OpenGLSpriteRenderer::Internal
@@ -24,7 +26,7 @@ namespace ast
                         this->batch.vertexData.emplace_back(vertexFloatValue);
                     for (auto indexValue : spriteVertex.indexData)
                     {
-                        unsigned int indexOffset = indexValue * static_cast<unsigned int>(batch.offsetData.size()) + RECT_VERTEX_COUNT;
+                        unsigned int indexOffset = indexValue + RECT_VERTEX_COUNT * static_cast<unsigned int>(batch.offsetData.size());
                         this->batch.indexData.emplace_back(indexOffset);
                     }
 
@@ -43,22 +45,24 @@ namespace ast
             // VBO
             glGenBuffers(1, &this->batch.vbo);
             glBindBuffer(GL_ARRAY_BUFFER, batch.vbo);
-            glBufferData(GL_ARRAY_BUFFER, sizeof(this->batch.vertexData), this->batch.vertexData.data(), GL_DYNAMIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(float) * this->batch.vertexData.size(), this->batch.vertexData.data(), GL_DYNAMIC_DRAW);
             glEnableVertexAttribArray(0); // Positions
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-            glEnableVertexAttribArray(1); // TextureIDs
-            glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(3 * sizeof(float)));
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0); // 4
+            //glEnableVertexAttribArray(1); // TextureIDs
+            //glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(3 * sizeof(float)));
 
             // IBO
             glGenBuffers(1, &this->batch.ibo);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, batch.ibo);
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(this->batch.indexData), this->batch.indexData.data(), GL_DYNAMIC_DRAW);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * this->batch.indexData.size(), this->batch.indexData.data(), GL_DYNAMIC_DRAW);
         }
 
         Internal()
         {
             this->compileData();
             this->createBuffers();
+
+            std::cout << "Initialised batched buffer!\n";
         }
 
         ~Internal()
@@ -72,7 +76,9 @@ namespace ast
     void OpenGLSpriteRenderer::render()
     {
         // Bind uniform textures here..?
-        glDrawElements(GL_TRIANGLES, internal->batch.indexData.size(), GL_UNSIGNED_INT, 0);
+        glBindVertexArray(internal->batch.vao);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, internal->batch.ibo);
+        glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(internal->batch.indexData.size()), GL_UNSIGNED_INT, 0);
     }
 
     OpenGLSpriteRenderer::OpenGLSpriteRenderer() : internal(ast::make_internal_ptr<Internal>()) {}
