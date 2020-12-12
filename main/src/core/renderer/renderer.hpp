@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../experimental/asset-inventory.hpp"
+#include "../../core/utils/asset-inventory.hpp"
 #include "../../scene/game-objects/sprite.hpp"
 #include "../../core/camera/ortho-camera-2d.hpp"
 #include <vector>

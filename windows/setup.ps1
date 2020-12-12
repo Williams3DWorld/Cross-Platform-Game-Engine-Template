@@ -49,20 +49,6 @@ if (!(Test-Path "..\..\third-party\glm")) {
     Pop-Location
 }
 
-# Check that we have the Tiny OBJ Loader third party library
-if (!(Test-Path "..\..\third-party\tiny-obj-loader")) {
-    Write-Host "Downloading Tiny OBJ Loader into third party folder tiny-obj-loader ..."
-    $WebClient = New-Object System.Net.WebClient
-    $WebClient.DownloadFile("https://github.com/syoyo/tinyobjloader/archive/v1.4.1.zip", "..\..\third-party\tiny-obj-loader-v1.4.1.zip")
-
-    Push-Location -Path "..\..\third-party"
-        Write-Host "Unzipping Tiny OBJ Loader into third-party\tiny-obj-loader ..."
-        cmd.exe /c 'tar -xf tiny-obj-loader-v1.4.1.zip'
-        Move-Item -Path tinyobjloader-1.4.1 -Destination tiny-obj-loader
-        Remove-Item -Path tiny-obj-loader-v1.4.1.zip
-    Pop-Location
-}
-
 # Check that we have the SDL2_image third party Windows dev library
 if (!(Test-Path "..\..\third-party\sdl-image-windows")) {
     Write-Host "Downloading SDL Image Windows library into third party folder sdl-image-windows ..."

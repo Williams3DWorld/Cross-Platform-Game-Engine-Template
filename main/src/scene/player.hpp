@@ -17,13 +17,11 @@ namespace ast
 
         void moveDown(const float& delta);
 
-        void turnLeft(const float& delta);
-
-        void turnRight(const float& delta);
+        void moveLeft(const float& delta);
+        
+        void moveRight(const float& delta);
 
         glm::vec3 getPosition() const;
-
-        glm::vec3 getDirection() const;
 
     private:
         struct Internal;

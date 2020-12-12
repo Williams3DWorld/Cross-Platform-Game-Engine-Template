@@ -14,7 +14,6 @@ set(LIB_SDL2_IMAGE ${THIRD_PARTY_DIR}/sdl-image-windows/lib/x64/SDL2_image.lib)
 include_directories(${THIRD_PARTY_DIR}/sdl-windows/include)
 include_directories(${THIRD_PARTY_DIR}/glew/include)
 include_directories(${THIRD_PARTY_DIR}/glm)
-include_directories(${THIRD_PARTY_DIR}/tiny-obj-loader)
 include_directories(${THIRD_PARTY_DIR}/sdl-image-windows/include)
 
 file(GLOB_RECURSE CPP_HEADERS ${MAIN_SOURCE_DIR}/*.hpp)

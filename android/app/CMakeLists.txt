@@ -64,7 +64,6 @@ set_target_properties(
 # We will tell our build system where to look for third party header files.
 include_directories(${THIRD_PARTY_DIR}/SDL/include)
 include_directories(${THIRD_PARTY_DIR}/glm)
-include_directories(${THIRD_PARTY_DIR}/tiny-obj-loader)
 include_directories(${THIRD_PARTY_DIR}/SDL2_image)
 
 # We will recursively collate all .hpp header and .cpp source files under the main source directory as the input for the compilation.

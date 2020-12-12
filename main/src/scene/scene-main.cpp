@@ -1,6 +1,4 @@
 #include "scene-main.hpp"
-#include "../core/experimental/perspective-camera.hpp"
-#include "../core/experimental/static-mesh-instance.hpp"
 #include "../core/utils/sdl-wrapper.hpp"
 #include "player.hpp"
 #include "../core/camera/ortho-camera-2d.hpp"
@@ -12,11 +10,6 @@ using ast::assets::Texture;
 
 namespace
 {
-    ast::PerspectiveCamera createPerspectiveCamera(const float& width, const float& height)
-    {
-        return ast::PerspectiveCamera(width, height);
-    }
-
     ast::OrthoCamera2D createOrthoCamera(const float& width, const float& height)
     {
         return ast::OrthoCamera2D(width, height);
@@ -46,15 +39,6 @@ struct SceneMain::Internal
         processInput(delta);
 
         camera.configure(player.getPosition());
-
-        //const glm::mat4 cameraMatrix{camera.getProjectionMatrix() * camera.getViewMatrix()};
-
-
-        /*for (auto& staticMesh : staticMeshes)
-        {
-            staticMesh.rotateBy(delta * 45.0f);
-            staticMesh.update(cameraMatrix);
-        }*/
     }
 
     void render(ast::Renderer& renderer)
@@ -64,34 +48,24 @@ struct SceneMain::Internal
 
     void processInput(const float& delta)
     {
-        if (keyboardState[SDL_SCANCODE_UP])
-        {
-            player.moveForward(delta);
-        }
-
-        if (keyboardState[SDL_SCANCODE_DOWN])
-        {
-            player.moveBackward(delta);
-        }
-
         if (keyboardState[SDL_SCANCODE_A])
         {
             player.moveUp(delta);
         }
 
-        if (keyboardState[SDL_SCANCODE_Z])
+        if (keyboardState[SDL_SCANCODE_S])
         {
             player.moveDown(delta);
         }
 
-        if (keyboardState[SDL_SCANCODE_LEFT])
+        if (keyboardState[SDL_SCANCODE_A])
         {
-            player.turnLeft(delta);
+            player.moveLeft(delta);
         }
 
-        if (keyboardState[SDL_SCANCODE_RIGHT])
+        if (keyboardState[SDL_SCANCODE_D])
         {
-            player.turnRight(delta);
+            player.moveRight(delta);
         }
     }
 };

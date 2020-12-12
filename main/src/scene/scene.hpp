@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../core/experimental/asset-manager.hpp"
+#include "../core/asset-manager.hpp"
 #include "../core/renderer/renderer.hpp"
 
 namespace ast
