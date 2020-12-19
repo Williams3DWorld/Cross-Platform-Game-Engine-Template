@@ -9,10 +9,6 @@ namespace ast
     {
         Player(const glm::vec3& position);
 
-        void moveForward(const float& delta);
-
-        void moveBackward(const float& delta);
-
         void moveUp(const float& delta);
 
         void moveDown(const float& delta);

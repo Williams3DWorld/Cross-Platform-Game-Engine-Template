@@ -19,7 +19,12 @@ namespace ast
                     const auto spriteID = sprite->getSpriteID();
                     const auto position = sprite->getPosition();
 
-                    const SpriteVertex spriteVertex = SpriteVertex(position);
+                    // TODO: Get actual texture and tileID & link up with xml tile file
+                    const auto textureID = 0;
+                    const auto tileID = 4;
+
+
+                    const SpriteVertex spriteVertex = SpriteVertex(position, textureID, tileID);
                     for (auto vertexFloatValue : spriteVertex.vertexData)
                         this->batch.vertexData.emplace_back(vertexFloatValue);
                     for (auto indexValue : spriteVertex.indexData)
@@ -44,10 +49,14 @@ namespace ast
             glGenBuffers(1, &this->batch.vbo);
             glBindBuffer(GL_ARRAY_BUFFER, batch.vbo);
             glBufferData(GL_ARRAY_BUFFER, sizeof(float) * this->batch.vertexData.size(), this->batch.vertexData.data(), GL_DYNAMIC_DRAW);
-            glEnableVertexAttribArray(0); // Positions
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0); // 4
-            //glEnableVertexAttribArray(1); // TextureIDs
-            //glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(3 * sizeof(float)));
+            glEnableVertexAttribArray(0);   // POSITIONS
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)0);
+            glEnableVertexAttribArray(1);   // TEXCOORDS
+            glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(3 * sizeof(float)));
+            glEnableVertexAttribArray(2);   // TEXTURE ID
+            glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(5 * sizeof(float)));
+            glEnableVertexAttribArray(3); // TILE ID
+            glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(6 * sizeof(float)));
 
             // IBO
             glGenBuffers(1, &this->batch.ibo);

@@ -31,7 +31,8 @@ namespace
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LEQUAL);
         glEnable(GL_CULL_FACE);
-        glCullFace(GL_FRONT);
+        glCullFace(GL_BACK);
+        glDisable(GL_CULL_FACE);
         glViewport(0, 0, viewportWidth, viewportHeight);
 
         return context;
@@ -70,8 +71,6 @@ struct OpenGLApplication::Internal
                  context(::createContext(window)),
                  assetManager(::createAssetManager()),
                  renderer(::createRenderer(assetManager)){
-                
-        
     }
 
     ast::Scene& getScene()
@@ -93,7 +92,7 @@ struct OpenGLApplication::Internal
     {
         SDL_GL_MakeCurrent(window, context);
 
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         getScene().render(renderer);

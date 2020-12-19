@@ -5,7 +5,6 @@
 
 using ast::SceneMain;
 using ast::assets::Pipeline;
-using ast::assets::StaticMesh;
 using ast::assets::Texture;
 
 namespace
@@ -25,13 +24,13 @@ struct SceneMain::Internal
 
     Internal(const float& screenWidth, const float& screenHeight)
         : camera(::createOrthoCamera(screenWidth, screenHeight)),
-          player(ast::Player(glm::vec3{0.0f, 0.0f, 300.0f})),
+          player(ast::Player(glm::vec3{0.0f, 0.0f, -0.5f})),    
           keyboardState(SDL_GetKeyboardState(nullptr)) {}
 
     void prepare(ast::AssetManager& assetManager)
     {
-        assetManager.loadPipelines({Pipeline::Default});
         assetManager.loadTextures({Texture::Crate, Texture::RedCrossHatch});
+        assetManager.loadPipelines({Pipeline::Default});
     }
 
     void update(const float& delta)
@@ -48,7 +47,7 @@ struct SceneMain::Internal
 
     void processInput(const float& delta)
     {
-        if (keyboardState[SDL_SCANCODE_A])
+        if (keyboardState[SDL_SCANCODE_W])
         {
             player.moveUp(delta);
         }

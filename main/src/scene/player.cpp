@@ -4,8 +4,7 @@ using ast::Player;
 
 struct Player::Internal
 {
-
-    const float moveSpeed{5.0f};
+    const float moveSpeed{5.f};
     glm::vec3 position;
 
     Internal(const glm::vec3& position)

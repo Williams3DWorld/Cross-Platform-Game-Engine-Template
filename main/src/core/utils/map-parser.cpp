@@ -1,4 +1,4 @@
-#include "mapParser.hpp"
+#include "map-parser.hpp"
 
 using ast::MapParser;
 

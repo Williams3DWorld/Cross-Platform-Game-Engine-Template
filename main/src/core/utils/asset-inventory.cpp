@@ -9,18 +9,6 @@ std::string ast::assets::resolvePipelinePath(const ast::assets::Pipeline& pipeli
     }
 }
 
-std::string ast::assets::resolveStaticMeshPath(const ast::assets::StaticMesh& staticMesh)
-{
-    switch (staticMesh)
-    {
-        case ast::assets::StaticMesh::Crate:
-            return "assets/models/crate.obj";
-        case ast::assets::StaticMesh::Torus:
-            return "assets/models/torus.obj";
-
-    }
-}
-
 std::string ast::assets::resolveTexturePath(const ast::assets::Texture& texture)
 {
     switch (texture)

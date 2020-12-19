@@ -87,32 +87,34 @@ struct OpenGLPipeline::Internal
 {
     const GLuint shaderProgramId;
     const GLuint uniformLocationMVP;
+    const GLuint uniformLocationTexture;
 
     // TEST
     std::unique_ptr<ast::OpenGLSpriteRenderer> spriteRenderer;
 
     Internal(const std::string& shaderName)
         : shaderProgramId(::createShaderProgram(shaderName)),
-          uniformLocationMVP(glGetUniformLocation(shaderProgramId, "u_mvp"))
+          uniformLocationMVP(glGetUniformLocation(shaderProgramId, "u_mvp")),
+          uniformLocationTexture(glGetUniformLocation(shaderProgramId, "u_textures[0]"))
     {
-
         // TEST
         GameObjectPool::gameObjects["Sprite1"] = std::make_shared<Sprite>("Sprite1");
-        std::dynamic_pointer_cast<TransformObject>(GameObjectPool::gameObjects["Sprite1"])->setPosition(glm::vec3(100.0f, .0f, .0f));
-        GameObjectPool::gameObjects["Sprite2"] = std::make_shared<Sprite>("Sprite2");
-        std::dynamic_pointer_cast<TransformObject>(GameObjectPool::gameObjects["Sprite2"])->setPosition(glm::vec3(100.0f, 300.0f, .0f));
+        std::dynamic_pointer_cast<TransformObject>(GameObjectPool::gameObjects["Sprite1"])->setPosition(glm::vec3(.0f, .0f, .0f));
         
         this->spriteRenderer = std::make_unique<OpenGLSpriteRenderer>();
+
+        glUniform1i(uniformLocationTexture, 0);
     }
 
     void render(ast::OrthoCamera2D& camera) const
     {
         const glm::mat4 identity = glm::mat4(1.f);
-        const glm::mat4 cameraMatrix{camera.getProjectionMatrix() * camera.getViewMatrix()};
+        const glm::mat4 cameraMatrix{camera.getViewMatrix() * camera.getProjectionMatrix()};
         const glm::mat4 mvp = cameraMatrix *
-                                          glm::translate(identity, glm::vec3(.0f, .0f, .0f)) *
+                              glm::translate(identity, glm::vec3(.0f, .0f, .0f));
+                                          /*  *
                                           glm::rotate(identity, glm::radians(0.f), glm::vec3(0.f, 0.f, 1.f)) *
-                                          glm::scale(identity, glm::vec3(1.f));
+                                          glm::scale(identity, glm::vec3(1.f));*/
 
         // Instruct OpenGL to starting using our shader program.
         glUseProgram(shaderProgramId);

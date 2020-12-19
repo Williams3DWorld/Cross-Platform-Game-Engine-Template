@@ -3,8 +3,8 @@
 #include <iostream>
 #include <map>
 
-#include "../core/utils/internal-ptr.hpp"
-#include "../core/utils/TinyXML/tinyxml.h"
+#include "../utils/internal-ptr.hpp"
+#include "../utils/TinyXML/tinyxml.h"
 
 namespace ast
 {
