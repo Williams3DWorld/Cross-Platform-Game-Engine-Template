@@ -2,6 +2,7 @@
 #include "../core/utils/sdl-wrapper.hpp"
 #include "player.hpp"
 #include "../core/camera/ortho-camera-2d.hpp"
+#include "../core/utils/map-parser.hpp"
 
 using ast::SceneMain;
 using ast::assets::Pipeline;
@@ -70,7 +71,11 @@ struct SceneMain::Internal
 };
 
 SceneMain::SceneMain(const float& screenWidth, const float& screenHeight)
-    : internal(ast::make_internal_ptr<Internal>(screenWidth, screenHeight)) {}
+    : internal(ast::make_internal_ptr<Internal>(screenWidth, screenHeight)) {
+
+    ast::MapParser* mp = new MapParser();
+    mp->parse("homeBase.tmx");
+}
 
 void SceneMain::prepare(ast::AssetManager& assetManager)
 {

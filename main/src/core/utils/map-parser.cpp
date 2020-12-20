@@ -40,11 +40,14 @@ void MapParser::parse(const char* file)
     TiXmlElement* root = internal->GetXmlDocument()->RootElement();
     int layerID, rowcount, colcount = 0;
 
+    root->Attribute("width", &rowcount);
+    root->Attribute("height", &colcount);
+
     for (TiXmlElement* e = root->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
     {
-        if (e->Value() == "layer")
+        if (e->Value() == std::string("layer"))
         {
-            parseLayer(e, layerID, rowcount, colcount);
+            parseLayer(e, layerID=0, rowcount, colcount);
         }
     }
 }
@@ -52,6 +55,8 @@ void MapParser::parse(const char* file)
 void MapParser::parseLayer(TiXmlElement* element, int layerID, int rowcount, int colcount)
 {
     element->Attribute("id", &layerID);
+
+    std::cout << "Parsing Map Data..." << std::endl;
 
     TiXmlElement* data;
     for (TiXmlElement* e = element->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
@@ -67,17 +72,20 @@ void MapParser::parseLayer(TiXmlElement* element, int layerID, int rowcount, int
     std::istringstream iss(tile_matrix);
     std::string id;
 
-    int ** tile_array;
+    int** tile_arr = new int*[rowcount];
+    for (int i = 0; i < rowcount; i++)
+        tile_arr[i] = new int[colcount];
 
-    for (int row = 0; row = rowcount; row++)
+    for (int row = 0; row < rowcount; row++)
     {
-        for (int col = 0; col = colcount; col++)
+        for (int col = 0; col < colcount; col++)
         {
             std::getline(iss, id, ',');
             std::stringstream convertor(id);
-            convertor >> tile_array[row][col];
+            convertor >> tile_arr[row][col];
+            std::cout << tile_arr[row][col];
         }
     }
 
-    this->gameLayers.insert({ layerID, tile_array });
+    this->gameLayers.insert({ layerID, tile_arr });
 }
