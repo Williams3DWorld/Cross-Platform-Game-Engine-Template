@@ -8,7 +8,6 @@
 
 namespace ast
 {
-
     struct SpriteBatch
     {
         unsigned int vao;

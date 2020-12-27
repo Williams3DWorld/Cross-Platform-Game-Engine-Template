@@ -1,10 +1,10 @@
-#include <GL/glew.h>
 #include "opengl-pipeline.hpp"
 #include "../../application/opengl/opengl-sprite-renderer.hpp"
 #include "../../core/utils/assets.hpp"
 #include "../../core/utils/log.hpp"
 #include "../../core/utils/map-parser.hpp"
 #include "opengl-asset-manager.hpp"
+#include <GL/glew.h>
 #include <stdexcept>
 #include <vector>
 
@@ -98,31 +98,25 @@ struct OpenGLPipeline::Internal
           uniformLocationMVP(glGetUniformLocation(shaderProgramId, "u_mvp")),
           uniformLocationTexture(glGetUniformLocation(shaderProgramId, "u_textures[0]"))
     {
+        // --------------- MAP TEST --------------------
         ast::MapParser* parser = new ast::MapParser();
         parser->parse("demo.tmx");
 
-        int test_map[2][2] = {
-            {18, 18},
-            {18, 18},
-        };
+        const unsigned int mapWidth = 2;
+        const unsigned int mapHeight = 2;
+        const unsigned int numTiles = 4;
+        unsigned int test_map[numTiles] = {4, 18, 7, 26};
 
-        // map test
-        for (int cols = 0; cols < 2; cols++)
+        for (auto i = 0; i < numTiles; i++)
         {
-            for (int rows = 0; rows < 2; rows++)
-            {
-                std::cout << cols << ":" << rows << " ";
-
-                if (test_map[cols][rows] == 18)
-                {
-                    GameObjectPool::gameObjects["Sprite" + rows + cols] = std::make_shared<Sprite>("Sprite" + rows + cols);
-                    std::dynamic_pointer_cast<TransformObject>(GameObjectPool::gameObjects["Sprite" + rows + cols])->setPosition(glm::vec3(cols + 1 * 64.0f, rows + 1 * 64.0f, .0f));
-                }
-            }
+            GameObjectPool::gameObjects["Sprite" + i] = std::make_shared<Sprite>("Sprite" + i);
+            auto posOffset = glm::vec3(static_cast<float>(i % mapWidth) * 64.f, static_cast<float>(floor(i / mapHeight)) * 64.f, .0f);
+            std::dynamic_pointer_cast<TransformObject>(GameObjectPool::gameObjects["Sprite" + i])->setPosition(posOffset);
+            std::dynamic_pointer_cast<Sprite>(GameObjectPool::gameObjects["Sprite" + i])->setTileID(static_cast<float>(test_map[i]));
         }
+        // --------------- MAP TEST --------------------
 
         this->spriteRenderer = std::make_unique<OpenGLSpriteRenderer>();
-
         glUniform1i(uniformLocationTexture, 0);
     }
 
@@ -132,7 +126,7 @@ struct OpenGLPipeline::Internal
         const glm::mat4 cameraMatrix{camera.getViewMatrix() * camera.getProjectionMatrix()};
         const glm::mat4 mvp = cameraMatrix *
                               glm::translate(identity, glm::vec3(.0f, .0f, .0f));
-                                          /*  *
+        /*  *
                                           glm::rotate(identity, glm::radians(0.f), glm::vec3(0.f, 0.f, 1.f)) *
                                           glm::scale(identity, glm::vec3(1.f));*/
 

@@ -18,10 +18,10 @@ namespace ast
                     const std::shared_ptr<Sprite> sprite = std::dynamic_pointer_cast<Sprite>(object.second);
                     const auto spriteID = sprite->getSpriteID();
                     const auto position = sprite->getPosition();
+                    const auto tileID = sprite->getTileID();
 
                     // TODO: Get actual texture and tileID & link up with xml map file
                     const auto textureID = 0;
-                    const auto tileID = 4;
 
                     const SpriteVertex spriteVertex = SpriteVertex(position, textureID, tileID);
                     for (auto vertexFloatValue : spriteVertex.vertexData)
