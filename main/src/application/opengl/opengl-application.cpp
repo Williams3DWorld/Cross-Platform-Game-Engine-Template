@@ -4,8 +4,6 @@
 #include "../../core/utils/log.hpp"
 #include "../../core/utils/sdl-wrapper.hpp"
 #include "../../scene/scene-main.hpp"
-#include "opengl-asset-manager.hpp"
-#include "opengl-renderer.hpp"
 
 
 using ast::OpenGLApplication;
@@ -48,10 +46,10 @@ namespace
         return ast::OpenGLRenderer(assetManager);
     }
 
-    std::unique_ptr<ast::Scene> createMainScene(ast::AssetManager& assetManager)
+    std::unique_ptr<ast::SceneMain> createMainScene(ast::OpenGLAssetManager& assetManager)
     {
         std::pair<uint32_t, uint32_t> displaySize{ast::sdl::getDisplaySize()};
-        std::unique_ptr<ast::Scene> scene{std::make_unique<ast::SceneMain>(
+        std::unique_ptr<ast::SceneMain> scene{std::make_unique<ast::SceneMain>(
             static_cast<float>(displaySize.first),
             static_cast<float>(displaySize.second))};
         scene->prepare(assetManager);
@@ -65,7 +63,7 @@ struct OpenGLApplication::Internal
     SDL_GLContext context;
     const std::shared_ptr<ast::OpenGLAssetManager> assetManager;
     ast::OpenGLRenderer renderer;
-    std::unique_ptr<ast::Scene> scene;
+    std::unique_ptr<ast::SceneMain> scene;
 
     Internal() : window(ast::sdl::createWindow(SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI)),
                  context(::createContext(window)),
@@ -73,7 +71,7 @@ struct OpenGLApplication::Internal
                  renderer(::createRenderer(assetManager)){
     }
 
-    ast::Scene& getScene()
+    ast::SceneMain& getScene()
     {
         if (!scene)
         {

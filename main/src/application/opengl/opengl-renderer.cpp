@@ -8,18 +8,16 @@ struct OpenGLRenderer::Internal
 
     Internal(std::shared_ptr<ast::OpenGLAssetManager> assetManager) : assetManager(assetManager) {}
 
-    void render(
-        const ast::assets::Pipeline& pipeline, ast::OrthoCamera2D& camera)
+    void render(ast::OrthoCamera2D& camera)
     {
-        assetManager->getPipeline(pipeline).render(camera);
+        assetManager->getPipeline().render(camera);
     }
 };
 
 OpenGLRenderer::OpenGLRenderer(std::shared_ptr<ast::OpenGLAssetManager> assetManager)
     : internal(ast::make_internal_ptr<Internal>(assetManager)) {}
 
-void OpenGLRenderer::render(
-    const ast::assets::Pipeline& pipeline, ast::OrthoCamera2D& camera)
+void OpenGLRenderer::render(ast::OrthoCamera2D& camera)
 {
-    internal->render(pipeline, camera);
+    internal->render(camera);
 }

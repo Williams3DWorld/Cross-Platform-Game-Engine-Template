@@ -1,21 +1,19 @@
 #pragma once
 
-#include "../../core/asset-manager.hpp"
 #include "../../core/utils/internal-ptr.hpp"
 #include "opengl-pipeline.hpp"
 #include "opengl-texture.hpp"
 
 namespace ast
 {
-    struct OpenGLAssetManager : public ast::AssetManager
+    struct OpenGLAssetManager
     {
         OpenGLAssetManager();
 
-        void loadPipelines(const std::vector<ast::assets::Pipeline>& pipelines) override;
-        void loadTextures(const std::vector<ast::assets::Texture>& textures) override;
-
-        const ast::OpenGLPipeline& getPipeline(const ast::assets::Pipeline& pipeline) const;
-        const ast::OpenGLTexture& getTexture(const ast::assets::Texture& texture) const;
+        void loadPipelines();
+        void loadTextures(const std::vector<std::string> textures);
+        const ast::OpenGLTexture& getTexture(std::string& texture) const;
+        const ast::OpenGLPipeline& getPipeline();
 
     private:
         struct Internal;

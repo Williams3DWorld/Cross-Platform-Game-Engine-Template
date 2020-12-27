@@ -11,10 +11,10 @@ namespace ast
 
         virtual ~Scene() = default;
 
-        virtual void prepare(ast::AssetManager& assetManager) = 0;
+        virtual void prepare(ast::OpenGLAssetManager& assetManager) = 0;
 
         virtual void update(const float& delta) = 0;
 
-        virtual void render(ast::Renderer& renderer) = 0;
+        virtual void render(ast::OpenGLRenderer& renderer) = 0;
     };
 } // namespace ast

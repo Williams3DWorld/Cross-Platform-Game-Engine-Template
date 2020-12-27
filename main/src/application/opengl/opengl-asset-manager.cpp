@@ -6,25 +6,19 @@ using ast::OpenGLAssetManager;
 
 struct OpenGLAssetManager::Internal
 {
-    std::unordered_map<ast::assets::Pipeline, ast::OpenGLPipeline> pipelineCache;
-    std::unordered_map<ast::assets::Texture, ast::OpenGLTexture> textureCache;
+    std::unordered_map<std::string, ast::OpenGLPipeline> pipelineCache;
+    std::unordered_map<std::string, ast::OpenGLTexture> textureCache;
 
     Internal() {}
 
-    void loadPipelines(const std::vector<ast::assets::Pipeline>& pipelines)
+    void loadPipelines()
     {
-        for (const auto& pipeline : pipelines)
-        {
-            if (pipelineCache.count(pipeline) == 0)
-            {
-                pipelineCache.insert(std::make_pair(
-                    pipeline,
-                    ast::OpenGLPipeline(ast::assets::resolvePipelinePath(pipeline))));
-            }
-        }
+        pipelineCache.insert(std::make_pair(
+            "default",
+            ast::OpenGLPipeline("default")));
     }
 
-    void loadTextures(const std::vector<ast::assets::Texture>& textures)
+    void loadTextures(const std::vector<std::string> textures)
     {
         for (const auto& texture : textures)
         {
@@ -32,7 +26,7 @@ struct OpenGLAssetManager::Internal
             {
                 textureCache.insert(std::pair(
                     texture,
-                    ast::OpenGLTexture(ast::assets::loadBitmap(ast::assets::resolveTexturePath(texture)))));
+                    ast::OpenGLTexture(ast::assets::loadBitmap(texture))));
             }
         }
     }
@@ -40,22 +34,22 @@ struct OpenGLAssetManager::Internal
 
 OpenGLAssetManager::OpenGLAssetManager() : internal(ast::make_internal_ptr<Internal>()) {}
 
-void OpenGLAssetManager::loadPipelines(const std::vector<ast::assets::Pipeline>& pipelines)
+void OpenGLAssetManager::loadPipelines()
 {
-    internal->loadPipelines(pipelines);
+    internal->loadPipelines();
 }
 
-void OpenGLAssetManager::loadTextures(const std::vector<ast::assets::Texture>& textures)
+void OpenGLAssetManager::loadTextures(const std::vector<std::string> textures)
 {
     internal->loadTextures(textures);
 }
 
-const ast::OpenGLPipeline& OpenGLAssetManager::getPipeline(const ast::assets::Pipeline& pipeline) const
-{
-    return internal->pipelineCache.at(pipeline);
-}
-
-const ast::OpenGLTexture& OpenGLAssetManager::getTexture(const ast::assets::Texture& texture) const
+const ast::OpenGLTexture& OpenGLAssetManager::getTexture(std::string& texture) const
 {
     return internal->textureCache.at(texture);
+}
+
+const ast::OpenGLPipeline& OpenGLAssetManager::getPipeline() 
+{
+    return internal->pipelineCache.at("default");
 }

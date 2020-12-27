@@ -4,9 +4,8 @@
 #include "../core/camera/ortho-camera-2d.hpp"
 #include "../core/utils/map-parser.hpp"
 
+
 using ast::SceneMain;
-using ast::assets::Pipeline;
-using ast::assets::Texture;
 
 namespace
 {
@@ -28,10 +27,10 @@ struct SceneMain::Internal
           player(ast::Player(glm::vec3{0.0f, 0.0f, -0.5f})),    
           keyboardState(SDL_GetKeyboardState(nullptr)) {}
 
-    void prepare(ast::AssetManager& assetManager)
+    void prepare(ast::OpenGLAssetManager& assetManager)
     {
-        assetManager.loadTextures({Texture::Crate, Texture::RedCrossHatch});
-        assetManager.loadPipelines({Pipeline::Default});
+        assetManager.loadTextures({"assets/textures/red_cross_hatch.png"});
+        assetManager.loadPipelines();
     }
 
     void update(const float& delta)
@@ -41,9 +40,9 @@ struct SceneMain::Internal
         camera.configure(player.getPosition());
     }
 
-    void render(ast::Renderer& renderer)
+    void render(ast::OpenGLRenderer& renderer)
     {
-        renderer.render(Pipeline::Default, camera);
+        renderer.render(camera);
     }
 
     void processInput(const float& delta)
@@ -77,7 +76,7 @@ SceneMain::SceneMain(const float& screenWidth, const float& screenHeight)
     mp->parse("homeBase.tmx");*/
 }
 
-void SceneMain::prepare(ast::AssetManager& assetManager)
+void SceneMain::prepare(ast::OpenGLAssetManager& assetManager)
 {
     internal->prepare(assetManager);
 }
@@ -87,7 +86,7 @@ void SceneMain::update(const float& delta)
     internal->update(delta);
 }
 
-void SceneMain::render(ast::Renderer& renderer)
+void SceneMain::render(ast::OpenGLRenderer& renderer)
 {
     internal->render(renderer);
 }
