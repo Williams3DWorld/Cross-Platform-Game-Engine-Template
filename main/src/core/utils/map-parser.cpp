@@ -26,6 +26,8 @@ struct MapParser::Internal
     }
 };
 
+MapParser* MapParser::instance;
+
 /*
 * Constructer
 */
@@ -43,6 +45,9 @@ void MapParser::parse(const char* file)
 
     root->Attribute("width", &rowcount);
     root->Attribute("height", &colcount);
+
+    rowcount = map_width;
+    colcount = map_height;
 
     for (TiXmlElement* e = root->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
     {
@@ -73,9 +78,10 @@ void MapParser::parseLayer(TiXmlElement* element, int layerID, int rowcount, int
     std::istringstream iss(tile_matrix);
     std::string id;
 
-    layer.resize(rowcount * colcount);
+    size_t mapSize = rowcount + colcount;
+    layer.resize(mapSize);
 
-    for (int i = 0; i < rowcount; i++)
+    for (int i = 0; i < rowcount + colcount; i++)
     {
         std::getline(iss, id, ',');
         std::stringstream convertor(id);
