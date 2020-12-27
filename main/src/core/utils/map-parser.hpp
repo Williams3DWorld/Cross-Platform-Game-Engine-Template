@@ -6,6 +6,8 @@
 
 #include "../utils/internal-ptr.hpp"
 #include "../utils/TinyXML/tinyxml.h"
+#include "../../scene/game-objects/tileMap.hpp"
+
 
 namespace ast
 {
@@ -38,7 +40,7 @@ namespace ast
             return instance;
         }
 
-        void parse(const char* file);
+        ast::TileMap parse(std::string file);
         void parseLayer(TiXmlElement* element, int layerID, int rowcount, int colcount);
     private:
         int map_width;

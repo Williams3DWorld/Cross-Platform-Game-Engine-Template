@@ -1,3 +1,6 @@
+#ifndef __GAME_OBJECT_H__
+#define __GAME_OBJECT_H__
+
 #include "../../core/utils/internal-ptr.hpp"
 #include <vector>
 #include <unordered_map>
@@ -13,6 +16,7 @@ namespace ast
         NONE,
         TRANSFORM_OBJECT,
         SPRITE,
+        PLAYER_SPAWN,
     };
 
     /*
@@ -49,3 +53,5 @@ namespace ast
         static std::unordered_map<const char*, std::shared_ptr<GameObject>> gameObjects;
     };
 }
+
+#endif

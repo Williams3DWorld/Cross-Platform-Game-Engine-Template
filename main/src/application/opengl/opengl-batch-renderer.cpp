@@ -1,14 +1,16 @@
-#include "opengl-sprite-renderer.hpp"
+#include "opengl-batch-renderer.hpp"
 #include "../../core/renderer/sprite-vertex.hpp"
 #include <GL/glew.h>
+#include <map>
 
 namespace ast
 {
-    struct OpenGLSpriteRenderer::Internal
+    struct OpenGLBatchRenderer::Internal
     {
         SpriteBatch batch;
 
-        void compileData()
+        // TODO: Use pre-loaded sprite data instead of using the GameObjectPool
+        void compileData(std::vector<std::map<unsigned int, ast::Sprite>>& layers)
         {
             for (auto object : GameObjectPool::gameObjects)
             {
@@ -22,6 +24,7 @@ namespace ast
                     const auto textureID = sprite->getTextureID();
 
                     const SpriteVertex spriteVertex = SpriteVertex(position, textureID, tileID, glm::vec2(TILE_SIZE));
+
                     for (auto vertexFloatValue : spriteVertex.vertexData)
                         this->batch.vertexData.emplace_back(vertexFloatValue);
                     for (auto indexValue : spriteVertex.indexData)
@@ -63,7 +66,8 @@ namespace ast
 
         Internal()
         {
-            this->compileData();
+            std::vector<std::map<unsigned int, ast::Sprite>> tempData = {};
+            this->compileData(tempData);
             this->createBuffers();
         }
 
@@ -75,7 +79,7 @@ namespace ast
         }
     };
 
-    void OpenGLSpriteRenderer::render()
+    void OpenGLBatchRenderer::render()
     {
         // Bind uniform textures here..?
         glBindVertexArray(internal->batch.vao);
@@ -83,5 +87,5 @@ namespace ast
         glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(internal->batch.indexData.size()), GL_UNSIGNED_INT, 0);
     }
 
-    OpenGLSpriteRenderer::OpenGLSpriteRenderer() : internal(ast::make_internal_ptr<Internal>()) {}
+    OpenGLBatchRenderer::OpenGLBatchRenderer() : internal(ast::make_internal_ptr<Internal>()) {}
 } // namespace ast

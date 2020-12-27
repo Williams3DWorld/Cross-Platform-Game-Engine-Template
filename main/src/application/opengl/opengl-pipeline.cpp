@@ -1,5 +1,5 @@
 #include "opengl-pipeline.hpp"
-#include "../../application/opengl/opengl-sprite-renderer.hpp"
+#include "../../application/opengl/opengl-batch-renderer.hpp"
 #include "../../core/utils/assets.hpp"
 #include "../../core/utils/log.hpp"
 #include "../../core/utils/map-parser.hpp"
@@ -92,7 +92,7 @@ struct OpenGLPipeline::Internal
     const GLuint uniformLocationTexture;
 
     // TEST
-    std::unique_ptr<ast::OpenGLSpriteRenderer> spriteRenderer;
+    std::unique_ptr<ast::OpenGLBatchRenderer> spriteRenderer;
 
     Internal(const std::string& shaderName)
         : shaderProgramId(::createShaderProgram(shaderName)),
@@ -100,7 +100,7 @@ struct OpenGLPipeline::Internal
           uniformLocationTexture(glGetUniformLocation(shaderProgramId, "u_textures[0]"))
     {
         // --------------- MAP TEST --------------------
-        ast::MapParser::GetInstance()->parse("single-layer-test.tmx");
+        ast::MapParser::GetInstance()->parse("assets/maps/single-layer-test.tmx");
 
         for (auto i = 0; i < ast::MapParser::GetInstance()->GetLayer().size(); i++)
         {
@@ -115,10 +115,11 @@ struct OpenGLPipeline::Internal
         }
         // --------------- MAP TEST --------------------
 
-        this->spriteRenderer = std::make_unique<OpenGLSpriteRenderer>();
+        this->spriteRenderer = std::make_unique<OpenGLBatchRenderer>();
         glUniform1i(uniformLocationTexture, 0);
     }
 
+    // TODO: Parse a map object through this render function
     void render(ast::OrthoCamera2D& camera) const
     {
         const glm::mat4 identity = glm::mat4(1.f);

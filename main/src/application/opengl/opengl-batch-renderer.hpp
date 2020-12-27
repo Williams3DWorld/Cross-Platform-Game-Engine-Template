@@ -31,7 +31,7 @@ namespace ast
         SpriteBatch() : vbo(0), vao(0), ibo(0) {}
     };
 
-    class OpenGLSpriteRenderer
+    class OpenGLBatchRenderer
     {
     private:
         struct Internal;
@@ -39,6 +39,6 @@ namespace ast
     public:
         void render();
 
-        OpenGLSpriteRenderer();
+        OpenGLBatchRenderer();
     };
 } // namespace ast

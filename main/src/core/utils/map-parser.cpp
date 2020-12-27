@@ -11,7 +11,7 @@ struct MapParser::Internal
 
     void loadXML(const std::string& file)
     {
-        xml_document = new TiXmlDocument("assets/maps/" + file);
+        xml_document = new TiXmlDocument(file);
         bool loadValid = xml_document->LoadFile();
 
         if (loadValid)
@@ -36,7 +36,7 @@ MapParser::MapParser() : internal(ast::make_internal_ptr<Internal>()) {}
 /*
 * Parse XML map data
 */
-void MapParser::parse(const char* file)
+ast::TileMap MapParser::parse(std::string file)
 {
     internal->loadXML(file);
 
@@ -57,6 +57,9 @@ void MapParser::parse(const char* file)
             parseLayer(e, layerID = 0, rowcount, colcount);
         }
     }
+
+    // TODO: Fill data to tilemap object
+    return ast::TileMap();
 }
 
 void MapParser::parseLayer(TiXmlElement* element, int layerID, int rowcount, int colcount)

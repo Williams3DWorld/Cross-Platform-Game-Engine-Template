@@ -1,3 +1,6 @@
+#ifndef __SPRITE_H__
+#define __SPRITE_H__
+
 #include "TransformObject.hpp"
 
 namespace ast
@@ -34,3 +37,5 @@ namespace ast
                bool updatable = true);
     };
 } // namespace ast
+
+#endif

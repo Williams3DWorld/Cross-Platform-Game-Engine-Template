@@ -1,5 +1,6 @@
 #include "opengl-asset-manager.hpp"
 #include "../../core/utils/assets.hpp"
+#include "../../core/utils/map-parser.hpp"
 #include <unordered_map>
 
 using ast::OpenGLAssetManager;
@@ -8,6 +9,7 @@ struct OpenGLAssetManager::Internal
 {
     std::unordered_map<std::string, ast::OpenGLPipeline> pipelineCache;
     std::unordered_map<std::string, ast::OpenGLTexture> textureCache;
+    std::unordered_map<std::string, ast::TileMap> mapCache;
 
     Internal() {}
 
@@ -30,6 +32,12 @@ struct OpenGLAssetManager::Internal
             }
         }
     }
+
+    void loadTiledMap(std::string map) {
+        mapCache.clear();
+        auto newMap = ast::MapParser::GetInstance()->parse(map);
+        mapCache.insert(std::pair(map, newMap));
+    }
 };
 
 OpenGLAssetManager::OpenGLAssetManager() : internal(ast::make_internal_ptr<Internal>()) {}
@@ -42,6 +50,10 @@ void OpenGLAssetManager::loadPipelines()
 void OpenGLAssetManager::loadTextures(const std::vector<std::string> textures)
 {
     internal->loadTextures(textures);
+}
+
+void ast::OpenGLAssetManager::loadTiledMap(const std::string& map)
+{
 }
 
 const ast::OpenGLTexture& OpenGLAssetManager::getTexture(std::string& texture) const

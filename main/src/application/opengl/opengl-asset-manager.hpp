@@ -12,6 +12,7 @@ namespace ast
 
         void loadPipelines();
         void loadTextures(const std::vector<std::string> textures);
+        void loadTiledMap(const std::string& map);
         const ast::OpenGLTexture& getTexture(std::string& texture) const;
         const ast::OpenGLPipeline& getPipeline();
 
