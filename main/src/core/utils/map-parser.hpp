@@ -21,8 +21,13 @@ namespace ast
         int GetMapWidth() {
             return map_width;
         }
+
         int GetMapHeight() {
             return map_height;
+        }
+
+        int GetTileSize() {
+            return tile_size;
         }
 
         static MapParser* GetInstance() {
@@ -38,6 +43,7 @@ namespace ast
     private:
         int map_width;
         int map_height;
+        int tile_size;
         std::vector<int> layer;
 
         static MapParser* instance;

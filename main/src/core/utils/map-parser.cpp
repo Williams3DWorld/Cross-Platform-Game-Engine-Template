@@ -45,6 +45,7 @@ void MapParser::parse(const char* file)
 
     root->Attribute("width", &rowcount);
     root->Attribute("height", &colcount);
+    root->Attribute("tilewidth", &tile_size);
 
     map_width = rowcount;
     map_height = colcount;

@@ -92,7 +92,7 @@ struct OpenGLPipeline::Internal
 
     // TEST
     std::unique_ptr<ast::OpenGLSpriteRenderer> spriteRenderer;
-    
+
     Internal(const std::string& shaderName)
         : shaderProgramId(::createShaderProgram(shaderName)),
           uniformLocationMVP(glGetUniformLocation(shaderProgramId, "u_mvp")),
@@ -103,13 +103,11 @@ struct OpenGLPipeline::Internal
 
         for (auto i = 0; i < ast::MapParser::GetInstance()->GetLayer().size(); i++)
         {
-            if (ast::MapParser::GetInstance()->GetLayer()[i] != 0)
-            {
-                GameObjectPool::gameObjects["Sprite" + i] = std::make_shared<Sprite>("Sprite" + i);
-                auto posOffset = glm::vec3(static_cast<float>(i % ast::MapParser::GetInstance()->GetMapWidth()) * 64.f, static_cast<float>(floor(i / ast::MapParser::GetInstance()->GetMapHeight())) * 64.f, .0f);
-                std::dynamic_pointer_cast<TransformObject>(GameObjectPool::gameObjects["Sprite" + i])->setPosition(posOffset);
-                std::dynamic_pointer_cast<Sprite>(GameObjectPool::gameObjects["Sprite" + i])->setTileID(static_cast<float>(ast::MapParser::GetInstance()->GetLayer()[i]));
-            }
+            GameObjectPool::gameObjects["Sprite" + i] = std::make_shared<Sprite>("Sprite" + i);
+            auto posOffset = glm::vec3(static_cast<float>(i % ast::MapParser::GetInstance()->GetMapWidth()) * ast::MapParser::GetInstance()->GetTileSize(),
+                                       static_cast<float>(floor(i / ast::MapParser::GetInstance()->GetMapHeight())) * ast::MapParser::GetInstance()->GetTileSize(), .0f);
+            std::dynamic_pointer_cast<TransformObject>(GameObjectPool::gameObjects["Sprite" + i])->setPosition(posOffset);
+            std::dynamic_pointer_cast<Sprite>(GameObjectPool::gameObjects["Sprite" + i])->setTileID(static_cast<float>(ast::MapParser::GetInstance()->GetLayer()[i]));
         }
         // --------------- MAP TEST --------------------
 
