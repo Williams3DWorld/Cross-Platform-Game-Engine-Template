@@ -10,6 +10,13 @@ using ast::OpenGLApplication;
 
 namespace
 {
+    enum SwapIntervalTypes
+    {
+        ADAPTIVE_VSYNC = -1,
+        IMMEDIATE = 0,
+        VSYNC = 1
+    };
+
     SDL_GLContext createContext(SDL_Window* window)
     {
         static const std::string logTag{"ast::OpenGLApplication::createContext"};
@@ -23,6 +30,7 @@ namespace
         int viewportWidth;
         int viewportHeight;
         SDL_GL_GetDrawableSize(window, &viewportWidth, &viewportHeight);
+        SDL_GL_SetSwapInterval(IMMEDIATE);
         ast::log(logTag, "Created OpenGL context with viewport size: " + std::to_string(viewportWidth) + " x " + std::to_string(viewportHeight));
 
         glClearDepthf(1.0f);

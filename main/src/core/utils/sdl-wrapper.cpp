@@ -56,8 +56,8 @@ std::pair<uint32_t, uint32_t> ast::sdl::getDisplaySize()
         default:
         {
             // For other platforms we'll just show a fixed size window.
-            displayWidth = 1920;
-            displayHeight = 1080;
+            displayWidth = 960;
+            displayHeight = 670;
             break;
         }
     }
