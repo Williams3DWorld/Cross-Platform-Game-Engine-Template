@@ -1,6 +1,5 @@
-#define TEXTURE_SIZE 	512
-#define TILE_SIZE 		64
-#define NUM_ROWS 		8
+#define TILE_SIZE 		16
+#define NUM_ROWS 		6
 #define MAX_TEXTURES 	4
 
 uniform sampler2D u_textures[MAX_TEXTURES];

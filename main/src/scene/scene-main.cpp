@@ -29,7 +29,7 @@ struct SceneMain::Internal
 
     void prepare(ast::OpenGLAssetManager& assetManager)
     {
-        assetManager.loadTextures({"assets/textures/red_cross_hatch.png"});
+        assetManager.loadTextures({"assets/textures/buch-outdoor.png"});
         assetManager.loadPipelines();
     }
 

@@ -21,7 +21,7 @@ namespace ast
                     const auto tileID = sprite->getTileID();
                     const auto textureID = sprite->getTextureID();
 
-                    const SpriteVertex spriteVertex = SpriteVertex(position, textureID, tileID);
+                    const SpriteVertex spriteVertex = SpriteVertex(position, textureID, tileID, glm::vec2(TILE_SIZE));
                     for (auto vertexFloatValue : spriteVertex.vertexData)
                         this->batch.vertexData.emplace_back(vertexFloatValue);
                     for (auto indexValue : spriteVertex.indexData)
