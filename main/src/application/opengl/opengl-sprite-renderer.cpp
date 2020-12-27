@@ -19,10 +19,9 @@ namespace ast
                     const auto spriteID = sprite->getSpriteID();
                     const auto position = sprite->getPosition();
 
-                    // TODO: Get actual texture and tileID & link up with xml tile file
+                    // TODO: Get actual texture and tileID & link up with xml map file
                     const auto textureID = 0;
                     const auto tileID = 4;
-
 
                     const SpriteVertex spriteVertex = SpriteVertex(position, textureID, tileID);
                     for (auto vertexFloatValue : spriteVertex.vertexData)

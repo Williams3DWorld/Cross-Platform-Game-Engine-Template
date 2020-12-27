@@ -37,7 +37,6 @@ namespace ast
     private:
         struct Internal;
         ast::internal_ptr<Internal> internal;
-
     public:
         void render();
 

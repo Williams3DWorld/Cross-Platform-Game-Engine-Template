@@ -68,13 +68,13 @@ void MapParser::parseLayer(TiXmlElement* element, int layerID, int rowcount, int
         }
     }
 
+    layer.resize(rowcount);
+    for (int i = 0; i < rowcount; ++i)
+        layer[i].resize(colcount);
+
     std::string tile_matrix(data->GetText());
     std::istringstream iss(tile_matrix);
     std::string id;
-
-    int** tile_arr = new int*[rowcount];
-    for (int i = 0; i < rowcount; i++)
-        tile_arr[i] = new int[colcount];
 
     for (int row = 0; row < rowcount; row++)
     {
@@ -82,10 +82,10 @@ void MapParser::parseLayer(TiXmlElement* element, int layerID, int rowcount, int
         {
             std::getline(iss, id, ',');
             std::stringstream convertor(id);
-            convertor >> tile_arr[row][col];
-            std::cout << tile_arr[row][col];
+            convertor >> layer[row][col];
+
+            if (!iss.good())
+                break;
         }
     }
-
-    this->gameLayers.insert({ layerID, tile_arr });
 }

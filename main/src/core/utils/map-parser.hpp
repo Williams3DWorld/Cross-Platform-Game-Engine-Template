@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
 #include <map>
 
 #include "../utils/internal-ptr.hpp"
@@ -12,10 +13,15 @@ namespace ast
     {
         MapParser();
 
+        std::vector<std::vector<int>> GetLayer()
+        {
+            return layer;
+        }
+
         void parse(const char* file);
         void parseLayer(TiXmlElement* element, int layerID, int rowcount, int colcount);
     private:
-        std::map<int, int**> gameLayers; 
+        std::vector<std::vector<int>> layer;
 
         struct Internal;
         ast::internal_ptr<Internal> internal;

@@ -3,6 +3,7 @@
 #include "../../application/opengl/opengl-sprite-renderer.hpp"
 #include "../../core/utils/assets.hpp"
 #include "../../core/utils/log.hpp"
+#include "../../core/utils/map-parser.hpp"
 #include "opengl-asset-manager.hpp"
 #include <stdexcept>
 #include <vector>
@@ -97,10 +98,29 @@ struct OpenGLPipeline::Internal
           uniformLocationMVP(glGetUniformLocation(shaderProgramId, "u_mvp")),
           uniformLocationTexture(glGetUniformLocation(shaderProgramId, "u_textures[0]"))
     {
-        // TEST
-        GameObjectPool::gameObjects["Sprite1"] = std::make_shared<Sprite>("Sprite1");
-        std::dynamic_pointer_cast<TransformObject>(GameObjectPool::gameObjects["Sprite1"])->setPosition(glm::vec3(.0f, .0f, .0f));
-        
+        ast::MapParser* parser = new ast::MapParser();
+        parser->parse("demo.tmx");
+
+        int test_map[2][2] = {
+            {18, 18},
+            {18, 18},
+        };
+
+        // map test
+        for (int cols = 0; cols < 2; cols++)
+        {
+            for (int rows = 0; rows < 2; rows++)
+            {
+                std::cout << cols << ":" << rows << " ";
+
+                if (test_map[cols][rows] == 18)
+                {
+                    GameObjectPool::gameObjects["Sprite" + rows + cols] = std::make_shared<Sprite>("Sprite" + rows + cols);
+                    std::dynamic_pointer_cast<TransformObject>(GameObjectPool::gameObjects["Sprite" + rows + cols])->setPosition(glm::vec3(cols + 1 * 64.0f, rows + 1 * 64.0f, .0f));
+                }
+            }
+        }
+
         this->spriteRenderer = std::make_unique<OpenGLSpriteRenderer>();
 
         glUniform1i(uniformLocationTexture, 0);
