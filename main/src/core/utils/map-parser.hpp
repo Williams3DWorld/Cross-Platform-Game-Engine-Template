@@ -13,7 +13,7 @@ namespace ast
     {
         MapParser();
 
-        std::vector<std::vector<int>> GetLayer()
+        std::vector<int> GetLayer()
         {
             return layer;
         }
@@ -21,7 +21,7 @@ namespace ast
         void parse(const char* file);
         void parseLayer(TiXmlElement* element, int layerID, int rowcount, int colcount);
     private:
-        std::vector<std::vector<int>> layer;
+        std::vector<int> layer;
 
         struct Internal;
         ast::internal_ptr<Internal> internal;

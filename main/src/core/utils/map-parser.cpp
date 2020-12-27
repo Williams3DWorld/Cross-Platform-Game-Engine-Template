@@ -9,15 +9,16 @@ struct MapParser::Internal
 {
     TiXmlDocument* xml_document;
 
-	void loadXML(const std::string & file) {
+    void loadXML(const std::string& file)
+    {
         xml_document = new TiXmlDocument("assets/maps/" + file);
         bool loadValid = xml_document->LoadFile();
 
-		if (loadValid)
+        if (loadValid)
             printf("ast::MapParser::loadXML: Successfully loaded XML File\n");
         else
             printf("ast::MapParser::loadXML: Failed to load XML File\n");
-	}
+    }
 
     TiXmlDocument* GetXmlDocument()
     {
@@ -47,7 +48,7 @@ void MapParser::parse(const char* file)
     {
         if (e->Value() == std::string("layer"))
         {
-            parseLayer(e, layerID=0, rowcount, colcount);
+            parseLayer(e, layerID = 0, rowcount, colcount);
         }
     }
 }
@@ -68,24 +69,19 @@ void MapParser::parseLayer(TiXmlElement* element, int layerID, int rowcount, int
         }
     }
 
-    layer.resize(rowcount);
-    for (int i = 0; i < rowcount; ++i)
-        layer[i].resize(colcount);
-
     std::string tile_matrix(data->GetText());
     std::istringstream iss(tile_matrix);
     std::string id;
 
-    for (int row = 0; row < rowcount; row++)
-    {
-        for (int col = 0; col < colcount; col++)
-        {
-            std::getline(iss, id, ',');
-            std::stringstream convertor(id);
-            convertor >> layer[row][col];
+    layer.resize(rowcount * colcount);
 
-            if (!iss.good())
-                break;
-        }
+    for (int i = 0; i < rowcount; i++)
+    {
+        std::getline(iss, id, ',');
+        std::stringstream convertor(id);
+        convertor >> layer[i];
+
+        if (!iss.good())
+            break;
     }
 }
