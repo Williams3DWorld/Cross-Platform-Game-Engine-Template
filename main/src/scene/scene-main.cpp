@@ -73,8 +73,8 @@ struct SceneMain::Internal
 SceneMain::SceneMain(const float& screenWidth, const float& screenHeight)
     : internal(ast::make_internal_ptr<Internal>(screenWidth, screenHeight)) {
 
-    ast::MapParser* mp = new MapParser();
-    mp->parse("homeBase.tmx");
+    /*ast::MapParser* mp = new MapParser();
+    mp->parse("homeBase.tmx");*/
 }
 
 void SceneMain::prepare(ast::AssetManager& assetManager)
