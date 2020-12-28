@@ -2,7 +2,7 @@
 #include "../../application/opengl/opengl-batch-renderer.hpp"
 #include "../../core/utils/assets.hpp"
 #include "../../core/utils/log.hpp"
-#include "../../core/utils/map-parser.hpp"
+#include "../../core/utils/tmx/map-parser.hpp"
 #include "../../global/tile-settings.hpp"
 #include "opengl-asset-manager.hpp"
 #include <GL/glew.h>
