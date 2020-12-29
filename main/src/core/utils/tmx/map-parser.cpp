@@ -1,4 +1,5 @@
 #include "map-parser.hpp"
+#include <algorithm>
 
 using ast::MapParser;
 
@@ -36,62 +37,80 @@ MapParser::MapParser() : internal(ast::make_internal_ptr<Internal>()) {}
 /*
 * Parse XML map data
 */
-ast::TileMap MapParser::parse(std::string file)
+ast::TiledMap MapParser::parse(std::string file)
 {
+    TiledMap tiledMap("undefined", {});
+
     internal->loadXML(file);
-
     TiXmlElement* root = internal->GetXmlDocument()->RootElement();
-    int layerID, rowcount, colcount = 0;
+    TiXmlElement* settings = root->FirstChildElement();
 
-    root->Attribute("width", &rowcount);
-    root->Attribute("height", &colcount);
-    root->Attribute("tilewidth", &tile_size);
+    std::string fileName = "";
+    settings->FirstChildElement()->NextSiblingElement()->QueryStringAttribute("target", &fileName);
+    tiledMap.name = fileName.replace(fileName.size() - 4, 4, "").c_str();
 
-    map_width = rowcount;
-    map_height = colcount;
 
     for (TiXmlElement* e = root->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
     {
+        int layerID = 0;
+        int width = 0;
+        int height = 0;
+
+
         if (e->Value() == std::string("layer"))
         {
-            parseLayer(e, layerID = 0, rowcount, colcount);
+            int id = 0;
+            int width = 0;
+            int height = 0;
+
+            e->Attribute("id", &id);
+            e->Attribute("width", &width);
+            e->Attribute("height", &height);
+
+            tiledMap.layers.emplace_back(ast::TiledLayer(static_cast<unsigned int>(id), static_cast<unsigned int>(width), static_cast<unsigned int>(height), {}));
+            tiledMap.layers[tiledMap.layers.size() - 1].tileIDs = this->getLayerTileData(e, width, height);
         }
     }
 
-    // TODO: Fill data to tilemap object
-    return ast::TileMap();
+    std::sort(
+        tiledMap.layers.begin(), tiledMap.layers.end(), [](ast::TiledLayer& a, ast::TiledLayer& b) { return a.id < b.id; });
+
+    delete root;
+
+    return tiledMap;
 }
 
-void MapParser::parseLayer(TiXmlElement* element, int layerID, int rowcount, int colcount)
+std::vector<unsigned int> MapParser::getLayerTileData(TiXmlElement* root, unsigned int width, unsigned int height)
 {
-    element->Attribute("id", &layerID);
+    std::vector<unsigned int> layerData;
+    TiXmlElement* layerElement;
+    std::string tile_matrix = "";
 
-    std::cout << "Parsing Map Data..." << std::endl;
-
-    TiXmlElement* data;
-    for (TiXmlElement* e = element->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
+    for (TiXmlElement* e = root->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
     {
         if (e->Value() == std::string("data"))
         {
-            data = e;
+            layerElement = e;
+            tile_matrix = layerElement->GetText();
             break;
         }
     }
 
-    std::string tile_matrix(data->GetText());
     std::istringstream iss(tile_matrix);
     std::string id;
 
-    size_t mapSize = rowcount * colcount;
-    layer.resize(mapSize);
+    size_t mapSize = static_cast<size_t>(width * height);
+    layerData.resize(mapSize);
 
-    for (int i = 0; i < rowcount * colcount; i++)
+    for (auto i = 0; i < mapSize; i++)
     {
         std::getline(iss, id, ',');
         std::stringstream convertor(id);
-        convertor >> layer[i];
+        convertor >> layerData[i];
 
         if (!iss.good())
             break;
     }
+
+    return layerData;
 }

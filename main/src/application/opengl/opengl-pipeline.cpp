@@ -99,18 +99,21 @@ struct OpenGLPipeline::Internal
           uniformLocationTexture(glGetUniformLocation(shaderProgramId, "u_textures[0]"))
     {
         // --------------- MAP TEST --------------------
-        ast::MapParser::GetInstance()->parse("assets/maps/single-layer-test.tmx");
+        ast::TiledMap map = ast::MapParser::GetInstance()->parse("assets/maps/multi-layer-chunk-test.tmx");
 
-        for (auto i = 0; i < ast::MapParser::GetInstance()->GetLayer().size(); i++)
+        ast::TiledLayer layer0 = map.layers[0];
+        ast::TiledLayer layer1 = map.layers[1];
+
+        for (auto i = 0; i < layer0.tileIDs.size(); i++)
         {
-            if (ast::MapParser::GetInstance()->GetLayer()[i] == 0)
+            if (layer0.tileIDs[i] == 0)
                 continue;
 
             GameObjectPool::gameObjects["Sprite" + i] = std::make_shared<Sprite>("Sprite" + i);
-            auto posOffset = glm::vec3(static_cast<float>(i % ast::MapParser::GetInstance()->GetMapWidth()) * TILE_SIZE * TILE_SCALE,
-                                       static_cast<float>(floor(i / ast::MapParser::GetInstance()->GetMapHeight())) * TILE_SIZE * TILE_SCALE, .0f);
+            auto posOffset = glm::vec3(static_cast<float>(i % layer0.width) * TILE_SIZE * TILE_SCALE,
+                                       static_cast<float>(floor(i / layer0.height)) * TILE_SIZE * TILE_SCALE, .0f);
             std::dynamic_pointer_cast<TransformObject>(GameObjectPool::gameObjects["Sprite" + i])->setPosition(posOffset);
-            std::dynamic_pointer_cast<Sprite>(GameObjectPool::gameObjects["Sprite" + i])->setTileID(static_cast<float>(ast::MapParser::GetInstance()->GetLayer()[i] - 1));
+            std::dynamic_pointer_cast<Sprite>(GameObjectPool::gameObjects["Sprite" + i])->setTileID(static_cast<float>(layer0.tileIDs[i] - 1));
         }
         // --------------- MAP TEST --------------------
 

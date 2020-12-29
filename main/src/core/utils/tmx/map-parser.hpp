@@ -6,7 +6,7 @@
 
 #include "../../utils/internal-ptr.hpp"
 #include "../../utils/TinyXML/tinyxml.h"
-#include "../../../scene/game-objects/tileMap.hpp"
+#include "tiled-map.hpp"
 
 
 namespace ast
@@ -15,39 +15,18 @@ namespace ast
     {
         MapParser();
 
-        std::vector<int> GetLayer()
-        {
-            return layer;
-        }
-
-        int GetMapWidth() {
-            return map_width;
-        }
-
-        int GetMapHeight() {
-            return map_height;
-        }
-
-        int GetTileSize() {
-            return tile_size;
-        }
-
         static MapParser* GetInstance() {
-            if (instance == 0) {
+            if (!instance) {
                 instance = new MapParser();
             }
 
             return instance;
         }
 
-        ast::TileMap parse(std::string file);
-        void parseLayer(TiXmlElement* element, int layerID, int rowcount, int colcount);
-    private:
-        int map_width;
-        int map_height;
-        int tile_size;
-        std::vector<int> layer;
+        ast::TiledMap parse(std::string file);
+        std::vector<unsigned int> MapParser::getLayerTileData(TiXmlElement* root, unsigned int width, unsigned int height);
 
+    private:
         static MapParser* instance;
 
         struct Internal;
