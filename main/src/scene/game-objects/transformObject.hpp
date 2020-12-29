@@ -34,7 +34,7 @@ namespace ast
 
         virtual void setParent(std::shared_ptr<GameObject> value) override;
         virtual void addChild(std::shared_ptr<GameObject>& value) override;
-        virtual void update(float dt) {}
+        virtual void update(float dt) override {}
 
         TransformObject();
         TransformObject(const char* name, glm::vec3 position, bool updatable);

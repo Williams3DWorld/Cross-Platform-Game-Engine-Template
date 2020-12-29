@@ -2,6 +2,7 @@
 
 #include "../../core/utils/internal-ptr.hpp"
 #include "../../core/camera/ortho-camera-2d.hpp"
+#include "../../core/utils/graphics-wrapper.hpp"
 #include <string>
 #include <vector>
 

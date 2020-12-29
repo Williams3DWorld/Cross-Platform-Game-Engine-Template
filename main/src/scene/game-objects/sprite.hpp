@@ -1,7 +1,7 @@
 #ifndef __SPRITE_H__
 #define __SPRITE_H__
 
-#include "TransformObject.hpp"
+#include "transformObject.hpp"
 
 namespace ast
 {
@@ -28,6 +28,10 @@ namespace ast
         void setChunkID(unsigned int value);
         void setTextureID(float value);
         void setTileID(float value);
+
+        virtual void setParent(std::shared_ptr<GameObject> value) override {}
+        virtual void addChild(std::shared_ptr<GameObject>& value) override {}
+        virtual void update(float dt) override {}
 
         Sprite(const char* name = "Sprite" + (Sprite::spriteIdCounter + 48),
                glm::vec3 position = glm::vec3(.0f),

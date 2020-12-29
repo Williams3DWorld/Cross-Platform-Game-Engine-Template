@@ -96,13 +96,13 @@ namespace ast
 
     }
 
-    TransformObject::TransformObject() : _zIndex(0.0f), _rotation(0), _scale({1.f, 1.f, 1.f}), _position(glm::vec3(.0f)), _model(IDENTITY_MATRIX), _updatable(true)
+    TransformObject::TransformObject()
     {
         this->_name = "TransformObject";
         this->_type = TRANSFORM_OBJECT;
     }
-
-    TransformObject::TransformObject(const char* name = "TransformObject", glm::vec3 position = {.0f, .0f, .0f}, bool updatable = true) : _zIndex(0.0f), _rotation(0), _scale({1.f, 1.f, 1.f}), _position(position), _model(IDENTITY_MATRIX), _updatable(updatable)
+    
+    TransformObject::TransformObject(const char* name, glm::vec3 position = {.0f, .0f, .0f}, bool updatable = true) : _zIndex(0.0f), _rotation(0), _scale({1.f, 1.f, 1.f}), _position(position), _model(IDENTITY_MATRIX), _updatable(updatable)
     {
         this->_name = name;
         this->_position = position;

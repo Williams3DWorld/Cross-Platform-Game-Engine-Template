@@ -1,4 +1,3 @@
-#include <GL/glew.h>
 #include "opengl-application.hpp"
 #include "../../core/utils/glm-wrapper.hpp"
 #include "../../core/utils/log.hpp"

@@ -1,7 +1,8 @@
 #include "opengl-batch-renderer.hpp"
 #include "../../core/renderer/sprite-vertex.hpp"
-#include <GL/glew.h>
+#include "../../core/utils/graphics-wrapper.hpp"
 #include <map>
+
 
 namespace ast
 {

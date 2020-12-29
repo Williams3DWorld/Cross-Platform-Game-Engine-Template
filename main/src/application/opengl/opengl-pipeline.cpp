@@ -5,7 +5,6 @@
 #include "../../core/utils/tmx/map-parser.hpp"
 #include "../../global/tile-settings.hpp"
 #include "opengl-asset-manager.hpp"
-#include <GL/glew.h>
 #include <stdexcept>
 #include <vector>
 

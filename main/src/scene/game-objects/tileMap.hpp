@@ -1,7 +1,7 @@
 #ifndef __TILE_MAP_H__
 #define __TILE_MAP_H__
 
-#include "Sprite.hpp"
+#include "sprite.hpp"
 #include <map>
 
 namespace ast
@@ -24,9 +24,9 @@ namespace ast
         void setHeight(unsigned int value);
         void setChunkData(std::map<unsigned int, Sprite>& value);
 
-        virtual void setParent(std::shared_ptr<GameObject> value) override;
-        virtual void addChild(std::shared_ptr<GameObject>& value) override;
-        virtual void update(float dt) {}
+        virtual void setParent(std::shared_ptr<GameObject> value) override {}
+        virtual void addChild(std::shared_ptr<GameObject>& value) override {}
+        virtual void update(float dt) override {}
 
         void render();
 

@@ -31,14 +31,6 @@ namespace ast
         this->chunkData = value;
     }
 
-    void TileMap::setParent(std::shared_ptr<GameObject> value)
-    {
-    }
-
-    void TileMap::addChild(std::shared_ptr<GameObject>& value)
-    {
-    }
-
     bool TileMap::chunkCullable(unsigned int chunkIndex)
     {
         // Calculate off-screen formula here..
