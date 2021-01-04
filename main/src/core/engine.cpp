@@ -20,7 +20,7 @@ struct Engine::Internal
         static const std::string logTag{classLogTag + "run"};
 
         ast::log(logTag, "Starting engine ...");
-        SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
+        SDL_Init(SDL_INIT_EVENTS);
         ast::log(logTag, "SDL2 initialized successfully ...");
 
         if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG)

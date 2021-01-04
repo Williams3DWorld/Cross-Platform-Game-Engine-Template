@@ -52,6 +52,8 @@ void Application::startApplication()
 
 bool Application::runMainLoop()
 {
+    //Uint32 start_time = SDL_GetTicks();
+
     // Each loop we will process any events that are waiting for us.
     while (SDL_PollEvent(&internal->event))
     {
@@ -76,6 +78,11 @@ bool Application::runMainLoop()
 
     // Perform our rendering for this frame.
     render();
+
+    //if ((1000 / 50) > (SDL_GetTicks() - start_time))
+    //{
+    //    SDL_Delay((1000 / 50) - (SDL_GetTicks() - start_time)); //Yay stable framerate!
+    //}
 
     return true;
 }

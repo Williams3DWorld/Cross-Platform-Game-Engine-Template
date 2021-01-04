@@ -30,14 +30,14 @@ namespace
         int viewportHeight;
         SDL_GL_GetDrawableSize(window, &viewportWidth, &viewportHeight);
         SDL_GL_SetSwapInterval(IMMEDIATE);
+        SDL_GL_MakeCurrent(window, context);
         ast::log(logTag, "Created OpenGL context with viewport size: " + std::to_string(viewportWidth) + " x " + std::to_string(viewportHeight));
 
         glClearDepthf(1.0f);
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LEQUAL);
         glEnable(GL_CULL_FACE);
-        glCullFace(GL_BACK);
-        glDisable(GL_CULL_FACE);
+        glCullFace(GL_FRONT);
         glViewport(0, 0, viewportWidth, viewportHeight);
 
         return context;
@@ -95,8 +95,6 @@ struct OpenGLApplication::Internal
 
     void render()
     {
-        SDL_GL_MakeCurrent(window, context);
-
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

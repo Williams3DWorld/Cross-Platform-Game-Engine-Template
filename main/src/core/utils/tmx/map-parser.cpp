@@ -75,9 +75,6 @@ ast::TiledMap MapParser::parse(std::string file)
     std::sort(
         tiledMap.layers.begin(), tiledMap.layers.end(), [](ast::TiledLayer& a, ast::TiledLayer& b) { return a.id > b.id; });
 
-    std::cout << tiledMap.layers[0].id << std::endl;
-    std::cout << tiledMap.layers[1].id << std::endl;
-
     delete root;
 
     return tiledMap;
