@@ -111,10 +111,23 @@ struct OpenGLPipeline::Internal
 
             GameObjectPool::gameObjects["Sprite" + i] = std::make_shared<Sprite>("Sprite" + i);
             auto posOffset = glm::vec3(static_cast<float>(i % layer0.width) * TILE_SIZE * TILE_SCALE,
-                                       static_cast<float>(floor(i / layer0.height)) * TILE_SIZE * TILE_SCALE, .0f);
+                                       static_cast<float>(floor(i / layer0.width)) * TILE_SIZE * TILE_SCALE, .0f);
             std::dynamic_pointer_cast<TransformObject>(GameObjectPool::gameObjects["Sprite" + i])->setPosition(posOffset);
             std::dynamic_pointer_cast<Sprite>(GameObjectPool::gameObjects["Sprite" + i])->setTileID(static_cast<float>(layer0.tileIDs[i] - 1));
         }
+        for (auto i = 0; i < layer1.tileIDs.size(); i++)
+        {
+            if (layer1.tileIDs[i] == 0)
+                continue;
+
+            GameObjectPool::gameObjects["Sprite" + i] = std::make_shared<Sprite>("Sprite" + i);
+            auto posOffset = glm::vec3(static_cast<float>(i % layer1.width) * TILE_SIZE * TILE_SCALE,
+                                       static_cast<float>(floor(i / layer1.width)) * TILE_SIZE * TILE_SCALE, .0f);
+            std::dynamic_pointer_cast<TransformObject>(GameObjectPool::gameObjects["Sprite" + i])->setPosition(posOffset);
+            std::dynamic_pointer_cast<Sprite>(GameObjectPool::gameObjects["Sprite" + i])->setTileID(static_cast<float>(layer1.tileIDs[i] - 1));
+        }
+
+
         // --------------- MAP TEST --------------------
 
         this->spriteRenderer = std::make_unique<OpenGLBatchRenderer>();
