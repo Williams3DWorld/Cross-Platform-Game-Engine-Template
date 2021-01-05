@@ -2,7 +2,7 @@
 #include "../core/utils/sdl-wrapper.hpp"
 #include "player.hpp"
 #include "../core/camera/ortho-camera-2d.hpp"
-#include "../core/utils/map-parser.hpp"
+#include "../core/utils/tmx/map-parser.hpp"
 
 
 using ast::SceneMain;
@@ -29,8 +29,9 @@ struct SceneMain::Internal
 
     void prepare(ast::OpenGLAssetManager& assetManager)
     {
-        assetManager.loadTextures({"assets/textures/buch-outdoor.png"});
         assetManager.loadPipelines();
+        assetManager.loadTextures({"assets/textures/buch-outdoor.png"});
+        //assetManager.loadTiledMap("assets/maps/multi-layer-chunk-test.tmx");
     }
 
     void update(const float& delta)

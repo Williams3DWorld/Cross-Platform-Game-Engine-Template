@@ -25,6 +25,7 @@ namespace ast
 
         ast::TiledMap parse(std::string file);
         std::vector<unsigned int> MapParser::getLayerTileData(TiXmlElement* root, unsigned int width, unsigned int height);
+        std::vector<ast::Tileset> parseTilesetData(std::map<int, std::string>& tilesets);
 
     private:
         static MapParser* instance;

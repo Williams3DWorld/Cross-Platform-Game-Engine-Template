@@ -3,8 +3,8 @@
  <editorsettings>
   <export target="multi-texture-test.tmx" format="tmx"/>
  </editorsettings>
- <tileset firstgid="1" source="../../../../buch-outdoor.tsx"/>
- <tileset firstgid="73" source="../../../../buch-outdoor2.tsx"/>
+ <tileset firstgid="1" source="../textures/buch-outdoor.tsx"/>
+ <tileset firstgid="73" source="../textures/buch-outdoor2.tsx"/>
  <layer id="2" name="Foreground" width="12" height="12">
   <data encoding="csv">
 73,74,75,76,77,78,1,2,3,4,5,6,

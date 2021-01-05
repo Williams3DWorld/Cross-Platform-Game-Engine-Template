@@ -49,13 +49,11 @@ ast::TiledMap MapParser::parse(std::string file)
     settings->FirstChildElement()->NextSiblingElement()->QueryStringAttribute("target", &fileName);
     tiledMap.name = fileName.replace(fileName.size() - 4, 4, "").c_str();
 
-
     for (TiXmlElement* e = root->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
     {
         int layerID = 0;
         int width = 0;
         int height = 0;
-
 
         if (e->Value() == std::string("layer"))
         {
@@ -69,6 +67,14 @@ ast::TiledMap MapParser::parse(std::string file)
 
             tiledMap.layers.emplace_back(ast::TiledLayer(static_cast<unsigned int>(id), static_cast<unsigned int>(width), static_cast<unsigned int>(height), {}));
             tiledMap.layers[tiledMap.layers.size() - 1].tileIDs = this->getLayerTileData(e, width, height);
+        }
+        else if (e->Value() == std::string("tileset"))
+        {
+            int firstgid = 0;
+            std::string source = "";
+            e->Attribute("firstgid", &firstgid);
+            e->QueryStringAttribute("source", &source);
+            tiledMap.tilesets.insert(std::make_pair(firstgid - 1, source));
         }
     }
 
@@ -113,4 +119,42 @@ std::vector<unsigned int> MapParser::getLayerTileData(TiXmlElement* root, unsign
     }
 
     return layerData;
+}
+
+std::vector<ast::Tileset> ast::MapParser::parseTilesetData(std::map<int, std::string>& tilesets)
+{
+    std::vector<ast::Tileset> res;
+
+    for (auto const& tileset : tilesets)
+    {
+        TiledMap tiledMap("undefined", {});
+
+        internal->loadXML(tileset.second);
+
+        TiXmlElement* root = internal->GetXmlDocument()->RootElement();
+        TiXmlElement* image = root->FirstChildElement();
+
+        int width = 0;
+        int height = 0;
+        int columns = 0;
+        int tileSize = 0;
+        int tileCount = 0;
+        std::string name = "";
+        std::string source = "";
+        
+        root->QueryStringAttribute("name", &name);
+        root->Attribute("tilewidth", &tileSize);
+        root->Attribute("tilecount", &tileCount);
+        root->Attribute("columns", &columns);
+
+        image->QueryStringAttribute("source", &source);
+        image->Attribute("width", &width);
+        image->Attribute("height", &height);
+
+        res.emplace_back(ast::Tileset(name, source, width, height, columns, tileSize, tileCount));
+
+        delete root;
+    }
+
+    return res;
 }

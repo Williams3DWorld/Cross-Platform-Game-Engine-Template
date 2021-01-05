@@ -6,6 +6,27 @@
 
 namespace ast
 {
+    struct Tileset
+    {
+        int width;
+        int height;
+        int columns;
+        int tileSize;
+        int tileCount;
+        std::string name;
+        std::string source;
+
+        Tileset(std::string name, std::string source, int width, int height, int columns, int tileSize, int tileCount) {
+            this->name = name;
+            this->source = source;
+            this->width = width;
+            this->height = height;
+            this->columns = columns;
+            this->tileSize = tileSize;
+            this->tileCount = tileCount;
+        }
+    };
+
     struct TiledLayer
     {
         unsigned int id;
@@ -21,6 +42,7 @@ namespace ast
     {
         const char* name;
         std::vector<TiledLayer> layers;
+        std::map<int, std::string> tilesets;
 
         TiledMap(const char* name, std::vector<TiledLayer> layers) : name(name), layers(layers) {}
     };
