@@ -30,7 +30,7 @@ void AudioSystem::addSound(std::string name, const std::string& filename, Uint16
             {
                 Mix_Music* mus = Mix_LoadMUS(filename.c_str());
 
-                obj->type = AudioTypes::MUSIC;
+                obj->type = 0;
                 obj->music = mus;
 
                 audio_bank.insert({name, obj});
@@ -40,7 +40,7 @@ void AudioSystem::addSound(std::string name, const std::string& filename, Uint16
             {
                 Mix_Chunk* chunk = Mix_LoadWAV(filename.c_str());
 
-                obj->type = AudioTypes::SOUND;
+                obj->type = 1;
                 obj->chunk = chunk;
 
                 audio_bank.insert({name, obj});
@@ -49,8 +49,6 @@ void AudioSystem::addSound(std::string name, const std::string& filename, Uint16
         default:
             break;
     }
-
-    delete obj;
 }
 
 void AudioSystem::Play(const std::string& sound_name, Uint16 loop_mode)

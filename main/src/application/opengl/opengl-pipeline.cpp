@@ -129,8 +129,8 @@ struct OpenGLPipeline::Internal
         // --------------- MAP TEST --------------------
 
         AudioSystem::GetInstance()->Initialise();
-        AudioSystem::GetInstance()->addSound("Menu Music", "assets/sounds/bgm.wav", ast::AudioTypes::MUSIC);
-        AudioSystem::GetInstance()->Play("Menu Music", -1);
+        AudioSystem::GetInstance()->addSound("music", "assets/sounds/bgm.wav", ast::AudioTypes::MUSIC);
+        AudioSystem::GetInstance()->Play("music", -1);
 
         this->spriteRenderer = std::make_unique<OpenGLBatchRenderer>();
         glUniform1i(uniformLocationTexture, 0);
