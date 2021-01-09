@@ -12,11 +12,11 @@ struct OpenGLAssetManager::Internal
 
     Internal() {}
 
-    void loadPipelines()
+    void loadPipelines(ast::OpenGLAssetManager& assetManager)
     {
         pipelineCache.insert(std::make_pair(
             "default",
-            ast::OpenGLPipeline("default")));
+            ast::OpenGLPipeline("default", assetManager)));
     }
 
     void loadTextures(const std::vector<std::string> textures)
@@ -41,9 +41,9 @@ struct OpenGLAssetManager::Internal
 
 OpenGLAssetManager::OpenGLAssetManager() : internal(ast::make_internal_ptr<Internal>()) {}
 
-void OpenGLAssetManager::loadPipelines()
+void OpenGLAssetManager::loadPipelines(ast::OpenGLAssetManager& assetManager)
 {
-    internal->loadPipelines();
+    internal->loadPipelines(assetManager);
 }
 
 void OpenGLAssetManager::loadTextures(const std::vector<std::string> textures)

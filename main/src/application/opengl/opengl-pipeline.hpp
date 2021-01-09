@@ -12,7 +12,7 @@ namespace ast
 
     struct OpenGLPipeline
     {
-        OpenGLPipeline(const std::string& shaderName);
+        OpenGLPipeline(const std::string& shaderName, ast::OpenGLAssetManager& assetManager);
 
         void render(ast::OrthoCamera2D& camera) const;
 

@@ -58,7 +58,7 @@ namespace ast
             glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(5 * sizeof(float)));
             glEnableVertexAttribArray(3); // TILE ID
             glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(6 * sizeof(float)));
-
+            
             // IBO
             glGenBuffers(1, &this->batch.ibo);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, batch.ibo);

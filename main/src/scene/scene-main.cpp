@@ -29,7 +29,7 @@ struct SceneMain::Internal
 
     void prepare(ast::OpenGLAssetManager& assetManager)
     {
-        assetManager.loadPipelines();
+        assetManager.loadPipelines(assetManager);
         assetManager.loadTextures({"assets/textures/buch-outdoor.png"});
         //assetManager.loadTiledMap("assets/maps/multi-layer-chunk-test.tmx");
     }

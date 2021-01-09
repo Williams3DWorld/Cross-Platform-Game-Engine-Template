@@ -93,7 +93,7 @@ struct OpenGLPipeline::Internal
     // TEST
     std::unique_ptr<ast::OpenGLBatchRenderer> spriteRenderer;
 
-    Internal(const std::string& shaderName)
+    Internal(const std::string& shaderName, ast::OpenGLAssetManager& assetManager)
         : shaderProgramId(::createShaderProgram(shaderName)),
           uniformLocationMVP(glGetUniformLocation(shaderProgramId, "u_mvp")),
           uniformLocationTexture(glGetUniformLocation(shaderProgramId, "u_textures[0]"))
@@ -163,8 +163,8 @@ struct OpenGLPipeline::Internal
     }
 };
 
-OpenGLPipeline::OpenGLPipeline(const std::string& shaderName)
-    : internal(ast::make_internal_ptr<Internal>(shaderName)) {}
+OpenGLPipeline::OpenGLPipeline(const std::string& shaderName, ast::OpenGLAssetManager& assetManager)
+    : internal(ast::make_internal_ptr<Internal>(shaderName, assetManager)) {}
 
 void OpenGLPipeline::render(ast::OrthoCamera2D& camera) const
 {

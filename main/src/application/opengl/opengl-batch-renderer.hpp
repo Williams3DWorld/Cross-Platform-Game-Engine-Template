@@ -1,4 +1,5 @@
 #include "../../scene/game-objects/sprite.hpp"
+#include "opengl-batch.hpp"
 #include <array>
 
 #define NUM_ATTRIBS 3
