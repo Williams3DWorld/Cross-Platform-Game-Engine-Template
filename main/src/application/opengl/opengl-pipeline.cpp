@@ -4,7 +4,7 @@
 #include "../../core/utils/log.hpp"
 #include "../../global/tile-settings.hpp"
 #include "opengl-asset-manager.hpp"
-#include "../../audioSystem.hpp"
+#include "../../core/audio/audioSystem.hpp"
 #include <stdexcept>
 #include <vector>
 

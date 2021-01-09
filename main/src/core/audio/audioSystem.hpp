@@ -5,7 +5,7 @@
 #include <map>
 #include <any>
 
-#include "../src/core/utils/sdl-wrapper.hpp"
+#include "../utils/sdl-wrapper.hpp"
 
 namespace ast
 {
@@ -35,6 +35,10 @@ namespace ast
                 instance = new AudioSystem();
 
             return instance;
+        }
+
+        std::map<std::string, AudioObject*> GetAudioBank() {
+            return audio_bank;
         }
 
         void Initialise();
