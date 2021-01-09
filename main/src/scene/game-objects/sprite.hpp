@@ -11,20 +11,17 @@ namespace ast
         static unsigned int spriteIdCounter;
 
     protected:
-        bool _visible;
         float _tileID;
         float _textureID;
         unsigned int _spriteID;
         unsigned int _chunkID;
 
     public:
-        bool& getVisible();
         float& getTileID();
         float& getTextureID();
         unsigned int& getSpriteID();
         unsigned int& getChunkID();
 
-        void setVisible(bool value);
         void setChunkID(unsigned int value);
         void setTextureID(float value);
         void setTileID(float value);
@@ -32,6 +29,7 @@ namespace ast
         virtual void setParent(std::shared_ptr<GameObject> value) override {}
         virtual void addChild(std::shared_ptr<GameObject>& value) override {}
         virtual void update(float dt) override {}
+        virtual void render() override{}
 
         Sprite(const char* name = "Sprite" + (Sprite::spriteIdCounter + 48),
                glm::vec3 position = glm::vec3(.0f),

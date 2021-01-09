@@ -9,11 +9,6 @@ namespace ast
         return this->_chunkID;
     }
 
-    bool& Sprite::getVisible()
-    {
-        return this->_visible;
-    }
-
     float& Sprite::getTileID()
     {
         return this->_tileID;
@@ -39,11 +34,6 @@ namespace ast
         this->_textureID = value;
     }
 
-    void Sprite::setVisible(bool value)
-    {
-        this->_visible = value;
-    }
-
     void Sprite::setTileID(float value)
     {
         this->_tileID = value;
@@ -51,8 +41,7 @@ namespace ast
 
     Sprite::Sprite(const char* name, glm::vec3 position, float textureID, float tileID, unsigned int chunkID, bool updatable) :  
         _spriteID(Sprite::spriteIdCounter),
-        _chunkID(chunkID),
-        _visible(true)
+        _chunkID(chunkID)
     {
         Sprite::spriteIdCounter++;
 

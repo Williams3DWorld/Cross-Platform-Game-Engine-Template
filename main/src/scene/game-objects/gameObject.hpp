@@ -16,6 +16,7 @@ namespace ast
         NONE,
         TRANSFORM_OBJECT,
         SPRITE,
+        SPRITE_LAYER,
         PLAYER_SPAWN,
     };
 

@@ -158,3 +158,7 @@ std::vector<ast::Tileset> ast::MapParser::parseTilesetData(std::map<int, std::st
 
     return res;
 }
+
+ast::TiledMap ast::MapParser::separateMultiTextureLayers(ast::TiledMap& map, std::vector<ast::Tileset>& tilesets)
+{
+}

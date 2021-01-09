@@ -27,8 +27,7 @@ namespace ast
         virtual void setParent(std::shared_ptr<GameObject> value) override {}
         virtual void addChild(std::shared_ptr<GameObject>& value) override {}
         virtual void update(float dt) override {}
-
-        void render();
+        virtual void render() override;
 
         TileMap();
         TileMap(unsigned int width, unsigned int height, std::map<unsigned int, Sprite>& chunkData);

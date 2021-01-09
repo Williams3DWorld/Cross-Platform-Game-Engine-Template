@@ -2,6 +2,11 @@
 
 namespace ast
 {
+    bool& TransformObject::getVisible()
+    {
+        return this->_visible;
+    }
+
     bool& TransformObject::updatable()
     {
         return this->_updatable;
@@ -15,6 +20,11 @@ namespace ast
     float& TransformObject::getRotation()
     {
         return this->_rotation;
+    }
+
+    unsigned int& TransformObject::getLayerID()
+    {
+        return this->_layerID;
     }
 
     glm::vec3& TransformObject::getScale()
@@ -32,6 +42,11 @@ namespace ast
         return this->_model;
     }
 
+    void TransformObject::setVisible(bool value)
+    {
+        this->_visible = value;
+    }
+
     void TransformObject::setUpdatable(bool value)
     {
         this->_updatable = value;
@@ -45,6 +60,11 @@ namespace ast
     void TransformObject::setRotation(float value)
     {
         this->_rotation = value;
+    }
+
+    void TransformObject::setLayerID(unsigned int value)
+    {
+        this->_layerID = value;
     }
 
     void TransformObject::setScale(glm::vec3 value)
@@ -100,9 +120,17 @@ namespace ast
     {
         this->_name = "TransformObject";
         this->_type = TRANSFORM_OBJECT;
+        this->_visible = true;
+        this->_updatable = true;
+        this->_layerID = 0;
+        this->_zIndex = 0;
+        this->_rotation = .0f;
+        this->_position = glm::vec3(.0f);
+        this->_scale = glm::vec3(1.f);
+        this->_model = IDENTITY_MATRIX;
     }
     
-    TransformObject::TransformObject(const char* name, glm::vec3 position = {.0f, .0f, .0f}, bool updatable = true) : _zIndex(0.0f), _rotation(0), _scale({1.f, 1.f, 1.f}), _position(position), _model(IDENTITY_MATRIX), _updatable(updatable)
+    TransformObject::TransformObject(const char* name, glm::vec3 position = {.0f, .0f, .0f}, bool updatable = true) : _zIndex(0.0f), _rotation(0), _scale({1.f, 1.f, 1.f}), _position(position), _model(IDENTITY_MATRIX), _visible(true), _updatable(updatable), _layerID(0)
     {
         this->_name = name;
         this->_position = position;

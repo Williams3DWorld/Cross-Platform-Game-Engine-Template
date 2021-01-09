@@ -10,13 +10,14 @@ namespace ast
 {
     struct AttributeElement
     {
-        float componentSize;
-        unsigned long long sizeInBytes;
+        GLenum type;
+        GLint componentSize;
+        GLsizei sizeInBytes;
     };
 
     struct Attribute
     {
-        float size;
+        GLsizei size;
         std::vector<AttributeElement> attribElement;
     };
 
