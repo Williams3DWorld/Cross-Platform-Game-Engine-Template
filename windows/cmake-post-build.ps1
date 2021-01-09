@@ -10,6 +10,10 @@ if (!(Test-Path "SDL2_image.dll")) {
     Copy-Item -Path "..\..\..\third-party\sdl-image-windows\lib\x64\SDL2_image.dll"
 }
 
+if (!(Test-Path "SDL2_mixer.dll")) {
+    Copy-Item -Path "..\..\..\third-party\sdl-mixer-windows\lib\x64\SDL2_mixer.dll"
+}
+
 if (!(Test-Path "libpng16-16.dll")) {
     Copy-Item -Path "..\..\..\third-party\sdl-image-windows\lib\x64\libpng16-16.dll"
 }

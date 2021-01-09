@@ -62,3 +62,17 @@ if (!(Test-Path "..\..\third-party\sdl-image-windows")) {
         Remove-Item -Path SDL2_image-devel-2.0.4-VC.zip
     Pop-Location
 }
+
+# Check that we have the SDL2_mixer third party Windows dev library
+if (!(Test-Path "..\..\third-party\sdl-mixer-windows")) {
+    Write-Host "Downloading SDL Mixer Windows library into third party folder sdl-mixer-windows ..."
+    $WebClient = New-Object System.Net.WebClient
+    $WebClient.DownloadFile("https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-devel-2.0.4-VC.zip", "..\..\third-party\SDL2_mixer-devel-2.0.4-VC.zip")
+
+    Push-Location -Path "..\..\third-party"
+        Write-Host "Unzipping SDL Mixer Windows library into third-party\sdl-mixer-windows ..."
+        cmd.exe /c 'tar -xf SDL2_mixer-devel-2.0.4-VC.zip'
+        Move-Item -Path SDL2_mixer-2.0.4 -Destination sdl-mixer-windows
+        Remove-Item -Path SDL2_mixer-devel-2.0.4-VC.zip
+    Pop-Location
+}
