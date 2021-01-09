@@ -79,4 +79,6 @@ void AudioSystem::FreeAudio()
         else if (it->second->type == 1)
             Mix_FreeChunk(it->second->chunk);
     }
+
+    Mix_Quit();
 }
