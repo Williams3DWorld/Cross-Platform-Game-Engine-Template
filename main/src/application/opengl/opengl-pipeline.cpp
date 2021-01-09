@@ -4,6 +4,7 @@
 #include "../../core/utils/log.hpp"
 #include "../../global/tile-settings.hpp"
 #include "opengl-asset-manager.hpp"
+#include "../../audioSystem.hpp"
 #include <stdexcept>
 #include <vector>
 
@@ -125,9 +126,11 @@ struct OpenGLPipeline::Internal
             std::dynamic_pointer_cast<TransformObject>(GameObjectPool::gameObjects["Sprite" + i])->setPosition(posOffset);
             std::dynamic_pointer_cast<Sprite>(GameObjectPool::gameObjects["Sprite" + i])->setTileID(static_cast<float>(layer1.tileIDs[i] - 1));
         }
-
-
         // --------------- MAP TEST --------------------
+
+        AudioSystem::GetInstance()->Initialise();
+        AudioSystem::GetInstance()->addSound("Menu Music", "assets/sounds/bgm.wav", ast::AudioTypes::MUSIC);
+        AudioSystem::GetInstance()->Play("Menu Music", -1);
 
         this->spriteRenderer = std::make_unique<OpenGLBatchRenderer>();
         glUniform1i(uniformLocationTexture, 0);
