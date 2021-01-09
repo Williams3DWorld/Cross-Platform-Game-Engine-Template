@@ -41,7 +41,7 @@ ast::TiledMap MapParser::parse(std::string file)
 {
     TiledMap tiledMap("undefined", {});
 
-    internal->loadXML(file);
+    internal->loadXML("assets/maps/" + file);
     TiXmlElement* root = internal->GetXmlDocument()->RootElement();
     TiXmlElement* settings = root->FirstChildElement();
 
@@ -80,6 +80,9 @@ ast::TiledMap MapParser::parse(std::string file)
 
     std::sort(
         tiledMap.layers.begin(), tiledMap.layers.end(), [](ast::TiledLayer& a, ast::TiledLayer& b) { return a.id > b.id; });
+
+    auto tilesets = this->parseTilesetData(tiledMap.tilesets);
+    tiledMap.layers = this->separateMultiTextureLayers(tiledMap, tilesets);
 
     delete root;
 
@@ -128,8 +131,7 @@ std::vector<ast::Tileset> ast::MapParser::parseTilesetData(std::map<int, std::st
     for (auto const& tileset : tilesets)
     {
         TiledMap tiledMap("undefined", {});
-
-        internal->loadXML(tileset.second);
+        internal->loadXML("assets/maps/" + tileset.second);
 
         TiXmlElement* root = internal->GetXmlDocument()->RootElement();
         TiXmlElement* image = root->FirstChildElement();
@@ -159,6 +161,25 @@ std::vector<ast::Tileset> ast::MapParser::parseTilesetData(std::map<int, std::st
     return res;
 }
 
-ast::TiledMap ast::MapParser::separateMultiTextureLayers(ast::TiledMap& map, std::vector<ast::Tileset>& tilesets)
+std::vector<ast::TiledLayer> ast::MapParser::separateMultiTextureLayers(ast::TiledMap& map, std::vector<ast::Tileset>& tilesets)
 {
+    std::vector<TiledLayer> res;
+    if (map.tilesets.size() < 2)
+        return map.layers;
+
+    const int startLayerID = map.layers[map.layers.size() - 1].id;
+
+    for (auto i = 0; i < map.layers.size(); ++i)
+    {
+        for (auto j = 0; j < map.layers[i].tileIDs.size(); ++j)
+        {
+            // Compare each tileID with each tileset threshold and add new layers for each unique texture
+            for (auto k = 0; k < tilesets.size(); ++k)
+            {
+                
+            }   
+        }
+    }
+
+    return res;
 }

@@ -27,7 +27,7 @@ namespace ast
         std::vector<unsigned int> MapParser::getLayerTileData(TiXmlElement* root, unsigned int width, unsigned int height);
         std::vector<ast::Tileset> parseTilesetData(std::map<int, std::string>& tilesets);
 
-        ast::TiledMap separateMultiTextureLayers(ast::TiledMap& map, std::vector<ast::Tileset>& tilesets);
+        std::vector<ast::TiledLayer> separateMultiTextureLayers(ast::TiledMap& map, std::vector<ast::Tileset>& tilesets);
 
     private:
         static MapParser* instance;

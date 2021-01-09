@@ -4,7 +4,8 @@ using ast::AudioSystem;
 
 AudioSystem* AudioSystem::instance;
 
-void AudioSystem::Initialise() {
+void AudioSystem::Initialise()
+{
     SDL_Init(SDL_INIT_AUDIO);
     Mix_Init(0);
 
@@ -27,24 +28,26 @@ void AudioSystem::addSound(std::string name, const std::string& filename, Uint16
     switch (audio_type)
     {
         case AudioTypes::MUSIC:
-            {
-                Mix_Music* mus = Mix_LoadMUS(filename.c_str());
+        {
+            Mix_Music* mus = Mix_LoadMUS(filename.c_str());
 
-                obj->type = 0;
-                obj->music = mus;
+            obj->type = 0;
+            obj->music = mus;
 
-                audio_bank.insert({name, obj});
-            }
-            break;
-        case AudioTypes::SOUND:
-            {
-                Mix_Chunk* chunk = Mix_LoadWAV(filename.c_str());
+            audio_bank.insert({name, obj});
+        }
+        break;
+        case AudioTypes::CLIP:
+        {
+            Mix_Chunk* chunk = Mix_LoadWAV(filename.c_str());
 
-                obj->type = 1;
-                obj->chunk = chunk;
+            obj->type = 1;
+            obj->chunk = chunk;
 
-                audio_bank.insert({name, obj});
-            }
+            audio_bank.insert({name, obj});
+        }
+        break;
+        case AudioTypes::SPATIAL:
             break;
         default:
             break;
@@ -59,7 +62,7 @@ void AudioSystem::Play(const std::string& sound_name, Uint16 loop_mode)
             Mix_PlayMusic(it->second->music, loop_mode);
         else if (it->first == sound_name && it->second->type == 1)
             Mix_PlayChannel(0, it->second->chunk, loop_mode);
-    } 
+    }
 }
 
 void AudioSystem::PauseAll()

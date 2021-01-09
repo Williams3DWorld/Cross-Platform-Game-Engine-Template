@@ -99,7 +99,7 @@ struct OpenGLPipeline::Internal
           uniformLocationTexture(glGetUniformLocation(shaderProgramId, "u_textures[0]"))
     {
         // --------------- MAP TEST --------------------
-        ast::TiledMap map = ast::MapParser::GetInstance()->parse("assets/maps/multi-layer-chunk-test.tmx");
+        ast::TiledMap map = ast::MapParser::GetInstance()->parse("multi-layer-chunk-test.tmx");
 
         ast::TiledLayer layer0 = map.layers[0];
         ast::TiledLayer layer1 = map.layers[1];

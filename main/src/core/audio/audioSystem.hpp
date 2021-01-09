@@ -12,7 +12,8 @@ namespace ast
 	enum AudioTypes
     {
         MUSIC,
-        SOUND
+        CLIP,
+        SPATIAL
     };
 
     struct AudioObject

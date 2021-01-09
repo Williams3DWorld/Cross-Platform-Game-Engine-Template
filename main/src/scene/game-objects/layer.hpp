@@ -5,7 +5,7 @@
 
 namespace ast
 {
-    class SpriteLayer : public TransformObject
+    class Layer : public TransformObject
     {
     private:
         unsigned int textureID;
@@ -20,7 +20,7 @@ namespace ast
         virtual void update(float dt) override;
         virtual void render() override;
 
-        SpriteLayer(const char* name, unsigned int id, glm::vec3 position,
+        Layer(const char* name, unsigned int id, glm::vec3 position,
                     unsigned int textureID = 0,
                     bool updatable = true);
     };
