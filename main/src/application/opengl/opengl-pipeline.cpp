@@ -108,8 +108,8 @@ struct OpenGLPipeline::Internal
         std::map<unsigned int, std::shared_ptr<Layer>> layerData;
         for (auto const& layer : spriteLayers)
             layerData[layer->getLayerID()] = layer;
-
         this->map = std::make_unique<TileMap>(0, 0, layerData);
+
         /*ast::TiledMap map = ast::MapParser::GetInstance()->parse("multi-layer-chunk-test.tmx");
 
         ast::TiledLayer layer0 = map.layers[0];

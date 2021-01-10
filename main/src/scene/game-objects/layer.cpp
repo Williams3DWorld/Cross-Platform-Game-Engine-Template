@@ -12,7 +12,7 @@ namespace ast
         this->textureID = value;
     }
 
-    void Layer::setBufferData(std::vector<std::any>& vertexData, std::vector<unsigned int>& indexData)
+    void Layer::setBufferData(std::vector<float>& vertexData, std::vector<unsigned int>& indexData)
     {
         GLsizei compSize = sizeof(float);
         const auto numAttribs = 7;
@@ -44,7 +44,7 @@ namespace ast
     void Layer::render()
     {
        // if (this->vbo)
-            this->vbo->bind(this->textureID);
+       this->vbo->bind(this->textureID);
     }
 
     Layer::Layer(const char* name, unsigned int id, glm::vec3 position, unsigned int textureID, bool updatable)

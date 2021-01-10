@@ -9,7 +9,7 @@ namespace ast
         // TODO: Assign correct layer name and textureID
         auto res = std::make_shared<ast::Layer>("layer", tilelayer.id, glm::vec3(.0f), 0, true);
 
-        std::vector<std::any> vertexData;
+        std::vector<float> vertexData;
         std::vector<unsigned int> indexData;
 
         for (auto i = 0; i < tilelayer.tileIDs.size(); i++)
@@ -38,9 +38,6 @@ namespace ast
                 indexData.emplace_back(indexOffset);
             }
         }
-
-        std::cout << res->getChildren().size() << "\n";
-        std::cout << vertexData.size() << "\n";
 
         res->setBufferData(vertexData, indexData);
 

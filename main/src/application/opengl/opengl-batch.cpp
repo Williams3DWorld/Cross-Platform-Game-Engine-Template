@@ -3,7 +3,7 @@
 
 namespace ast
 {
-    void OpenGLBatch::create(std::vector<std::any>& vertexData, std::vector<unsigned int>& indexData, Attribute& attributeData)
+    void OpenGLBatch::create(std::vector<float>& vertexData, std::vector<unsigned int>& indexData, Attribute& attributeData)
     {
         if (vertexData.empty() || indexData.empty())
         {
@@ -52,7 +52,7 @@ namespace ast
         glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, offset, size, data);
     }
 
-    OpenGLBatch::OpenGLBatch(std::vector<std::any>& vertexData, std::vector<unsigned int>& indexData, Attribute& attributeData)
+    OpenGLBatch::OpenGLBatch(std::vector<float>& vertexData, std::vector<unsigned int>& indexData, Attribute& attributeData)
     {
         this->create(vertexData, indexData, attributeData);
     }
