@@ -28,15 +28,15 @@ namespace ast
         unsigned int vbo;
         unsigned int ibo;
 
-        std::vector<float> vertexData;
+        std::vector<std::any> vertexData;
         std::vector<unsigned int> indexData;
 
     public:
-        void create(std::vector<std::any>& vertexData, Attribute& attributeData);
+        void create(std::vector<std::any>& vertexData, std::vector<unsigned int>& indexData, Attribute& attributeData);
         void bind(unsigned int& textureID);
         void updateSubBufferData(GLintptr offset, GLsizeiptr size, const void* data);
 
-        OpenGLBatch() : vbo(0), vao(0), ibo(0) {}
+        OpenGLBatch(std::vector<std::any>& vertexData, std::vector<unsigned int>& indexData, Attribute& attributeData);
         ~OpenGLBatch();
     };
 } // namespace ast

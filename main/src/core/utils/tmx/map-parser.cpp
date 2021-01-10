@@ -74,7 +74,7 @@ ast::TiledMap MapParser::parse(std::string file)
             std::string source = "";
             e->Attribute("firstgid", &firstgid);
             e->QueryStringAttribute("source", &source);
-            tiledMap.tilesets.insert(std::make_pair(firstgid - 1, source));
+            tiledMap.tilesets.insert(std::make_pair(firstgid, source));
         }
     }
 
@@ -130,7 +130,6 @@ std::vector<ast::Tileset> ast::MapParser::parseTilesetData(std::map<int, std::st
 
     for (auto const& tileset : tilesets)
     {
-        TiledMap tiledMap("undefined", {});
         internal->loadXML("assets/maps/" + tileset.second);
 
         TiXmlElement* root = internal->GetXmlDocument()->RootElement();
@@ -143,7 +142,7 @@ std::vector<ast::Tileset> ast::MapParser::parseTilesetData(std::map<int, std::st
         int tileCount = 0;
         std::string name = "";
         std::string source = "";
-        
+
         root->QueryStringAttribute("name", &name);
         root->Attribute("tilewidth", &tileSize);
         root->Attribute("tilecount", &tileCount);
@@ -163,21 +162,67 @@ std::vector<ast::Tileset> ast::MapParser::parseTilesetData(std::map<int, std::st
 
 std::vector<ast::TiledLayer> ast::MapParser::separateMultiTextureLayers(ast::TiledMap& map, std::vector<ast::Tileset>& tilesets)
 {
-    std::vector<TiledLayer> res;
+    std::vector<ast::TiledLayer> res;
     if (map.tilesets.size() < 2)
         return map.layers;
 
-    const int startLayerID = map.layers[map.layers.size() - 1].id;
+    struct FromTo
+    {
+        int from;
+        int to;
+
+        FromTo(int f, int t) {
+            from = f;
+            to = t;
+        }
+    };
+
+    auto containsID = [](int tileID, int from, int to) {
+        return (tileID >= from && tileID < to);
+    };
+
+    auto gidOffset = 0;
+    std::vector<unsigned int> gidOffsetData;
+    std::vector<FromTo> fromToData;
+    std::map<int, int> uniqueLayerIDs;
+    const auto currentLayerID = map.layers[map.layers.size() - 1].id;
+
+    for (auto const& tileset : map.tilesets)
+        gidOffsetData.emplace_back(tileset.first);
+    
+    for (auto i = 0; i < tilesets.size(); i++)
+    {
+        auto tileset = tilesets[0];
+        fromToData.emplace_back(FromTo(gidOffset, tileset.tileCount));
+        gidOffset += tileset.tileCount;
+    }
 
     for (auto i = 0; i < map.layers.size(); ++i)
     {
+        auto tiledLayer = map.layers[i];
         for (auto j = 0; j < map.layers[i].tileIDs.size(); ++j)
         {
-            // Compare each tileID with each tileset threshold and add new layers for each unique texture
-            for (auto k = 0; k < tilesets.size(); ++k)
+            auto tileID = map.layers[i].tileIDs[j];
+            for (auto k = 0; k < fromToData.size(); ++k)
             {
-                
-            }   
+                if (containsID(tileID, fromToData[k].from, fromToData[k].to))
+                {
+                    auto newTileID = tileID - (fromToData[k].to - fromToData[k].from);
+                    if (uniqueLayerIDs.find(tiledLayer.id) != uniqueLayerIDs.end())
+                    {
+                        auto existingID = uniqueLayerIDs[tiledLayer.id];
+                        res[existingID].tileIDs[j] = newTileID;
+                    }
+                    else
+                    {
+                        std::vector<unsigned int> emptyLayer(tiledLayer.tileIDs.size(), 0);
+                        auto newLayer = ast::TiledLayer(currentLayerID, tiledLayer.width, tiledLayer.height, emptyLayer);
+                        newLayer.tileIDs[j] = newTileID;
+                        uniqueLayerIDs[tiledLayer.id] = i;
+                        res.emplace_back(newLayer);
+                    }
+                }
+            }
         }
     }
 

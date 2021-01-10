@@ -29,9 +29,9 @@ struct SceneMain::Internal
 
     void prepare(ast::OpenGLAssetManager& assetManager)
     {
+        assetManager.loadTextures({"buch-outdoor.png"});
+        assetManager.loadTiledMap("multi-layer-chunk-test.tmx");
         assetManager.loadPipelines(assetManager);
-        assetManager.loadTextures({"assets/textures/buch-outdoor.png"});
-        //assetManager.loadTiledMap("assets/maps/multi-layer-chunk-test.tmx");
     }
 
     void update(const float& delta)

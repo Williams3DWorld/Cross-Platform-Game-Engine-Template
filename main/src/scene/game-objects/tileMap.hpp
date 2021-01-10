@@ -1,7 +1,7 @@
 #ifndef __TILE_MAP_H__
 #define __TILE_MAP_H__
 
-#include "sprite.hpp"
+#include "layer.hpp"
 #include <map>
 
 namespace ast
@@ -12,25 +12,24 @@ namespace ast
         unsigned int width;
         unsigned int height;
 
-        std::map<unsigned int, ast::Sprite> chunkData;
-        bool chunkCullable(unsigned int chunkIndex);
+        std::map<unsigned int, std::shared_ptr<ast::Layer>> layers;
 
     public:
         unsigned int& getWidth();
         unsigned int& getHeight();
-        std::map<unsigned int, ast::Sprite>& getChunkData();
+        std::map<unsigned int, std::shared_ptr<ast::Layer>> &getLayers();
 
         void setWidth(unsigned int value);
         void setHeight(unsigned int value);
-        void setChunkData(std::map<unsigned int, Sprite>& value);
+        void setLayerData(std::map<unsigned int, std::shared_ptr<ast::Layer>> &value);
 
         virtual void setParent(std::shared_ptr<GameObject> value) override {}
         virtual void addChild(std::shared_ptr<GameObject>& value) override {}
-        virtual void update(float dt) override {}
+        virtual void update(float dt) override;
         virtual void render() override;
 
         TileMap();
-        TileMap(unsigned int width, unsigned int height, std::map<unsigned int, Sprite>& chunkData);
+        TileMap(unsigned int width, unsigned int height, std::map<unsigned int, std::shared_ptr<ast::Layer>> &layers);
     };
 } // namespace ast
 
