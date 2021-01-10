@@ -91,8 +91,6 @@ namespace
 struct OpenGLPipeline::Internal
 {
     const GLuint shaderProgramId;
-    const GLuint textShaderProgramId;
-
     const GLuint uniformLocationMVP;
     const GLuint uniformLocationTexture;
 
@@ -102,7 +100,6 @@ struct OpenGLPipeline::Internal
 
     Internal(const std::string& shaderName, ast::OpenGLAssetManager& assetManager)
         : shaderProgramId(::createShaderProgram(shaderName)),
-          textShaderProgramId(::createShaderProgram("text")),
           uniformLocationMVP(glGetUniformLocation(shaderProgramId, "u_mvp")),
           uniformLocationTexture(glGetUniformLocation(shaderProgramId, "u_textures[0]"))
     {
@@ -145,15 +142,6 @@ struct OpenGLPipeline::Internal
         this->spriteRenderer = std::make_unique<OpenGLBatchRenderer>();
         glUniform1i(uniformLocationTexture, 0);*/
         // --------------- MAP TEST --------------------
-
-        AudioSystem::GetInstance()->Initialise();
-        AudioSystem::GetInstance()->addSound("music", "assets/sounds/bgm.wav", ast::AudioTypes::MUSIC);
-        AudioSystem::GetInstance()->Play("music", -1);
-
-        // --------------- TEXT RENDERING TEST --------------------
-        ast::TextRenderer::GetInstance()->loadFontSheet("en");
-        ast::TextRenderer::GetInstance()->addText("v0.0.1", glm::vec2(10.f, 10.f), glm::vec3(1.f, 0.f, 0.f), 16.f);
-        // --------------- TEXT RENDERING TEST --------------------
     }
 
     // TODO: Parse a map object through this render function
@@ -176,13 +164,6 @@ struct OpenGLPipeline::Internal
         // TEST
         //this->spriteRenderer->render();
         this->map->render();
-
-
-        // TEXT (THIS WILL BE PUT INTO A GUI RENDERER)
-        glUseProgram(textShaderProgramId);
-        glUniform1i(glGetUniformLocation(textShaderProgramId, "font"), 2);
-        glUniformMatrix4fv(glGetUniformLocation(textShaderProgramId, "projection"), 1, GL_FALSE, &camera.getProjectionMatrix()[0][0]);
-        ast::TextRenderer::GetInstance()->render();
     }
 
     ~Internal()
