@@ -50,6 +50,7 @@ namespace ast
             glGenBuffers(1, &this->batch.vbo);
             glBindBuffer(GL_ARRAY_BUFFER, batch.vbo);
             glBufferData(GL_ARRAY_BUFFER, sizeof(float) * this->batch.vertexData.size(), this->batch.vertexData.data(), GL_DYNAMIC_DRAW);
+
             glEnableVertexAttribArray(0);   // POSITIONS
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)0);
             glEnableVertexAttribArray(1);   // TEXCOORDS

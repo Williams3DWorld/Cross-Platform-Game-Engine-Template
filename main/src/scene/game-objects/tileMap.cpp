@@ -1,4 +1,6 @@
 #include "tileMap.hpp"
+#include <iostream>
+
 
 namespace ast
 {
@@ -11,9 +13,9 @@ namespace ast
     {
         return this->height;
     }
-    std::map<unsigned int, Sprite>& TileMap::getChunkData()
+    std::map<unsigned int, std::shared_ptr<ast::Layer>> &TileMap::getLayers()
     {
-        return this->chunkData;
+        return this->layers;
     }
 
     void TileMap::setWidth(unsigned int value)
@@ -26,25 +28,23 @@ namespace ast
         this->height = value;
     }
 
-    void TileMap::setChunkData(std::map<unsigned int, Sprite>& value)
+    void TileMap::setLayerData(std::map<unsigned int, std::shared_ptr<ast::Layer>> &value)
     {
-        this->chunkData = value;
+        this->layers = value;
     }
 
-    bool TileMap::chunkCullable(unsigned int chunkIndex)
+    void TileMap::update(float dt)
     {
-        // Calculate off-screen formula here..
-        return false;
+        for (auto const& layer : this->layers)
+        {
+            layer.second->update(dt);
+        }
     }
-
     void TileMap::render()
     {
-        for (auto i = 0; i < this->chunkData.size(); i++)
+        for (auto const& layer : this->layers)
         {
-            if (!this->chunkCullable(i))
-            {
-                // Render chunk here..
-            }
+            layer.second->render();
         }
     }
 
@@ -54,10 +54,10 @@ namespace ast
         this->height = 0;
     }
 
-    TileMap::TileMap(unsigned int width, unsigned int height, std::map<unsigned int, Sprite>& chunkData)
+    TileMap::TileMap(unsigned int width, unsigned int height, std::map<unsigned int, std::shared_ptr<ast::Layer>> &layers)
     {
         this->width = width;
         this->height = height;
-        this->chunkData = chunkData;
+        this->layers = layers;
     }
 } // namespace ast

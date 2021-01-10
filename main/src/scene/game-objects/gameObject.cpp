@@ -19,6 +19,11 @@ namespace ast
         return this->_id;
     }
 
+    std::unordered_map<const char*, std::shared_ptr<GameObject>>& GameObject::getChildren()
+    {
+        return this->_children;
+    }
+
     void GameObject::setName(const char* value) 
     {
         this->_name = value;

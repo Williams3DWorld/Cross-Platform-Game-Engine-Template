@@ -1,9 +1,19 @@
 #include "opengl-batch.hpp"
+#include <iostream>
 
 namespace ast
 {
-    void OpenGLBatch::create(std::vector<std::any>& vertexData, Attribute& attributeData)
+    void OpenGLBatch::create(std::vector<std::any>& vertexData, std::vector<unsigned int>& indexData, Attribute& attributeData)
     {
+        if (vertexData.empty() || indexData.empty())
+        {
+            std::cerr << "Error: Vertex or index data is invalid!\n";
+            return;
+        }
+
+        this->vertexData = vertexData;
+        this->indexData = indexData;
+
         glGenVertexArrays(1, &this->vao);
         glBindVertexArray(this->vao);
 
@@ -11,13 +21,15 @@ namespace ast
         glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
         glBufferData(GL_ARRAY_BUFFER, sizeof(float) * this->vertexData.size(), this->vertexData.data(), GL_DYNAMIC_DRAW);
 
-        unsigned int pointerOffset = 0;
+        size_t pointerOffset = 0;
         for (auto i = 0; i < attributeData.attribElement.size(); i++)
         {
             auto attrib = attributeData.attribElement[i];
 
             glEnableVertexAttribArray(i);
-            glVertexAttribPointer(i, attrib.componentSize, attrib.type, GL_FALSE, attributeData.size * attrib.sizeInBytes, (void*)((size_t)pointerOffset * attrib.sizeInBytes));
+            glVertexAttribPointer(i, attrib.componentSize, attrib.type, GL_FALSE, attributeData.size * attrib.sizeInBytes, (void*)(pointerOffset * attrib.sizeInBytes));
+
+            pointerOffset += attrib.componentSize;
         }
 
         glGenBuffers(1, &this->ibo);
@@ -38,6 +50,11 @@ namespace ast
         glBindVertexArray(this->vao);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ibo);
         glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, offset, size, data);
+    }
+
+    OpenGLBatch::OpenGLBatch(std::vector<std::any>& vertexData, std::vector<unsigned int>& indexData, Attribute& attributeData)
+    {
+        this->create(vertexData, indexData, attributeData);
     }
 
     OpenGLBatch::~OpenGLBatch()

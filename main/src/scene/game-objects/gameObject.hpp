@@ -39,6 +39,7 @@ namespace ast
         uint16_t& getType();
         const char* getName();
         unsigned int& getID();
+        std::unordered_map<const char*, std::shared_ptr<GameObject>>& getChildren();
 
         void setName(const char* value);
         

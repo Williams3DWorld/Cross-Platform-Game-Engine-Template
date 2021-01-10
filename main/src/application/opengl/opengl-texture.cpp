@@ -1,5 +1,4 @@
 #include "opengl-texture.hpp"
-#include "../../core/utils/graphics-wrapper.hpp"
 
 using ast::OpenGLTexture;
 
@@ -44,6 +43,11 @@ struct OpenGLTexture::Internal
 
 OpenGLTexture::OpenGLTexture(const ast::Bitmap& bitmap)
     : internal(ast::make_internal_ptr<Internal>(bitmap)) {}
+
+const GLuint ast::OpenGLTexture::getID()
+{
+    return this->internal->textureId;
+}
 
 void OpenGLTexture::bind() const
 {

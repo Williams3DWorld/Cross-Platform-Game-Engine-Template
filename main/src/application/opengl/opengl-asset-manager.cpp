@@ -27,9 +27,10 @@ struct OpenGLAssetManager::Internal
             {
                 textureCache.insert(std::pair(
                     texture,
-                    ast::OpenGLTexture(ast::assets::loadBitmap(texture))));
+                    ast::OpenGLTexture(ast::assets::loadBitmap("assets/textures/" + texture))));
             }
         }
+
     }
 
     void loadTiledMap(std::string map) {

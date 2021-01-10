@@ -8,6 +8,9 @@
 #include <stdexcept>
 #include <vector>
 
+#include "../../scene/utils/layer-helper.hpp"
+#include "../../scene/game-objects/tileMap.hpp"
+
 using ast::OpenGLPipeline;
 
 namespace
@@ -91,7 +94,8 @@ struct OpenGLPipeline::Internal
     const GLuint uniformLocationTexture;
 
     // TEST
-    std::unique_ptr<ast::OpenGLBatchRenderer> spriteRenderer;
+    //std::unique_ptr<ast::OpenGLBatchRenderer> spriteRenderer;
+    std::unique_ptr<ast::TileMap> map;
 
     Internal(const std::string& shaderName, ast::OpenGLAssetManager& assetManager)
         : shaderProgramId(::createShaderProgram(shaderName)),
@@ -99,7 +103,14 @@ struct OpenGLPipeline::Internal
           uniformLocationTexture(glGetUniformLocation(shaderProgramId, "u_textures[0]"))
     {
         // --------------- MAP TEST --------------------
-        ast::TiledMap map = ast::MapParser::GetInstance()->parse("multi-layer-chunk-test.tmx");
+        auto tiledMap = assetManager.getTiledMap("multi-layer-chunk-test.tmx");
+        auto spriteLayers = ast::LayerHelper::createSpriteLayersFromTiledMap(tiledMap);
+        std::map<unsigned int, std::shared_ptr<Layer>> layerData;
+        for (auto const& layer : spriteLayers)
+            layerData[layer->getLayerID()] = layer;
+
+        this->map = std::make_unique<TileMap>(0, 0, layerData);
+        /*ast::TiledMap map = ast::MapParser::GetInstance()->parse("multi-layer-chunk-test.tmx");
 
         ast::TiledLayer layer0 = map.layers[0];
         ast::TiledLayer layer1 = map.layers[1];
@@ -126,14 +137,14 @@ struct OpenGLPipeline::Internal
             std::dynamic_pointer_cast<TransformObject>(GameObjectPool::gameObjects["Sprite" + i])->setPosition(posOffset);
             std::dynamic_pointer_cast<Sprite>(GameObjectPool::gameObjects["Sprite" + i])->setTileID(static_cast<float>(layer1.tileIDs[i] - 1));
         }
+
+        this->spriteRenderer = std::make_unique<OpenGLBatchRenderer>();
+        glUniform1i(uniformLocationTexture, 0);*/
         // --------------- MAP TEST --------------------
 
         AudioSystem::GetInstance()->Initialise();
         AudioSystem::GetInstance()->addSound("music", "assets/sounds/bgm.wav", ast::AudioTypes::MUSIC);
         AudioSystem::GetInstance()->Play("music", -1);
-
-        this->spriteRenderer = std::make_unique<OpenGLBatchRenderer>();
-        glUniform1i(uniformLocationTexture, 0);
     }
 
     // TODO: Parse a map object through this render function
@@ -154,7 +165,8 @@ struct OpenGLPipeline::Internal
         glUniformMatrix4fv(uniformLocationMVP, 1, GL_FALSE, &mvp[0][0]);
 
         // TEST
-        this->spriteRenderer->render();
+        //this->spriteRenderer->render();
+        this->map->render();
     }
 
     ~Internal()
