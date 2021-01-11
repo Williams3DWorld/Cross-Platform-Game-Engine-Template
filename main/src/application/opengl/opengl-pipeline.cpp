@@ -139,8 +139,8 @@ struct OpenGLPipeline::Internal
             std::dynamic_pointer_cast<Sprite>(GameObjectPool::gameObjects["Sprite" + i])->setTileID(static_cast<float>(layer1.tileIDs[i] - 1));
         }
 
-        this->spriteRenderer = std::make_unique<OpenGLBatchRenderer>();
-        glUniform1i(uniformLocationTexture, 0);*/
+        this->spriteRenderer = std::make_unique<OpenGLBatchRenderer>();*/
+        glUniform1i(uniformLocationTexture, 0);
         // --------------- MAP TEST --------------------
     }
 

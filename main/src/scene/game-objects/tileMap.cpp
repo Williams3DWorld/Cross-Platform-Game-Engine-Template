@@ -42,10 +42,11 @@ namespace ast
     }
     void TileMap::render()
     {
-        for (auto const& layer : this->layers)
+        this->layers[3]->render();
+        /*for (auto const& layer : this->layers)
         {
             layer.second->render();
-        }
+        }*/
     }
 
     TileMap::TileMap()

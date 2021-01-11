@@ -43,7 +43,6 @@ namespace ast
 
     void Layer::render()
     {
-       // if (this->vbo)
        this->vbo->bind(this->textureID);
     }
 
