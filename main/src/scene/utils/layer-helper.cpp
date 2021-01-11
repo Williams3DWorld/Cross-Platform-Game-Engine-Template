@@ -12,13 +12,10 @@ namespace ast
         std::vector<float> vertexData;
         std::vector<unsigned int> indexData;
         auto offset = glm::vec3(.0f);
+        auto numSprites = 0;
         for (auto i = 0; i < tilelayer.tileIDs.size(); i++)
         {
             auto tileID = tilelayer.tileIDs[i];
-
-            /*if (i % 18 == 0)
-                std::cout << "\n";
-            std::cout << tileID << " ";*/
 
             if (tileID == 0)
                 continue;
@@ -26,7 +23,7 @@ namespace ast
             offset = glm::vec3(static_cast<float>(i % tilelayer.width) * TILE_SIZE * TILE_SCALE,
                                static_cast<float>(floor(i / tilelayer.width)) * TILE_SIZE * TILE_SCALE, .0f);
 
-            std::cout << "x: " << (i % tilelayer.width) * TILE_SIZE * TILE_SCALE << " y: " << (floor(i / tilelayer.width)) * TILE_SIZE * TILE_SCALE << "\n";
+            //std::cout << "x: " << (i % tilelayer.width) * TILE_SIZE * TILE_SCALE << " y: " << (floor(i / tilelayer.width)) * TILE_SIZE * TILE_SCALE << "\n";
 
             auto sprite = std::make_shared<Sprite>();
 
@@ -42,9 +39,11 @@ namespace ast
 
             for (auto indexValue : spriteVertex.indexData)
             {
-                unsigned int indexOffset = indexValue + RECT_VERTEX_COUNT * i;
+                unsigned int indexOffset = indexValue + RECT_VERTEX_COUNT * numSprites;
                 indexData.emplace_back(indexOffset);
             }
+
+            numSprites++;
         }
 
         res->setBufferData(vertexData, indexData);

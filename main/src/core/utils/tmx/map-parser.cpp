@@ -203,7 +203,7 @@ std::vector<ast::TiledLayer> ast::MapParser::separateMultiTextureLayers(ast::Til
         for (auto j = 0; j < map.layers[i].tileIDs.size(); ++j)
         {
             auto tileID = map.layers[i].tileIDs[j];
-            for (auto k = 0; k < fromToData.size(); ++k)
+            for (auto k = 0; k < fromToData.size(); ++k) // TODO: Store texture ids using k!
             {
                 if (containsID(tileID, fromToData[k].from, fromToData[k].to))
                 {

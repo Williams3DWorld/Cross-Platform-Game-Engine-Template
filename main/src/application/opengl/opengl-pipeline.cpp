@@ -1,5 +1,4 @@
 #include "opengl-pipeline.hpp"
-#include "../../application/opengl/opengl-batch-renderer.hpp"
 #include "../../core/utils/assets.hpp"
 #include "../../core/utils/log.hpp"
 #include "../../global/tile-settings.hpp"
@@ -94,8 +93,7 @@ struct OpenGLPipeline::Internal
     const GLuint uniformLocationMVP;
     const GLuint uniformLocationTexture;
 
-    // TEST
-    //std::unique_ptr<ast::OpenGLBatchRenderer> spriteRenderer;
+    // TODO: Move map into a world class
     std::unique_ptr<ast::TileMap> map;
 
     Internal(const std::string& shaderName, ast::OpenGLAssetManager& assetManager)
@@ -110,36 +108,6 @@ struct OpenGLPipeline::Internal
         for (auto const& layer : spriteLayers)
             layerData[layer->getLayerID()] = layer;
         this->map = std::make_unique<TileMap>(0, 0, layerData);
-
-        /*ast::TiledMap map = ast::MapParser::GetInstance()->parse("multi-layer-chunk-test.tmx");
-
-        ast::TiledLayer layer0 = map.layers[0];
-        ast::TiledLayer layer1 = map.layers[1];
-
-        for (auto i = 0; i < layer0.tileIDs.size(); i++)
-        {
-            if (layer0.tileIDs[i] == 0)
-                continue;
-
-            GameObjectPool::gameObjects["Sprite" + i] = std::make_shared<Sprite>("Sprite" + i);
-            auto posOffset = glm::vec3(static_cast<float>(i % layer0.width) * TILE_SIZE * TILE_SCALE,
-                                       static_cast<float>(floor(i / layer0.width)) * TILE_SIZE * TILE_SCALE, .0f);
-            std::dynamic_pointer_cast<TransformObject>(GameObjectPool::gameObjects["Sprite" + i])->setPosition(posOffset);
-            std::dynamic_pointer_cast<Sprite>(GameObjectPool::gameObjects["Sprite" + i])->setTileID(static_cast<float>(layer0.tileIDs[i] - 1));
-        }
-        for (auto i = 0; i < layer1.tileIDs.size(); i++)
-        {
-            if (layer1.tileIDs[i] == 0)
-                continue;
-
-            GameObjectPool::gameObjects["Sprite" + i] = std::make_shared<Sprite>("Sprite" + i);
-            auto posOffset = glm::vec3(static_cast<float>(i % layer1.width) * TILE_SIZE * TILE_SCALE,
-                                       static_cast<float>(floor(i / layer1.width)) * TILE_SIZE * TILE_SCALE, .0f);
-            std::dynamic_pointer_cast<TransformObject>(GameObjectPool::gameObjects["Sprite" + i])->setPosition(posOffset);
-            std::dynamic_pointer_cast<Sprite>(GameObjectPool::gameObjects["Sprite" + i])->setTileID(static_cast<float>(layer1.tileIDs[i] - 1));
-        }
-
-        this->spriteRenderer = std::make_unique<OpenGLBatchRenderer>();*/
         glUniform1i(uniformLocationTexture, 0);
         // --------------- MAP TEST --------------------
     }
@@ -162,7 +130,6 @@ struct OpenGLPipeline::Internal
         glUniformMatrix4fv(uniformLocationMVP, 1, GL_FALSE, &mvp[0][0]);
 
         // TEST
-        //this->spriteRenderer->render();
         this->map->render();
     }
 
