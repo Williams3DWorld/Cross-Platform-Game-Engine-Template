@@ -1,18 +1,19 @@
-#include "layer.hpp"
+#include "spriteLayer.hpp"
 #include <iostream>
+
 namespace ast
 {
-    unsigned int& Layer::getTextureID()
+    unsigned int& SpriteLayer::getTextureID()
     {
         return this->textureID;
     }
 
-    void Layer::setTextureID(unsigned int value)
+    void SpriteLayer::setTextureID(unsigned int value)
     {
         this->textureID = value;
     }
 
-    void Layer::setBufferData(std::vector<float>& vertexData, std::vector<unsigned int>& indexData)
+    void SpriteLayer::setBufferData(std::vector<float>& vertexData, std::vector<unsigned int>& indexData)
     {
         GLsizei compSize = sizeof(float);
         const auto numAttribs = 7;
@@ -27,12 +28,12 @@ namespace ast
         this->vbo = std::make_shared<ast::OpenGLBatch>(vertexData, indexData, attribData);
     }
 
-    void Layer::addChild(std::shared_ptr<GameObject>& value)
+    void SpriteLayer::addChild(std::shared_ptr<GameObject>& value)
     {
         this->_children[value->getName()] = value;
     }
 
-    void Layer::update(float dt)
+    void SpriteLayer::update(float dt)
     {
         for (auto object : this->_children)
         {
@@ -41,12 +42,12 @@ namespace ast
         }
     }
 
-    void Layer::render()
+    void SpriteLayer::render()
     {
        this->vbo->bind(this->textureID);
     }
 
-    Layer::Layer(const char* name, unsigned int id, glm::vec3 position, unsigned int textureID, bool updatable)
+    SpriteLayer::SpriteLayer(const char* name, unsigned int id, glm::vec3 position, unsigned int textureID, bool updatable)
     {
         this->_type = LAYER;
         this->_name = name;

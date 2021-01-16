@@ -4,10 +4,10 @@
 #include <string>
 namespace ast
 {
-    std::shared_ptr<ast::Layer> LayerHelper::createSpriteLayerFromTiledLayer(ast::TiledLayer& tilelayer)
+    std::shared_ptr<ast::SpriteLayer> LayerHelper::createSpriteLayerFromTiledLayer(ast::TiledLayer& tilelayer)
     {
         // TODO: Assign correct layer name and textureID
-        auto res = std::make_shared<ast::Layer>("layer", tilelayer.id, glm::vec3(.0f), 0, true);
+        auto res = std::make_shared<ast::SpriteLayer>("layer", tilelayer.id, glm::vec3(.0f), 0, true);
 
         std::vector<float> vertexData;
         std::vector<unsigned int> indexData;
@@ -22,8 +22,6 @@ namespace ast
 
             offset = glm::vec3(static_cast<float>(i % tilelayer.width) * TILE_SIZE * TILE_SCALE,
                                static_cast<float>(floor(i / tilelayer.width)) * TILE_SIZE * TILE_SCALE, .0f);
-
-            //std::cout << "x: " << (i % tilelayer.width) * TILE_SIZE * TILE_SCALE << " y: " << (floor(i / tilelayer.width)) * TILE_SIZE * TILE_SCALE << "\n";
 
             auto sprite = std::make_shared<Sprite>();
 
@@ -51,9 +49,9 @@ namespace ast
         return res;
     }
 
-    std::vector<std::shared_ptr<ast::Layer>> LayerHelper::createSpriteLayersFromTiledMap(ast::TiledMap& tilemap)
+    std::vector<std::shared_ptr<ast::SpriteLayer>> LayerHelper::createSpriteLayersFromTiledMap(ast::TiledMap& tilemap)
     {
-        std::vector<std::shared_ptr<ast::Layer>> res;
+        std::vector<std::shared_ptr<ast::SpriteLayer>> res;
         for (auto i = 0; i < tilemap.layers.size(); i++)
         {
             auto tiledLayer = tilemap.layers[i];
