@@ -10,7 +10,7 @@ namespace ast
     {
         OpenGLRenderer(std::shared_ptr<ast::OpenGLAssetManager> assetManager);
 
-        void render(ast::OrthoCamera2D& camera);
+        void render(ast::OrthoCamera2D& camera, ast::TileMap& map);
 
     private:
         struct Internal;

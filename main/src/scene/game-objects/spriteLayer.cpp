@@ -36,15 +36,12 @@ namespace ast
     void SpriteLayer::update(float dt)
     {
         for (auto object : this->_children)
-        {
-            if (object.second->getType() == SPRITE)
-                std::dynamic_pointer_cast<Sprite>(object.second)->update(dt);
-        }
+            std::dynamic_pointer_cast<Sprite>(object.second)->update(dt);
     }
 
     void SpriteLayer::render()
     {
-       this->vbo->bind(this->textureID);
+        this->vbo->bind(this->textureID);
     }
 
     SpriteLayer::SpriteLayer(const char* name, unsigned int id, glm::vec3 position, unsigned int textureID, bool updatable)

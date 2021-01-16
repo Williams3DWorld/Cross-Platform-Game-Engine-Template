@@ -2,7 +2,7 @@
 #include "../../core/utils/glm-wrapper.hpp"
 #include "../../core/utils/log.hpp"
 #include "../../core/utils/sdl-wrapper.hpp"
-#include "../../scene/scene-main.hpp"
+#include "../../game.hpp"
 
 
 using ast::OpenGLApplication;
@@ -53,15 +53,14 @@ namespace
         return ast::OpenGLRenderer(assetManager);
     }
 
-    std::unique_ptr<ast::SceneMain> createMainScene(ast::OpenGLAssetManager& assetManager)
+    std::unique_ptr<ast::Game> createGame(std::shared_ptr<ast::OpenGLAssetManager> assetManager)
     {
         std::pair<uint32_t, uint32_t> displaySize{ast::sdl::getDisplaySize()};
-        std::unique_ptr<ast::SceneMain> scene{std::make_unique<ast::SceneMain>(
-            static_cast<float>(displaySize.first),
-            static_cast<float>(displaySize.second))};
-        scene->prepare(assetManager);
-        return scene;
+        auto screenWidth = static_cast<float>(displaySize.first);
+        auto screenHeight = static_cast<float>(displaySize.second);
+        return std::make_unique<ast::Game>(screenWidth, screenHeight, *assetManager);
     }
+
 } // namespace
 
 struct OpenGLApplication::Internal
@@ -70,27 +69,19 @@ struct OpenGLApplication::Internal
     SDL_GLContext context;
     const std::shared_ptr<ast::OpenGLAssetManager> assetManager;
     ast::OpenGLRenderer renderer;
-    std::unique_ptr<ast::SceneMain> scene;
+    std::unique_ptr<ast::Game> game;
 
     Internal() : window(ast::sdl::createWindow(SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI)),
                  context(::createContext(window)),
                  assetManager(::createAssetManager()),
-                 renderer(::createRenderer(assetManager)){
-    }
-
-    ast::SceneMain& getScene()
-    {
-        if (!scene)
-        {
-            scene = ::createMainScene(*assetManager);
-        }
-
-        return *scene;
+                 renderer(::createRenderer(assetManager)),
+                 game(::createGame(assetManager))
+                {
     }
 
     void update(const float& delta)
     {
-        getScene().update(delta);
+        game->update(delta);
     }
 
     void render()
@@ -98,7 +89,7 @@ struct OpenGLApplication::Internal
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        getScene().render(renderer);
+        renderer.render(*game->getCamera(), *game->getMap());
 
         SDL_GL_SwapWindow(window);
     }
