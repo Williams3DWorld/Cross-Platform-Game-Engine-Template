@@ -42,6 +42,11 @@ struct OpenGLAssetManager::Internal
 
 OpenGLAssetManager::OpenGLAssetManager() : internal(ast::make_internal_ptr<Internal>()) {}
 
+void ast::OpenGLAssetManager::loadAssetsFromFile(const char* fileURI)
+{
+
+}
+
 void OpenGLAssetManager::loadPipelines(ast::OpenGLAssetManager& assetManager)
 {
     internal->loadPipelines(assetManager);

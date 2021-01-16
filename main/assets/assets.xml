@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assets>
+	<textures>
+		<object id="0" name ="buch-outdoor2", source="GameEngine/main/assets/textures/buch-outdoor2.png" width="96" height="96"/>
+ 		<object id="1" name ="buch-outdoor", source="GameEngine/main/assets/textures/buch-outdoor.png" width="96" height="192"/>
+	</textures>
+</assets>

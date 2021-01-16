@@ -11,6 +11,7 @@ namespace ast
     {
         OpenGLAssetManager();
 
+        void loadAssetsFromFile(const char* fileURI);
         void loadPipelines(ast::OpenGLAssetManager& assetManager);
         void loadTextures(const std::vector<std::string> textures);
         void loadTiledMap(const std::string map);
