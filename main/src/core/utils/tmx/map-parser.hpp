@@ -24,7 +24,10 @@ namespace ast
         }
 
         ast::TiledMap parse(std::string file);
+
         std::vector<unsigned int> MapParser::getLayerTileData(TiXmlElement* root, unsigned int width, unsigned int height);
+        std::vector<ast::TiledObject> MapParser::getLayerObjectData(TiXmlElement* root, int id);
+
         std::vector<ast::Tileset> parseTilesetData(std::map<int, std::string>& tilesets);
 
         std::vector<ast::TiledLayer> separateMultiTextureLayers(ast::TiledMap& map, std::vector<ast::Tileset>& tilesets);

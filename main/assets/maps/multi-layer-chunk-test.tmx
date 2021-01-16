@@ -37,4 +37,8 @@
 31,32,33,34,35,36,31,32,33,34,35,36,31,32,33,34,35,36
 </data>
  </layer>
+ <objectgroup id="5" name="Collisions">
+  <object id="10" x="160" y="0" width="32" height="192"/>
+  <object id="11" x="60" y="100" width="132" height="100"/>
+ </objectgroup>
 </map>

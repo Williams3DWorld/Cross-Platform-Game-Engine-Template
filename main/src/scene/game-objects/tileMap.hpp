@@ -2,6 +2,7 @@
 #define __TILE_MAP_H__
 
 #include "layer.hpp"
+#include "../../scene/structs/MapObjectData.hpp"
 #include <map>
 
 namespace ast
@@ -13,7 +14,7 @@ namespace ast
         unsigned int height;
 
         std::map<unsigned int, std::shared_ptr<ast::Layer>> layers;
-
+        std::vector<ast::CollisionRectangle> collisionRectangles;
     public:
         unsigned int& getWidth();
         unsigned int& getHeight();
@@ -29,7 +30,8 @@ namespace ast
         virtual void render() override;
 
         TileMap();
-        TileMap(unsigned int width, unsigned int height, std::map<unsigned int, std::shared_ptr<ast::Layer>> &layers);
+        TileMap(unsigned int width, unsigned int height, std::map<unsigned int, 
+            std::shared_ptr<ast::Layer>>& layers, std::vector<ast::CollisionRectangle> collisionRectangles);
     };
 } // namespace ast
 

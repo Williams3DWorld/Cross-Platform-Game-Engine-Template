@@ -54,10 +54,12 @@ namespace ast
         this->height = 0;
     }
 
-    TileMap::TileMap(unsigned int width, unsigned int height, std::map<unsigned int, std::shared_ptr<ast::Layer>> &layers)
+    TileMap::TileMap(unsigned int width, unsigned int height, std::map<unsigned int, 
+        std::shared_ptr<ast::Layer>>& layers, std::vector<ast::CollisionRectangle> collisionRectangles)
     {
         this->width = width;
         this->height = height;
         this->layers = layers;
+        this->collisionRectangles = collisionRectangles;
     }
 } // namespace ast

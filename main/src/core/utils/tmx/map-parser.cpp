@@ -76,6 +76,17 @@ ast::TiledMap MapParser::parse(std::string file)
             e->QueryStringAttribute("source", &source);
             tiledMap.tilesets.insert(std::make_pair(firstgid, source));
         }
+        else if (e->Value() == std::string("objectgroup"))
+        {
+            int id = 0;
+            std::string name = "";
+
+            e->Attribute("id", &id);
+            e->QueryStringAttribute("name", &name);
+
+            tiledMap.objectLayers.emplace_back(ast::TiledObjectGroup(static_cast<unsigned int>(id), name));
+            tiledMap.objectLayers[tiledMap.objectLayers.size() - 1].tiledObjects = this->getLayerObjectData(e, id);
+        }
     }
 
     std::sort(
@@ -122,6 +133,32 @@ std::vector<unsigned int> MapParser::getLayerTileData(TiXmlElement* root, unsign
     }
 
     return layerData;
+}
+
+std::vector<ast::TiledObject> MapParser::getLayerObjectData(TiXmlElement* root, int id)
+{
+    std::vector<ast::TiledObject> tiledObjects;
+    TiXmlElement* objectGroupElement;
+
+    for (TiXmlElement* e = root->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
+    {
+        if (e->Value() == std::string("object"))
+        {
+            int id = 0;
+            int x, y = 0;
+            int width, height = 0;
+
+            e->Attribute("id", &id);
+            e->Attribute("x", &x);
+            e->Attribute("y", &y);
+            e->Attribute("width", &width);
+            e->Attribute("height", &height);
+
+            tiledObjects.emplace_back(TiledObject(id, glm::vec2(x, y), glm::vec2(width, height)));
+        }
+    }
+
+    return tiledObjects;
 }
 
 std::vector<ast::Tileset> ast::MapParser::parseTilesetData(std::map<int, std::string>& tilesets)

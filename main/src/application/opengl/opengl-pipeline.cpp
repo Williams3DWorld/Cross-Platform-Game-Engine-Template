@@ -101,15 +101,19 @@ struct OpenGLPipeline::Internal
           uniformLocationMVP(glGetUniformLocation(shaderProgramId, "u_mvp")),
           uniformLocationTexture(glGetUniformLocation(shaderProgramId, "u_textures[0]"))
     {
-        // --------------- MAP TEST --------------------
+        // ---------------------------- MAP TEST ------------------------------
         auto tiledMap = assetManager.getTiledMap("multi-layer-chunk-test.tmx");
+
         auto spriteLayers = ast::LayerHelper::createSpriteLayersFromTiledMap(tiledMap);
+        auto collisionData = ast::LayerHelper::createCollisionDataFromTiledLayer(tiledMap);
+
         std::map<unsigned int, std::shared_ptr<Layer>> layerData;
         for (auto const& layer : spriteLayers)
             layerData[layer->getLayerID()] = layer;
-        this->map = std::make_unique<TileMap>(0, 0, layerData);
+
+        this->map = std::make_unique<TileMap>(0, 0, layerData, collisionData);
         glUniform1i(uniformLocationTexture, 0);
-        // --------------- MAP TEST --------------------
+        // ---------------------------- MAP TEST ------------------------------
     }
 
     // TODO: Parse a map object through this render function

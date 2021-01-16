@@ -3,6 +3,7 @@
 
 #include <map>
 #include <vector>
+#include <glm/glm.hpp>
 
 namespace ast
 {
@@ -38,10 +39,30 @@ namespace ast
         TiledLayer(unsigned int id, unsigned int width, unsigned int height, std::vector<unsigned int> tileIDs) : id(id), width(width), height(height), tileIDs(tileIDs) {}
     };
 
+    struct TiledObject 
+    {
+        int id;
+        glm::vec2 position;
+        glm::vec2 scale;
+
+        TiledObject(int& id, const glm::vec2& position, const glm::vec2& scale)
+            : id(id), position(position), scale(scale) {}
+    };
+
+    struct TiledObjectGroup
+    {
+        unsigned int id;
+        std::string name;
+        std::vector<TiledObject> tiledObjects;
+
+        TiledObjectGroup(unsigned int id, const std::string& name) : name(name), id(id) {}
+    };
+
     struct TiledMap
     {
         const char* name;
         std::vector<TiledLayer> layers;
+        std::vector<TiledObjectGroup> objectLayers;
         std::map<int, std::string> tilesets;
 
         TiledMap(const char* name, std::vector<TiledLayer> layers) : name(name), layers(layers) {}

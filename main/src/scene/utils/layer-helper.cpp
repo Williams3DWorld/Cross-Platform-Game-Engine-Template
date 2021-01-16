@@ -2,8 +2,32 @@
 #include "../../core/renderer/sprite-vertex.hpp"
 #include <iostream>
 #include <string>
+
 namespace ast
 {
+    std::vector<ast::CollisionRectangle> LayerHelper::createCollisionDataFromTiledLayer(ast::TiledMap& tilemap)
+    {
+        std::vector<ast::CollisionRectangle> res;
+ 
+        for (auto i = 0; i < tilemap.objectLayers.size(); i++)
+        {
+            const auto objectGroup = tilemap.objectLayers[i];
+            std::cout << objectGroup.name << std::endl;
+            if (objectGroup.name == "Collisions")
+            {
+                for (auto const& object : objectGroup.tiledObjects) {
+                    res.emplace_back(ast::CollisionRectangle(
+                        static_cast<int>(object.position.x), 
+                        static_cast<int>(object.position.y),
+                        static_cast<int>(object.scale.x),
+                        static_cast<int>(object.scale.y)));
+                }
+            }
+        }
+
+        return res;
+    }
+
     std::shared_ptr<ast::SpriteLayer> LayerHelper::createSpriteLayerFromTiledLayer(ast::TiledLayer& tilelayer)
     {
         // TODO: Assign correct layer name and textureID
@@ -52,6 +76,7 @@ namespace ast
     std::vector<std::shared_ptr<ast::SpriteLayer>> LayerHelper::createSpriteLayersFromTiledMap(ast::TiledMap& tilemap)
     {
         std::vector<std::shared_ptr<ast::SpriteLayer>> res;
+
         for (auto i = 0; i < tilemap.layers.size(); i++)
         {
             auto tiledLayer = tilemap.layers[i];
@@ -61,5 +86,4 @@ namespace ast
 
         return res;
     }
-
 } // namespace ast
