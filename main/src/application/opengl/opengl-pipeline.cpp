@@ -8,9 +8,6 @@
 #include <stdexcept>
 #include <vector>
 
-#include "../../scene/utils/layer-helper.hpp"
-#include "../../scene/game-objects/tileMap.hpp"
-
 using ast::OpenGLPipeline;
 
 namespace
@@ -102,19 +99,14 @@ struct OpenGLPipeline::Internal
           uniformLocationTexture(glGetUniformLocation(shaderProgramId, "u_textures[0]"))
     {
         // --------------- MAP TEST --------------------
-        auto tiledMap = assetManager.getTiledMap("multi-layer-chunk-test.tmx");
-        auto spriteLayers = ast::LayerHelper::createSpriteLayersFromTiledMap(tiledMap);
-        std::map<unsigned int, std::shared_ptr<Layer>> layerData;
-        for (auto const& layer : spriteLayers)
-            layerData[layer->getLayerID()] = layer;
-        this->map = std::make_unique<TileMap>(0, 0, layerData);
         glUniform1i(uniformLocationTexture, 0);
         // --------------- MAP TEST --------------------
     }
 
     // TODO: Parse a map object through this render function
-    void render(ast::OrthoCamera2D& camera) const
+    void render(ast::OrthoCamera2D& camera, ast::TileMap& map) const
     {
+        // -------------------------------- WORLD --------------------------------
         const glm::mat4 identity = glm::mat4(1.f);
         const glm::mat4 cameraMatrix{camera.getViewMatrix() * camera.getProjectionMatrix()};
         const glm::mat4 mvp = cameraMatrix *
@@ -129,8 +121,9 @@ struct OpenGLPipeline::Internal
         // Populate the 'u_mvp' uniform in the shader program.
         glUniformMatrix4fv(uniformLocationMVP, 1, GL_FALSE, &mvp[0][0]);
 
-        // TEST
-        this->map->render();
+        map.render();
+
+        // -------------------------------- GUI --------------------------------
     }
 
     ~Internal()
@@ -142,7 +135,7 @@ struct OpenGLPipeline::Internal
 OpenGLPipeline::OpenGLPipeline(const std::string& shaderName, ast::OpenGLAssetManager& assetManager)
     : internal(ast::make_internal_ptr<Internal>(shaderName, assetManager)) {}
 
-void OpenGLPipeline::render(ast::OrthoCamera2D& camera) const
+void OpenGLPipeline::render(ast::OrthoCamera2D& camera, ast::TileMap& map) const
 {
-    internal->render(camera);
+    internal->render(camera, map);
 }
