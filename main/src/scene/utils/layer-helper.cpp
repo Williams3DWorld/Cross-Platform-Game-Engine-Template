@@ -12,7 +12,7 @@ namespace ast
         for (auto i = 0; i < tilemap.objectLayers.size(); i++)
         {
             const auto objectGroup = tilemap.objectLayers[i];
-            std::cout << objectGroup.name << std::endl;
+
             if (objectGroup.name == "Collisions")
             {
                 for (auto const& object : objectGroup.tiledObjects) {
