@@ -1,6 +1,6 @@
 #include "scene-main.hpp"
 #include "../core/utils/sdl-wrapper.hpp"
-#include "player.hpp"
+#include "game-objects/player.hpp"
 #include "../core/camera/ortho-camera-2d.hpp"
 #include "../core/utils/tmx/map-parser.hpp"
 
@@ -24,7 +24,7 @@ struct SceneMain::Internal
 
     Internal(const float& screenWidth, const float& screenHeight)
         : camera(::createOrthoCamera(screenWidth, screenHeight)),
-          player(ast::Player(glm::vec3{0.0f, 0.0f, -0.5f})),    
+          player(ast::Player(glm::vec3{0.0f, 0.0f, -0.5f})),
           keyboardState(SDL_GetKeyboardState(nullptr)) {}
 
     void prepare(ast::OpenGLAssetManager& assetManager)

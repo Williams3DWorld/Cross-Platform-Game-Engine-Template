@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../core/utils/glm-wrapper.hpp"
-#include "../core/utils/internal-ptr.hpp"
+#include "../../core/utils/glm-wrapper.hpp"
+#include "../../core/utils/internal-ptr.hpp"
 
 namespace ast
 {
-    struct Player
+    struct Player 
     {
         Player(const glm::vec3& position);
 
