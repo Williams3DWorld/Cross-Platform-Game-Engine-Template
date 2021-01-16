@@ -13,10 +13,11 @@ namespace ast
         // TEMP!
         auto tiledMap = assetManager.getTiledMap("multi-layer-chunk-test.tmx");
         auto spriteLayers = ast::LayerHelper::createSpriteLayersFromTiledMap(tiledMap);
+        auto collisionData = ast::LayerHelper::createCollisionDataFromTiledLayer(tiledMap);
         std::map<unsigned int, std::shared_ptr<Layer>> layerData;
         for (auto const& layer : spriteLayers)
             layerData[layer->getLayerID()] = layer;
-        this->_map = std::make_unique<TileMap>(0, 0, layerData);
+        this->_map = std::make_unique<TileMap>(0, 0, layerData, collisionData);
     }
 
     std::unique_ptr<ast::OrthoCamera2D>& Game::getCamera()
