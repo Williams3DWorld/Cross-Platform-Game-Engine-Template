@@ -108,12 +108,13 @@ struct OpenGLPipeline::Internal
     {
         // -------------------------------- WORLD --------------------------------
         const glm::mat4 identity = glm::mat4(1.f);
-        const glm::mat4 cameraMatrix{camera.getViewMatrix() * camera.getProjectionMatrix()};
-        const glm::mat4 mvp = cameraMatrix *
-                              glm::translate(identity, glm::vec3(.0f, .0f, .0f));
+        glm::mat4 cameraMatrix{camera.getViewMatrix() * camera.getProjectionMatrix()};
+        const glm::mat4 mvp = cameraMatrix * glm::translate(identity, glm::vec3(.0f, .0f, .0f));
+
         /*  *
                                           glm::rotate(identity, glm::radians(0.f), glm::vec3(0.f, 0.f, 1.f)) *
                                           glm::scale(identity, glm::vec3(1.f));*/
+
 
         // Instruct OpenGL to starting using our shader program.
         glUseProgram(shaderProgramId);
