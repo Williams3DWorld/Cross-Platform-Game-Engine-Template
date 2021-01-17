@@ -1,4 +1,5 @@
 #include "player.hpp"
+#include "../../core/utils/sdl-wrapper.hpp"
 #include <iostream>
 
 using ast::Player;
@@ -9,8 +10,7 @@ struct Player::Internal
     glm::vec3 position;
 
     Internal(const glm::vec3& position)
-        : 
-          position(position) {}
+        : position(position) {}
 
     void moveUp(const float& delta)
     {
@@ -35,7 +35,7 @@ struct Player::Internal
 
 Player::Player(const glm::vec3& position) : internal(ast::make_internal_ptr<Internal>(position))
 {
-    this->spriteVertex = std::make_unique<SpriteVertex>(position, 0, 50);
+    this->spriteVertex = std::make_unique<SpriteVertex>(glm::vec3(.0f), .0f, 50.f);
 
     std::vector<float> vertexData(spriteVertex->vertexData.begin(), spriteVertex->vertexData.end());
     std::vector<unsigned int> indexData(spriteVertex->indexData.begin(), spriteVertex->indexData.end());
@@ -51,7 +51,7 @@ Player::Player(const glm::vec3& position) : internal(ast::make_internal_ptr<Inte
 
     Attribute attribData = {numAttribs, attribElementData};
     this->vbo = std::make_shared<ast::OpenGLBatch>(vertexData, indexData, attribData);
- }
+}
 
 glm::vec3 Player::getPosition() const
 {
@@ -72,18 +72,29 @@ void Player::moveLeft(const float& delta)
 {
     internal->moveLeft(delta);
 }
- 
+
 void Player::moveRight(const float& delta)
 {
-   internal->moveRight(delta);
+    internal->moveRight(delta);
 }
 
 void Player::render(unsigned int& matrix_location,
                     glm::mat4 matrix)
 {
-    glm::mat4 player_matrix = glm::mat4(1.f);
-    player_matrix = matrix * glm::translate(player_matrix, glm::vec3(internal->position.x, internal->position.y, internal->position.z));
-    glUniformMatrix4fv(matrix_location, 1, GL_FALSE, &player_matrix[0][0]);
+    const glm::mat4 identity = glm::mat4(1.f);
+    const float min = glm::min(static_cast<float>(ast::sdl::getDisplaySize().first), static_cast<float>(ast::sdl::getDisplaySize().second));
+    const float max = glm::max(static_cast<float>(ast::sdl::getDisplaySize().first), static_cast<float>(ast::sdl::getDisplaySize().second));
+    const float ratioX = max / min * TILE_SCALE;
+    const float ratioY = min / max * TILE_SCALE;
+
+    const float worldSpaceX = internal->position.x * ratioX * (TILE_SIZE * TILE_SCALE);
+    const float worldSpaceY = internal->position.y * ratioY * (TILE_SIZE * TILE_SCALE);
+
+    const float pixelSpaceX = static_cast<float>(ast::sdl::getDisplaySize().first);
+    const glm::mat4 mvp = matrix * glm::translate(identity, glm::vec3(worldSpaceX, -worldSpaceY, internal->position.z));
+    glUniformMatrix4fv(matrix_location, 1, GL_FALSE, &mvp[0][0]);
+
+    std::cout << "x " << this->internal->position.x << "\n";
 
     unsigned int id = 0; // temp
     this->vbo->bind(id);

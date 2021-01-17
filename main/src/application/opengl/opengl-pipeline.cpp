@@ -107,19 +107,10 @@ struct OpenGLPipeline::Internal
     void render(ast::OrthoCamera2D& camera, ast::TileMap& map) const
     {
         // -------------------------------- WORLD --------------------------------
-        const glm::mat4 identity = glm::mat4(1.f);
-        glm::mat4 cameraMatrix{camera.getViewMatrix() * camera.getProjectionMatrix()};
-        const glm::mat4 mvp = cameraMatrix * glm::translate(identity, glm::vec3(.0f, .0f, .0f));
-
-        /*  *
-                                          glm::rotate(identity, glm::radians(0.f), glm::vec3(0.f, 0.f, 1.f)) *
-                                          glm::scale(identity, glm::vec3(1.f));*/
-
         // Instruct OpenGL to starting using our shader program.
         glUseProgram(shaderProgramId);
-
-        // Populate the 'u_mvp' uniform in the shader program.
-        glUniformMatrix4fv(uniformLocationMVP, 1, GL_FALSE, &mvp[0][0]);
+        
+        glm::mat4 cameraMatrix{camera.getViewMatrix() * camera.getProjectionMatrix()};
 
         map.render(static_cast<unsigned int>(uniformLocationMVP), cameraMatrix);
 

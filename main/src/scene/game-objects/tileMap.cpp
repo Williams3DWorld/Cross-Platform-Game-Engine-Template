@@ -48,12 +48,17 @@ namespace ast
     }
     void TileMap::render(unsigned int matrix_location, glm::mat4 camera_matrix)
     {
+        const glm::mat4 identity = glm::mat4(1.f);
+        const glm::mat4 mvp = camera_matrix * glm::translate(identity, glm::vec3(.0f, .0f, .0f));
+
+        glUniformMatrix4fv(matrix_location, 1, GL_FALSE, &mvp[0][0]);
+
         for (auto const& layer : this->layers)
         {
-            layer.second->render();
+            layer.second->render(matrix_location, camera_matrix);
         }
         
-        this->player->render(static_cast<unsigned int>(matrix_location), camera_matrix);
+        this->player->render(matrix_location, camera_matrix);
     }
 
     TileMap::TileMap()
