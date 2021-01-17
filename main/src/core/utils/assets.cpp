@@ -6,6 +6,7 @@
 #include <sstream>
 #include <unordered_map>
 #include <vector>
+#include <iostream>
 
 std::string ast::assets::loadTextFile(const std::string& path)
 {

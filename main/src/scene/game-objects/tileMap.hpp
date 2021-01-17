@@ -15,8 +15,11 @@ namespace ast
         unsigned int height;
         std::unique_ptr<ast::Player> player;
 
+        //ast::OpenGLAssetManager* assetManager;
+
         std::map<unsigned int, std::shared_ptr<ast::Layer>> layers;
         std::vector<ast::CollisionRectangle> collisionRectangles;
+
     public:
         std::unique_ptr<ast::Player>& getPlayer();
         unsigned int& getWidth();
@@ -34,7 +37,7 @@ namespace ast
 
         TileMap();
         TileMap(unsigned int width, unsigned int height, std::map<unsigned int, 
-            std::shared_ptr<ast::Layer>>& layers, std::vector<ast::CollisionRectangle> collisionRectangles);
+            std::shared_ptr<ast::Layer>>& layers, std::vector<ast::CollisionRectangle>& collisionRectangles);
     };
 } // namespace ast
 

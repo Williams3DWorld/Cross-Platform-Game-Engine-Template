@@ -6,7 +6,6 @@
 #include "core/camera/ortho-camera-2d.hpp"
 #include "core/utils/tmx/map-parser.hpp"
 #include "global/player-settings.hpp"
-#include "application/opengl/opengl-asset-manager.hpp"
 #include "application/opengl/opengl-renderer.hpp"
 #include "scene/game-objects/tileMap.hpp"
 #include "scene/utils/layer-helper.hpp"

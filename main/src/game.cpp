@@ -31,7 +31,7 @@ namespace ast
 
     void Game::prepare(ast::OpenGLAssetManager& assetManager)
     {
-        assetManager.loadTextures({"buch-outdoor.png"});
+        assetManager.loadAssetsFromFile("assets/assets.xml");
         assetManager.loadTiledMap("multi-layer-chunk-test.tmx");
         assetManager.loadPipelines(assetManager);
     }

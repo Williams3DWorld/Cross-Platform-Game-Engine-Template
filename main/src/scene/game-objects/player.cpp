@@ -35,7 +35,7 @@ struct Player::Internal
 
 Player::Player(const glm::vec3& position) : internal(ast::make_internal_ptr<Internal>(position))
 {
-    this->spriteVertex = std::make_unique<SpriteVertex>(glm::vec3(-(0.5f * TILE_SIZE * TILE_SCALE), -(0.5f * TILE_SIZE * TILE_SCALE), .0f), .0f, 50.f);
+    this->spriteVertex = std::make_unique<SpriteVertex>(glm::vec3(-(0.5f * TILE_SIZE * TILE_SCALE), -(0.5f * TILE_SIZE * TILE_SCALE), .0f), .0f, 35.f);
 
     std::vector<float> vertexData(spriteVertex->vertexData.begin(), spriteVertex->vertexData.end());
     std::vector<unsigned int> indexData(spriteVertex->indexData.begin(), spriteVertex->indexData.end());
@@ -83,8 +83,8 @@ void Player::render(unsigned int& matrix_location,
 {
     const glm::mat4 identity = glm::mat4(1.f);
 
-    float pixelX = (internal->position.x + 1.0f) * 0.5 * ast::sdl::getDisplaySize().first;
-    float pixelY = (1.0f - internal->position.y) * 0.5 * ast::sdl::getDisplaySize().second;
+    float pixelX = (internal->position.x + 1.0f) * 0.5f * static_cast<float>(ast::sdl::getDisplaySize().first);
+    float pixelY = (1.0f - internal->position.y) * 0.5f * static_cast<float>(ast::sdl::getDisplaySize().second);
 
     const glm::mat4 mvp = matrix * glm::translate(identity, glm::vec3(pixelX, pixelY, internal->position.z));
     glUniformMatrix4fv(matrix_location, 1, GL_FALSE, &mvp[0][0]);

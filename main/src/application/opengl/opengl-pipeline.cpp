@@ -1,8 +1,6 @@
 #include "opengl-pipeline.hpp"
-#include "../../core/utils/assets.hpp"
 #include "../../core/utils/log.hpp"
 #include "../../global/tile-settings.hpp"
-#include "opengl-asset-manager.hpp"
 #include "../../core/audio/audioSystem.hpp"
 #include "../../../src/textrenderer.hpp"
 #include <stdexcept>
@@ -96,11 +94,9 @@ struct OpenGLPipeline::Internal
     Internal(const std::string& shaderName, ast::OpenGLAssetManager& assetManager)
         : shaderProgramId(::createShaderProgram(shaderName)),
           uniformLocationMVP(glGetUniformLocation(shaderProgramId, "u_mvp")),
-          uniformLocationTexture(glGetUniformLocation(shaderProgramId, "u_textures[0]"))
+          uniformLocationTexture(glGetUniformLocation(shaderProgramId, "u_texture"))
     {
-        // --------------- MAP TEST --------------------
         glUniform1i(uniformLocationTexture, 0);
-        // --------------- MAP TEST --------------------
     }
 
     // TODO: Parse a map object through this render function

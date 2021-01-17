@@ -13,11 +13,11 @@ namespace ast
 
         void loadAssetsFromFile(const char* fileURI);
         void loadPipelines(ast::OpenGLAssetManager& assetManager);
-        void loadTextures(const std::vector<std::string> textures);
+        void loadTextures(const std::string source, int id);
         void loadTiledMap(const std::string map);
 
         const ast::TiledMap& getTiledMap(std::string map) const;
-        const ast::OpenGLTexture& getTexture(std::string& texture) const;
+        const ast::OpenGLTexture& getTexture(int id) const;
         const ast::OpenGLPipeline& getPipeline();
 
     private:
