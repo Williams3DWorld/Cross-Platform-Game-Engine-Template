@@ -13,6 +13,7 @@ TextBlock::TextBlock(const std::string& text, glm::vec2 pos,
     float currentLineOffset = 0.f;
     float originalPosition = pos.x;
     int newLineOffset = 2;
+
     for (unsigned int i = 0; i < text.size(); ++i)
     {
         char glyph = text[i];
