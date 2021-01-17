@@ -78,12 +78,8 @@ void Player::moveRight(const float& delta)
    internal->moveRight(delta);
 }
 
-void Player::render(unsigned int& matrix_location, glm::mat4& matrix)
+void Player::render()
 {
-    glm::mat4 player_matrix = glm::mat4(1.f);
-    player_matrix = matrix * glm::translate(player_matrix, glm::vec3(internal->position.x, internal->position.y, internal->position.z));
-    glUniformMatrix4fv(matrix_location, 1, GL_FALSE, &player_matrix[0][0]);
-
     unsigned int id = 0;
     this->vbo->bind(id);
 }

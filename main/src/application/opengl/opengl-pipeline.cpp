@@ -1,5 +1,4 @@
 #include "opengl-pipeline.hpp"
-#include ".././../scene/game-objects/player.hpp"
 #include "../../core/utils/assets.hpp"
 #include "../../core/utils/log.hpp"
 #include "../../global/tile-settings.hpp"
@@ -93,7 +92,6 @@ struct OpenGLPipeline::Internal
 
     // TODO: Move map into a world class
     std::unique_ptr<ast::TileMap> map;
-    std::unique_ptr<Player> _player;
 
     Internal(const std::string& shaderName, ast::OpenGLAssetManager& assetManager)
         : shaderProgramId(::createShaderProgram(shaderName)),
@@ -103,12 +101,6 @@ struct OpenGLPipeline::Internal
         // --------------- MAP TEST --------------------
         glUniform1i(uniformLocationTexture, 0);
         // --------------- MAP TEST --------------------
-
-        this->_player = std::make_unique<Player>(glm::vec3(
-            ast::sdl::getDisplaySize().first / TILE_SCALE, 
-            ast::sdl::getDisplaySize().second / TILE_SCALE - TILE_SIZE, 
-            0.5
-        ));
     }
 
     // TODO: Parse a map object through this render function
@@ -117,8 +109,8 @@ struct OpenGLPipeline::Internal
         // -------------------------------- WORLD --------------------------------
         const glm::mat4 identity = glm::mat4(1.f);
         glm::mat4 cameraMatrix{camera.getViewMatrix() * camera.getProjectionMatrix()};
-        const glm::mat4 mvp = cameraMatrix *
-                              glm::translate(identity, glm::vec3(.0f, .0f, .0f));
+        const glm::mat4 mvp = cameraMatrix * glm::translate(identity, glm::vec3(.0f, .0f, .0f));
+
         /*  *
                                           glm::rotate(identity, glm::radians(0.f), glm::vec3(0.f, 0.f, 1.f)) *
                                           glm::scale(identity, glm::vec3(1.f));*/
@@ -133,7 +125,6 @@ struct OpenGLPipeline::Internal
         map.render();
 
         // -------------------------------- GUI --------------------------------
-        this->_player->render(static_cast<unsigned int>(uniformLocationMVP), cameraMatrix);
     }
 
     ~Internal()
