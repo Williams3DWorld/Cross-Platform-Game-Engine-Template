@@ -6,7 +6,7 @@ using ast::Player;
 
 struct Player::Internal
 {
-    const float moveSpeed{.4f};
+    const float moveSpeed{1.f};
     glm::vec3 position;
 
     Internal(const glm::vec3& position)
@@ -82,19 +82,14 @@ void Player::render(unsigned int& matrix_location,
                     glm::mat4 matrix)
 {
     const glm::mat4 identity = glm::mat4(1.f);
-    const float min = glm::min(static_cast<float>(ast::sdl::getDisplaySize().first), static_cast<float>(ast::sdl::getDisplaySize().second));
-    const float max = glm::max(static_cast<float>(ast::sdl::getDisplaySize().first), static_cast<float>(ast::sdl::getDisplaySize().second));
-    const float ratioX = max / min * TILE_SCALE;
-    const float ratioY = min / max * TILE_SCALE;
 
-    const float worldSpaceX = internal->position.x * ratioX * (TILE_SIZE * TILE_SCALE);
-    const float worldSpaceY = internal->position.y * ratioY * (TILE_SIZE * TILE_SCALE);
+    float pixelX = (internal->position.x + 1.0f) * 0.5 * ast::sdl::getDisplaySize().first;
+    float pixelY = (1.0f - internal->position.y) * 0.5 * ast::sdl::getDisplaySize().second;
 
-    const float pixelSpaceX = static_cast<float>(ast::sdl::getDisplaySize().first);
-    const glm::mat4 mvp = matrix * glm::translate(identity, glm::vec3(worldSpaceX, -worldSpaceY, internal->position.z));
+    std::cout << pixelX << " " << pixelY << std::endl;
+
+    const glm::mat4 mvp = matrix * glm::translate(identity, glm::vec3(pixelX, pixelY, internal->position.z));
     glUniformMatrix4fv(matrix_location, 1, GL_FALSE, &mvp[0][0]);
-
-    std::cout << "x " << this->internal->position.x << "\n";
 
     unsigned int id = 0; // temp
     this->vbo->bind(id);
