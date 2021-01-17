@@ -1,6 +1,7 @@
 #include "tileMap.hpp"
+#include "../../core/utils/assets.hpp"
+#include "../../global/player-settings.hpp"
 #include <iostream>
-
 
 namespace ast
 {
@@ -13,6 +14,11 @@ namespace ast
     {
         return this->height;
     }
+
+    std::unique_ptr<ast::Player>& TileMap::getPlayer() {
+        return this->player;
+    }
+
     std::map<unsigned int, std::shared_ptr<ast::Layer>> &TileMap::getLayers()
     {
         return this->layers;
@@ -40,12 +46,14 @@ namespace ast
             layer.second->update(dt);
         }
     }
-    void TileMap::render()
+    void TileMap::render(unsigned int matrix_location, glm::mat4 camera_matrix)
     {
         for (auto const& layer : this->layers)
         {
             layer.second->render();
         }
+        
+        this->player->render(static_cast<unsigned int>(matrix_location), camera_matrix);
     }
 
     TileMap::TileMap()
@@ -61,5 +69,10 @@ namespace ast
         this->height = height;
         this->layers = layers;
         this->collisionRectangles = collisionRectangles;
+
+        this->player = std::make_unique<ast::Player>(glm::vec3(
+            0.f,
+            0.f,
+            PLAYER_RADIUS));
     }
 } // namespace ast

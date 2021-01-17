@@ -52,9 +52,9 @@ void TextRenderer::loadFontSheet(const std::string& file)
     this->gltexture = new ast::OpenGLTexture(ast::assets::loadBitmap("assets/locale/" + file + ".png"));
 }
 
-void TextRenderer::render()
+void TextRenderer::render(unsigned int id)
 {
-    glActiveTexture(GL_TEXTURE2);
+    glActiveTexture(GL_TEXTURE+id);
     this->gltexture->bind();
 
     for (Uint16 i = 0; i < this->batches.size(); i++)

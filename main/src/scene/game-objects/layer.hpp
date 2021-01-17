@@ -22,7 +22,7 @@ namespace ast
         virtual void setParent(std::shared_ptr<GameObject> value) override {}
         virtual void addChild(std::shared_ptr<GameObject>& value) override {}
         virtual void update(float dt) override {}
-        virtual void render() override {}
+        virtual void render(unsigned int matrix_location = 0, glm::mat4 camera_matrix = glm::mat4(1.f)) override {}
 
         Layer() : _layerType(SPRITE_LAYER) {}
     };

@@ -41,7 +41,7 @@ namespace ast
         virtual void setParent(std::shared_ptr<GameObject> value) override;
         virtual void addChild(std::shared_ptr<GameObject>& value) override;
         virtual void update(float dt) override {}
-        virtual void render() = 0;
+        virtual void render(unsigned int matrix_location = 0, glm::mat4 camera_matrix = glm::mat4(1.f)) = 0;
 
         TransformObject();
         TransformObject(const char* name, glm::vec3 position, bool updatable);

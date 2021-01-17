@@ -2,6 +2,7 @@
 #define __TILE_MAP_H__
 
 #include "layer.hpp"
+#include "../../scene/game-objects/player.hpp"
 #include "../../scene/structs/MapObjectData.hpp"
 #include <map>
 
@@ -12,10 +13,12 @@ namespace ast
     private:
         unsigned int width;
         unsigned int height;
+        std::unique_ptr<ast::Player> player;
 
         std::map<unsigned int, std::shared_ptr<ast::Layer>> layers;
         std::vector<ast::CollisionRectangle> collisionRectangles;
     public:
+        std::unique_ptr<ast::Player>& getPlayer();
         unsigned int& getWidth();
         unsigned int& getHeight();
         std::map<unsigned int, std::shared_ptr<ast::Layer>> &getLayers();
@@ -27,7 +30,7 @@ namespace ast
         virtual void setParent(std::shared_ptr<GameObject> value) override {}
         virtual void addChild(std::shared_ptr<GameObject>& value) override {}
         virtual void update(float dt) override;
-        virtual void render() override;
+        virtual void render(unsigned int matrix_location = 0, glm::mat4 camera_matrix = glm::mat4(1.f)) override;
 
         TileMap();
         TileMap(unsigned int width, unsigned int height, std::map<unsigned int, 

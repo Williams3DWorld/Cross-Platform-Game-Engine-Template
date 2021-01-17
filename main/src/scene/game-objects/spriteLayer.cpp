@@ -39,7 +39,7 @@ namespace ast
             std::dynamic_pointer_cast<Sprite>(object.second)->update(dt);
     }
 
-    void SpriteLayer::render()
+    void SpriteLayer::render(unsigned int matrix_location, glm::mat4 camera_matrix)
     {
         this->vbo->bind(this->textureID);
     }

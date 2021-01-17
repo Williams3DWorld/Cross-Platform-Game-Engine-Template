@@ -115,14 +115,13 @@ struct OpenGLPipeline::Internal
                                           glm::rotate(identity, glm::radians(0.f), glm::vec3(0.f, 0.f, 1.f)) *
                                           glm::scale(identity, glm::vec3(1.f));*/
 
-
         // Instruct OpenGL to starting using our shader program.
         glUseProgram(shaderProgramId);
 
         // Populate the 'u_mvp' uniform in the shader program.
         glUniformMatrix4fv(uniformLocationMVP, 1, GL_FALSE, &mvp[0][0]);
 
-        map.render();
+        map.render(static_cast<unsigned int>(uniformLocationMVP), cameraMatrix);
 
         // -------------------------------- GUI --------------------------------
     }

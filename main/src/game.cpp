@@ -6,8 +6,7 @@ namespace ast
     {
         this->_keyboardState = SDL_GetKeyboardState(nullptr);
         this->_camera = std::make_unique<OrthoCamera2D>(screenWidth, screenHeight);
-        this->_player = std::make_unique<Player>(glm::vec3(.0f, .0f, -PLAYER_RADIUS));
-        
+
         this->prepare(assetManager);
 
         // TEMP!
@@ -40,24 +39,19 @@ namespace ast
     void Game::processInput(float dt)
     {
         if (this->_keyboardState[SDL_SCANCODE_W])
-            this->_player->moveUp(dt);
+            this->_map->getPlayer()->moveUp(dt);
         if (this->_keyboardState[SDL_SCANCODE_S])
-            this->_player->moveDown(dt);
+            this->_map->getPlayer()->moveDown(dt);
         if (this->_keyboardState[SDL_SCANCODE_A])
-            this->_player->moveLeft(dt);
+            this->_map->getPlayer()->moveLeft(dt);
         if (this->_keyboardState[SDL_SCANCODE_D])
-            this->_player->moveRight(dt);
+            this->_map->getPlayer()->moveRight(dt);
     }
 
     void Game::update(float dt)
     {
         this->processInput(dt);
-        this->_camera->configure(this->_player->getPosition());
-    }
-
-    void Game::render()
-    {
-        this->_map->render();
+        this->_camera->configure(this->_map->getPlayer()->getPosition());
     }
 
 } // namespace ast

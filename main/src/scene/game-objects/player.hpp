@@ -16,7 +16,7 @@ namespace ast
         void moveDown(const float& delta);
         void moveLeft(const float& delta);
         void moveRight(const float& delta);
-        void render();
+        void render(unsigned int & matrix_location, glm::mat4 matrix);
 
         glm::vec3 getPosition() const;
     private:

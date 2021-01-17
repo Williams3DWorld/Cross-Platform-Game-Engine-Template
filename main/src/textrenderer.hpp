@@ -58,6 +58,6 @@ namespace ast
 
         void loadFontSheet(const std::string& file);
         void addText(const std::string& text, glm::vec2 pos, glm::vec3 col, float size);
-        void render();
+        void render(unsigned int id);
     };
 }
