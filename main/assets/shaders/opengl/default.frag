@@ -1,5 +1,3 @@
-#define MAX_TEXTURES 	4
-
 // NEEDS TO BE CONVERTED INTO UNIFORM DATA!
 #define TILE_SIZE 		16 	
 #define NUM_TILES 		72.0f

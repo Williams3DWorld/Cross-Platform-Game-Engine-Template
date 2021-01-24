@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.4" tiledversion="1.4.1" orientation="orthogonal" renderorder="right-down" width="12" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="11">
  <editorsettings>
+  <chunksize width="4" height="4"/>
   <export target="multi-texture-test.tmx" format="tmx"/>
  </editorsettings>
  <tileset firstgid="1" source="buch-outdoor.tsx"/>
  <tileset firstgid="73" source="buch-outdoor2.tsx"/>
- <layer id="2" name="Foreground" width="12" height="12">
+ <layer id="1" name="Foreground" width="12" height="12">
   <data encoding="csv">
 73,74,75,76,77,78,1,2,3,4,5,6,
 79,80,81,82,83,84,7,8,9,10,11,12,
@@ -21,12 +22,4 @@
 67,68,69,70,71,72,103,104,105,106,107,108
 </data>
  </layer>
- <objectgroup id="3" name="PlayerSpawn">
-  <object id="5" name="PlayerSpawn" x="48" y="144">
-   <ellipse/>
-  </object>
- </objectgroup>
- <objectgroup id="5" name="Collisions">
-  <object id="10" x="160" y="0" width="32" height="192"/>
- </objectgroup>
 </map>

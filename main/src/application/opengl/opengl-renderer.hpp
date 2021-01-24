@@ -8,12 +8,9 @@ namespace ast
 {
     struct OpenGLRenderer
     {
-        OpenGLRenderer(std::shared_ptr<ast::OpenGLAssetManager> assetManager);
+    public:
+        OpenGLRenderer() {}
 
         void render(ast::OrthoCamera2D& camera, ast::TileMap& map);
-
-    private:
-        struct Internal;
-        ast::internal_ptr<Internal> internal;
     };
 } // namespace ast

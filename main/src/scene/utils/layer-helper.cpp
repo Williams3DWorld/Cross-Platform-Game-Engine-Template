@@ -30,8 +30,7 @@ namespace ast
 
     std::shared_ptr<ast::SpriteLayer> LayerHelper::createSpriteLayerFromTiledLayer(ast::TiledLayer& tilelayer)
     {
-        // TODO: Assign correct layer name and textureID
-        auto res = std::make_shared<ast::SpriteLayer>("layer", tilelayer.id, glm::vec3(.0f), 0, true);
+        auto res = std::make_shared<ast::SpriteLayer>("layer", tilelayer.id, glm::vec3(.0f), tilelayer.texID, true);
 
         std::vector<float> vertexData;
         std::vector<unsigned int> indexData;

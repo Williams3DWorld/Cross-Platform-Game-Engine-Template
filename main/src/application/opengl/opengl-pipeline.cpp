@@ -91,7 +91,7 @@ struct OpenGLPipeline::Internal
     // TODO: Move map into a world class
     std::unique_ptr<ast::TileMap> map;
 
-    Internal(const std::string& shaderName, ast::OpenGLAssetManager& assetManager)
+    Internal(const std::string& shaderName)
         : shaderProgramId(::createShaderProgram(shaderName)),
           uniformLocationMVP(glGetUniformLocation(shaderProgramId, "u_mvp")),
           uniformLocationTexture(glGetUniformLocation(shaderProgramId, "u_texture"))
@@ -119,8 +119,8 @@ struct OpenGLPipeline::Internal
     }
 };
 
-OpenGLPipeline::OpenGLPipeline(const std::string& shaderName, ast::OpenGLAssetManager& assetManager)
-    : internal(ast::make_internal_ptr<Internal>(shaderName, assetManager)) {}
+OpenGLPipeline::OpenGLPipeline(const std::string& shaderName)
+    : internal(ast::make_internal_ptr<Internal>(shaderName)) {}
 
 void OpenGLPipeline::render(ast::OrthoCamera2D& camera, ast::TileMap& map) const
 {

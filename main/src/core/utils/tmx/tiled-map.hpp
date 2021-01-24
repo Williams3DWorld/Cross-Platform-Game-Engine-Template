@@ -33,10 +33,11 @@ namespace ast
         unsigned int id;
         unsigned int width;
         unsigned int height;
+        unsigned int texID;
 
         std::vector<unsigned int> tileIDs;
 
-        TiledLayer(unsigned int id, unsigned int width, unsigned int height, std::vector<unsigned int> tileIDs) : id(id), width(width), height(height), tileIDs(tileIDs) {}
+        TiledLayer(unsigned int id, unsigned int width, unsigned int height, unsigned int texID, std::vector<unsigned int> tileIDs) : id(id), width(width), height(height), tileIDs(tileIDs), texID(texID) {}
     };
 
     struct TiledObject 

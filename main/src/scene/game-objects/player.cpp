@@ -1,6 +1,7 @@
 #include "player.hpp"
 #include "../../core/utils/sdl-wrapper.hpp"
 #include <iostream>
+#include "../../application/opengl/opengl-asset-manager.hpp"
 
 using ast::Player;
 
@@ -89,6 +90,6 @@ void Player::render(unsigned int& matrix_location,
     const glm::mat4 mvp = matrix * glm::translate(identity, glm::vec3(pixelX, pixelY, internal->position.z));
     glUniformMatrix4fv(matrix_location, 1, GL_FALSE, &mvp[0][0]);
 
-    unsigned int id = 0; // temp
-    this->vbo->bind(id);
+    OpenGLAssetManager::get().getTexture(0).bind(); // TEMP TEX ID
+    this->vbo->bind();
 }

@@ -33,7 +33,7 @@ namespace ast
 
     public:
         void create(std::vector<float>& vertexData, std::vector<unsigned int>& indexData, Attribute& attributeData);
-        void bind(unsigned int& textureID);
+        void bind();
         void updateSubBufferData(GLintptr offset, GLsizeiptr size, const void* data);
 
         OpenGLBatch(std::vector<float>& vertexData, std::vector<unsigned int>& indexData, Attribute& attributeData);

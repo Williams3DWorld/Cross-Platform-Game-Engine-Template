@@ -8,6 +8,7 @@ namespace ast
 {
     struct OpenGLTexture
     {
+        OpenGLTexture() = default;
         OpenGLTexture(const ast::Bitmap& bitmap);
 
         const GLuint getID();

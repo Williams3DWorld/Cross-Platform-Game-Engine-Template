@@ -7,18 +7,22 @@
 
 namespace ast
 {
-    struct OpenGLAssetManager
+    class OpenGLAssetManager
     {
+    public:
+
         OpenGLAssetManager();
+        static OpenGLAssetManager& get();
 
         void loadAssetsFromFile(const char* fileURI);
-        void loadPipelines(ast::OpenGLAssetManager& assetManager);
+        void loadPipelines();
         void loadTextures(const std::string source, int id);
         void loadTiledMap(const std::string map);
 
         const ast::TiledMap& getTiledMap(std::string map) const;
         const ast::OpenGLTexture& getTexture(int id) const;
         const ast::OpenGLPipeline& getPipeline();
+
 
     private:
         struct Internal;

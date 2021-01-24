@@ -38,9 +38,8 @@ namespace ast
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * this->indexData.size(), this->indexData.data(), GL_DYNAMIC_DRAW);
     }
 
-    void OpenGLBatch::bind(unsigned int& textureID)
+    void OpenGLBatch::bind()
     {
-        glActiveTexture(GL_TEXTURE0 + textureID);
         glBindVertexArray(this->vao);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ibo);
         glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(this->indexData.size()), GL_UNSIGNED_INT, 0);

@@ -43,22 +43,17 @@ namespace
         return context;
     }
 
-    std::shared_ptr<ast::OpenGLAssetManager> createAssetManager()
+    ast::OpenGLRenderer createRenderer()
     {
-        return std::make_shared<ast::OpenGLAssetManager>(ast::OpenGLAssetManager());
+        return ast::OpenGLRenderer();
     }
 
-    ast::OpenGLRenderer createRenderer(std::shared_ptr<ast::OpenGLAssetManager> assetManager)
-    {
-        return ast::OpenGLRenderer(assetManager);
-    }
-
-    std::unique_ptr<ast::Game> createGame(std::shared_ptr<ast::OpenGLAssetManager> assetManager)
+    std::unique_ptr<ast::Game> createGame()
     {
         std::pair<uint32_t, uint32_t> displaySize{ast::sdl::getDisplaySize()};
         auto screenWidth = static_cast<float>(displaySize.first);
         auto screenHeight = static_cast<float>(displaySize.second);
-        return std::make_unique<ast::Game>(screenWidth, screenHeight, *assetManager);
+        return std::make_unique<ast::Game>(screenWidth, screenHeight);
     }
 
 } // namespace
@@ -67,15 +62,13 @@ struct OpenGLApplication::Internal
 {
     SDL_Window* window;
     SDL_GLContext context;
-    const std::shared_ptr<ast::OpenGLAssetManager> assetManager;
     ast::OpenGLRenderer renderer;
     std::unique_ptr<ast::Game> game;
 
     Internal() : window(ast::sdl::createWindow(SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI)),
                  context(::createContext(window)),
-                 assetManager(::createAssetManager()),
-                 renderer(::createRenderer(assetManager)),
-                 game(::createGame(assetManager))
+                 renderer(::createRenderer()),
+                 game(::createGame())
                 {
     }
 

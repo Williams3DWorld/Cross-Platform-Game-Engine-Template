@@ -65,7 +65,7 @@ ast::TiledMap MapParser::parse(std::string file)
             e->Attribute("width", &width);
             e->Attribute("height", &height);
 
-            tiledMap.layers.emplace_back(ast::TiledLayer(static_cast<unsigned int>(id), static_cast<unsigned int>(width), static_cast<unsigned int>(height), {}));
+            tiledMap.layers.emplace_back(ast::TiledLayer(static_cast<unsigned int>(id), static_cast<unsigned int>(width), static_cast<unsigned int>(height), 0, {}));
             tiledMap.layers[tiledMap.layers.size() - 1].tileIDs = this->getLayerTileData(e, width, height);
         }
         else if (e->Value() == std::string("tileset"))
@@ -89,11 +89,11 @@ ast::TiledMap MapParser::parse(std::string file)
         }
     }
 
-    std::sort(
-        tiledMap.layers.begin(), tiledMap.layers.end(), [](ast::TiledLayer& a, ast::TiledLayer& b) { return a.id > b.id; });
-
     auto tilesets = this->parseTilesetData(tiledMap.tilesets);
     tiledMap.layers = this->separateMultiTextureLayers(tiledMap, tilesets);
+
+    std::sort(
+        tiledMap.layers.begin(), tiledMap.layers.end(), [](ast::TiledLayer& a, ast::TiledLayer& b) { return a.id < b.id; });
 
     delete root;
 
@@ -138,7 +138,7 @@ std::vector<unsigned int> MapParser::getLayerTileData(TiXmlElement* root, unsign
 std::vector<ast::TiledObject> MapParser::getLayerObjectData(TiXmlElement* root, int id)
 {
     std::vector<ast::TiledObject> tiledObjects;
-    TiXmlElement* objectGroupElement;
+    //TiXmlElement* objectGroupElement;
 
     for (TiXmlElement* e = root->FirstChildElement(); e != nullptr; e = e->NextSiblingElement())
     {
@@ -247,13 +247,16 @@ std::vector<ast::TiledLayer> ast::MapParser::separateMultiTextureLayers(ast::Til
                     auto newTileID = tileID - (fromToData[k].to - fromToData[k].from);
                     if (uniqueLayerIDs.find(tiledLayer.id) != uniqueLayerIDs.end())
                     {
+                        std::cout << "Assigning tile to existing layer!\n";
                         auto existingID = uniqueLayerIDs[tiledLayer.id];
                         res[existingID].tileIDs[j] = newTileID;
                     }
                     else
                     {
+                        std::cout << "Creating a UNIQUE layer!\n";
+                        auto uniqueTextureID = res.size();
                         std::vector<unsigned int> emptyLayer(tiledLayer.tileIDs.size(), 0);
-                        auto newLayer = ast::TiledLayer(currentLayerID, tiledLayer.width, tiledLayer.height, emptyLayer);
+                        auto newLayer = ast::TiledLayer(currentLayerID, tiledLayer.width, tiledLayer.height, static_cast<unsigned int>(uniqueTextureID), emptyLayer);
                         newLayer.tileIDs[j] = newTileID;
                         uniqueLayerIDs[tiledLayer.id] = i;
                         res.emplace_back(newLayer);
@@ -261,6 +264,16 @@ std::vector<ast::TiledLayer> ast::MapParser::separateMultiTextureLayers(ast::Til
                 }
             }
         }
+    }
+
+    for (auto i = 0; i < res.size(); i++)
+    {
+        std::cout << i << "\n";
+
+        /*for (auto j = 0; i < res[i].tileIDs.size(); j++)
+        {
+            std::cout << res[i].tileIDs[j] << " ";
+        }*/
     }
 
     return res;

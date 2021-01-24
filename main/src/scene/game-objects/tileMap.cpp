@@ -56,7 +56,6 @@ namespace ast
         for (auto const& layer : this->layers)
         {
             auto layerObject = std::dynamic_pointer_cast<SpriteLayer>(layer.second);
-            auto textureID = layerObject->getTextureID();
             layer.second->render(matrix_location, camera_matrix);
         }
 

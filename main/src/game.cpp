@@ -2,15 +2,15 @@
 
 namespace ast
 {
-    Game::Game(float& screenWidth, float& screenHeight, ast::OpenGLAssetManager& assetManager)
+    Game::Game(float& screenWidth, float& screenHeight)
     {
         this->_keyboardState = SDL_GetKeyboardState(nullptr);
         this->_camera = std::make_unique<OrthoCamera2D>(screenWidth, screenHeight);
 
-        this->prepare(assetManager);
+        this->prepare();
 
         // TEMP!
-        auto tiledMap = assetManager.getTiledMap("multi-layer-chunk-test.tmx");
+        auto tiledMap = ast::OpenGLAssetManager::get().getTiledMap("multi-layer-chunk-test.tmx");
         auto spriteLayers = ast::LayerHelper::createSpriteLayersFromTiledMap(tiledMap);
         auto collisionData = ast::LayerHelper::createCollisionDataFromTiledLayer(tiledMap);
         std::map<unsigned int, std::shared_ptr<Layer>> layerData;
@@ -29,11 +29,11 @@ namespace ast
         return this->_map;
     }
 
-    void Game::prepare(ast::OpenGLAssetManager& assetManager)
+    void Game::prepare()
     {
-        assetManager.loadAssetsFromFile("assets/assets.xml");
-        assetManager.loadTiledMap("multi-layer-chunk-test.tmx");
-        assetManager.loadPipelines(assetManager);
+        ast::OpenGLAssetManager::get().loadAssetsFromFile("assets/assets.xml");
+        ast::OpenGLAssetManager::get().loadTiledMap("multi-layer-chunk-test.tmx");
+        ast::OpenGLAssetManager::get().loadPipelines();
     }
 
     void Game::processInput(float dt)

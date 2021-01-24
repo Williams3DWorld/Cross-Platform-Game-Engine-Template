@@ -1,5 +1,6 @@
 #include "spriteLayer.hpp"
 #include <iostream>
+#include "../../application/opengl/opengl-asset-manager.hpp"
 
 namespace ast
 {
@@ -41,7 +42,8 @@ namespace ast
 
     void SpriteLayer::render(unsigned int matrix_location, glm::mat4 camera_matrix)
     {
-        this->vbo->bind(this->textureID);
+        OpenGLAssetManager::get().getTexture(0).bind();
+        this->vbo->bind();
     }
 
     SpriteLayer::SpriteLayer(const char* name, unsigned int id, glm::vec3 position, unsigned int textureID, bool updatable)

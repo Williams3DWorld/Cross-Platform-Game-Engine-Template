@@ -23,12 +23,12 @@ namespace ast
         const uint8_t*                          _keyboardState;
     
     public:
-        Game(float& screenWidth, float& screenHeight, ast::OpenGLAssetManager& assetManager);
+        Game(float& screenWidth, float& screenHeight);
 
         std::unique_ptr<ast::TileMap>&          getMap();
         std::unique_ptr<ast::OrthoCamera2D>&    getCamera();
 
-        void prepare(ast::OpenGLAssetManager& assetManager);
+        void prepare();
         void processInput(float dt);
         void update(float dt);
     };
