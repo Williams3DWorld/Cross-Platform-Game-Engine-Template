@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <assets>
  <textures>
-  <texture id="0" source="assets/textures/buch-outdoor.png" width="96" height="96"/>
-  <texture id="1" source="assets/textures/buch-outdoor2.png" width="96" height="192"/>
+  <texture id="0" source="assets/textures/buch-outdoor2.png" width="96" height="96"/>
+  <texture id="1" source="assets/textures/buch-outdoor.png" width="96" height="192"/>
  </textures>
 </assets>

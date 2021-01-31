@@ -42,7 +42,7 @@ namespace ast
 
     void SpriteLayer::render(unsigned int matrix_location, glm::mat4 camera_matrix)
     {
-        OpenGLAssetManager::get().getTexture(0).bind();
+        OpenGLAssetManager::get().getTexture(this->_id).bind();
         this->vbo->bind();
     }
 
@@ -51,6 +51,7 @@ namespace ast
         this->_type = LAYER;
         this->_name = name;
         this->_layerID = id;
+        this->_id = id;
         this->textureID = textureID;
     }
 } // namespace ast

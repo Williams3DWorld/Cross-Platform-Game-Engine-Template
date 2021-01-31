@@ -32,7 +32,9 @@ namespace ast
     {
         auto res = std::make_shared<ast::SpriteLayer>("layer", tilelayer.id, glm::vec3(.0f), tilelayer.texID, true);
 
-        std::vector<float> vertexData;
+        std::cout << "id: " << tilelayer.id << "\n";
+
+        std::vector<float> vertexData;;
         std::vector<unsigned int> indexData;
         auto offset = glm::vec3(.0f);
         auto numSprites = 0;

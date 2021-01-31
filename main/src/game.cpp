@@ -10,13 +10,17 @@ namespace ast
         this->prepare();
 
         // TEMP!
-        auto tiledMap = ast::OpenGLAssetManager::get().getTiledMap("multi-layer-chunk-test.tmx");
+        auto tiledMap = ast::OpenGLAssetManager::get().getTiledMap("multi-texture-test.tmx");
         auto spriteLayers = ast::LayerHelper::createSpriteLayersFromTiledMap(tiledMap);
         auto collisionData = ast::LayerHelper::createCollisionDataFromTiledLayer(tiledMap);
         std::map<unsigned int, std::shared_ptr<Layer>> layerData;
-        for (auto const& layer : spriteLayers)
-            layerData[layer->getLayerID()] = layer;
+        for (auto i = 0; i < spriteLayers.size(); i++)
+        {
+            layerData[i] = spriteLayers[i];
+        }
         this->_map = std::make_unique<TileMap>(0, 0, layerData, collisionData);
+
+
     }
 
     std::unique_ptr<ast::OrthoCamera2D>& Game::getCamera()
@@ -32,7 +36,7 @@ namespace ast
     void Game::prepare()
     {
         ast::OpenGLAssetManager::get().loadAssetsFromFile("assets/assets.xml");
-        ast::OpenGLAssetManager::get().loadTiledMap("multi-layer-chunk-test.tmx");
+        ast::OpenGLAssetManager::get().loadTiledMap("multi-texture-test.tmx");
         ast::OpenGLAssetManager::get().loadPipelines();
     }
 

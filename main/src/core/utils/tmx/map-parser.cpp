@@ -207,73 +207,72 @@ std::vector<ast::TiledLayer> ast::MapParser::separateMultiTextureLayers(ast::Til
     {
         int from;
         int to;
+        int id;
 
-        FromTo(int f, int t) {
+        FromTo(int f, int t, int id)
+        {
             from = f;
             to = t;
+            id = id;
         }
     };
 
-    auto containsID = [](int tileID, int from, int to) {
-        return (tileID >= from && tileID < to);
-    };
-
-    auto gidOffset = 0;
+    auto gidOffsetFrom = 0;
+    auto gidOffsetTo = 0;
     std::vector<unsigned int> gidOffsetData;
     std::vector<FromTo> fromToData;
     std::map<int, int> uniqueLayerIDs;
-    const auto currentLayerID = map.layers[map.layers.size() - 1].id;
 
     for (auto const& tileset : map.tilesets)
         gidOffsetData.emplace_back(tileset.first);
-    
+
     for (auto i = 0; i < tilesets.size(); i++)
     {
         auto tileset = tilesets[0];
-        fromToData.emplace_back(FromTo(gidOffset, tileset.tileCount));
-        gidOffset += tileset.tileCount;
+        gidOffsetTo += tileset.tileCount;
+        fromToData.emplace_back(FromTo(gidOffsetFrom, gidOffsetTo, i));
+        gidOffsetFrom += tileset.tileCount;
     }
 
     for (auto i = 0; i < map.layers.size(); ++i)
     {
         auto tiledLayer = map.layers[i];
+        auto currentLayerID = tiledLayer.id - 1;
         for (auto j = 0; j < map.layers[i].tileIDs.size(); ++j)
         {
             auto tileID = map.layers[i].tileIDs[j];
+            //std::cout << "tile id: " << tileID << "\n";
             for (auto k = 0; k < fromToData.size(); ++k) // TODO: Store texture ids using k!
             {
-                if (containsID(tileID, fromToData[k].from, fromToData[k].to))
+                if (tileID > fromToData[k].from && tileID < fromToData[k].to + 1)
                 {
-                    auto newTileID = tileID - (fromToData[k].to - fromToData[k].from);
-                    if (uniqueLayerIDs.find(tiledLayer.id) != uniqueLayerIDs.end())
+                    auto newTileID = tileID % (fromToData[k].to - fromToData[k].from);
+                    if (newTileID == 0 && tileID == fromToData[k].to)
+                        newTileID = fromToData[k].to;
+
+                   // std::cout << "new tile id: " << newTileID << "\n";
+                    if (uniqueLayerIDs.find(k) != uniqueLayerIDs.end())
                     {
-                        std::cout << "Assigning tile to existing layer!\n";
-                        auto existingID = uniqueLayerIDs[tiledLayer.id];
-                        res[existingID].tileIDs[j] = newTileID;
+                        auto uniqueLayerID = uniqueLayerIDs[k];
+                        //std::cout << "Existing layer id: " << uniqueLayerID << "\n";
+                        res[uniqueLayerID].tileIDs[j] = newTileID;
                     }
                     else
                     {
-                        std::cout << "Creating a UNIQUE layer!\n";
-                        auto uniqueTextureID = res.size();
+                        //std::cout << "Creating a UNIQUE layer id: " << currentLayerID << "\n";
                         std::vector<unsigned int> emptyLayer(tiledLayer.tileIDs.size(), 0);
-                        auto newLayer = ast::TiledLayer(currentLayerID, tiledLayer.width, tiledLayer.height, static_cast<unsigned int>(uniqueTextureID), emptyLayer);
+                        auto textureID = k; // TEMP
+                        auto newLayer = ast::TiledLayer(currentLayerID, tiledLayer.width, tiledLayer.height, static_cast<unsigned int>(textureID), emptyLayer);
+                        currentLayerID++;
                         newLayer.tileIDs[j] = newTileID;
-                        uniqueLayerIDs[tiledLayer.id] = i;
+                        uniqueLayerIDs[k] = uniqueLayerIDs.size();
                         res.emplace_back(newLayer);
                     }
                 }
             }
         }
-    }
 
-    for (auto i = 0; i < res.size(); i++)
-    {
-        std::cout << i << "\n";
-
-        /*for (auto j = 0; i < res[i].tileIDs.size(); j++)
-        {
-            std::cout << res[i].tileIDs[j] << " ";
-        }*/
+        std::cout << "layer count: " << res.size() << "\n";
     }
 
     return res;
