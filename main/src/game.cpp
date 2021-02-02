@@ -12,6 +12,7 @@ namespace ast
         this->prepare();
 
         // TEMP!
+        auto tiledMap = ast::OpenGLAssetManager::get().getTiledMap("multi-texture-test.tmx");
         auto spriteLayers = ast::LayerHelper::createSpriteLayersFromTiledMap(tiledMap);
         this->_collisions = ast::LayerHelper::createCollisionDataFromTiledLayer(tiledMap);
 

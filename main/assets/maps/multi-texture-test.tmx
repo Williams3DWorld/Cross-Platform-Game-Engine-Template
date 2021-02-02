@@ -22,12 +22,8 @@
 67,68,69,70,71,72,103,104,105,106,107,108
 </data>
  </layer>
+  <objectgroup id="5" name="Collisions">
+  <object id="10" x="704" y="0" width="64" height="64"/>
+ </objectgroup>
 </map>
 
-
-
-0-10
-10-20
-20-30
-
-var test = 0 >

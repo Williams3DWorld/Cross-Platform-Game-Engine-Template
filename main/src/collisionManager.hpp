@@ -10,10 +10,7 @@
 #include "../src/scene/game-objects/player.hpp"
 #include "../src/scene/structs/MapObjectData.hpp"
 
-#define PI 3.14159265
-#define SEMICIRCLE 180.f
-#define RIGHTANGLE 90.f
-#define ELIPSOID 200.f
+#define RADI 200.f
 
 namespace ast
 {
@@ -39,8 +36,9 @@ namespace ast
             float deltaY = otherPosition.y - thisPosition.y;
             float intersectX = abs(deltaX) - (otherHalfSize.x + thisHalfSize.x);
             float intersectY = abs(deltaY) - (otherHalfSize.y + thisHalfSize.y);
+            float distanceToCollision = glm::distance(glm::vec2(a.x, a.y), glm::vec2(b.x, b.y));
 
-            if (intersectX < 0.0f && intersectY < 0.0f)
+            if (intersectX < 0.0f && intersectY < 0.0f && distanceToCollision < RADI)
             {
                 if (intersectX > intersectY)
                 {
