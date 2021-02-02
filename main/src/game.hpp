@@ -22,6 +22,7 @@ namespace ast
         std::unique_ptr<ast::TileMap>           _map;
         const uint8_t*                          _keyboardState;
     
+        std::vector<ast::CollisionRectangle>    _collisions;
     public:
         Game(float& screenWidth, float& screenHeight);
 

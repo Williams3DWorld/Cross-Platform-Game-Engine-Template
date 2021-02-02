@@ -1,5 +1,7 @@
 #include "game.hpp"
 
+#include "collisionManager.hpp"
+
 namespace ast
 {
     Game::Game(float& screenWidth, float& screenHeight)
@@ -12,11 +14,13 @@ namespace ast
         // TEMP!
         auto tiledMap = ast::OpenGLAssetManager::get().getTiledMap("multi-layer-chunk-test.tmx");
         auto spriteLayers = ast::LayerHelper::createSpriteLayersFromTiledMap(tiledMap);
-        auto collisionData = ast::LayerHelper::createCollisionDataFromTiledLayer(tiledMap);
+        this->_collisions = ast::LayerHelper::createCollisionDataFromTiledLayer(tiledMap);
+
         std::map<unsigned int, std::shared_ptr<Layer>> layerData;
         for (auto const& layer : spriteLayers)
             layerData[layer->getLayerID()] = layer;
-        this->_map = std::make_unique<TileMap>(0, 0, layerData, collisionData);
+
+        this->_map = std::make_unique<TileMap>(0, 0, layerData, this->_collisions);
     }
 
     std::unique_ptr<ast::OrthoCamera2D>& Game::getCamera()
@@ -52,6 +56,10 @@ namespace ast
     {
         this->processInput(dt);
         this->_camera->configure(this->_map->getPlayer()->getPosition());
+
+        for (auto i = 0; i < this->_collisions.size(); ++i) {
+            ast::CollisionManager::get().evalulateCollision(*this->_map->getPlayer(), *this->_map->getPlayer()->collisionRectangle, this->_collisions[i], dt);
+        }
     }
 
 } // namespace ast
