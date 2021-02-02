@@ -6,9 +6,14 @@ namespace ast
 {
     struct CollisionRectangle
     {
-        int x, y = NULL;
-        int width, height = NULL;
+        float x, y = NULL;
+        float width, height = NULL;
 
-        CollisionRectangle(int x, int y, int width, int height) : x(x), y(y), width(width), height(height) {}
+        void updatePosition(float x, float y) {
+            this->x = x;
+            this->y = y;
+        }
+
+        CollisionRectangle(float x, float y, float width, float height) : x(x), y(y), width(width), height(height) {}
     };
 } 
