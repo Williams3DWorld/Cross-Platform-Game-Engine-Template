@@ -1,6 +1,6 @@
 #include "game.hpp"
 
-#include "collisionManager.hpp"
+#include "../src/scene/collisionManager.hpp"
 
 namespace ast
 {

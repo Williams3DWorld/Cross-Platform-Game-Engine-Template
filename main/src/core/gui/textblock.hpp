@@ -7,9 +7,9 @@
 #include <unordered_map>
 #include <glm/glm.hpp>
 
-#include "../src/application/opengl/opengl-texture.hpp"
-#include "../src/application/opengl/opengl-batch.hpp"
-#include "../src/core/utils/assets.hpp"
+#include "../../application/opengl/opengl-texture.hpp"
+#include "../../application/opengl/opengl-batch.hpp"
+#include "../../core/utils/assets.hpp"
 
 namespace ast
 {

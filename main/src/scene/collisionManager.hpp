@@ -24,8 +24,7 @@ namespace ast
             return collisionManager;
         }
 
-        inline bool evalulateCollision(ast::Player& player, ast::CollisionRectangle& a, ast::CollisionRectangle& b, float dt)
-        {
+        inline bool evalulateCollision(ast::Player& player, ast::CollisionRectangle& a, ast::CollisionRectangle& b, float dt) {
             glm::vec2 otherPosition = glm::vec2(b.x + (b.width / 2), b.y + (b.height / 2));
             glm::vec2 otherHalfSize = glm::vec2(b.width / 2, b.height / 2);
 
@@ -46,12 +45,12 @@ namespace ast
                     {
                         player.moveRight(intersectX * 1.0f * dt);
                     }
-                    else 
+                    else
                     {
                         player.moveRight(-intersectX * 1.0f * dt);
                     }
                 }
-                else 
+                else
                 {
                     if (deltaY > 0.0f)
                     {

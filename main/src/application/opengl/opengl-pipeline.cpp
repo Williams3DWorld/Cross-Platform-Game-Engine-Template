@@ -2,7 +2,7 @@
 #include "../../core/utils/log.hpp"
 #include "../../global/tile-settings.hpp"
 #include "../../core/audio/audioSystem.hpp"
-#include "../../../src/textrenderer.hpp"
+#include "../../../src/core/renderer/textrenderer.hpp"
 #include <stdexcept>
 #include <vector>
 
@@ -97,6 +97,12 @@ struct OpenGLPipeline::Internal
           uniformLocationTexture(glGetUniformLocation(shaderProgramId, "u_texture"))
     {
         glUniform1i(uniformLocationTexture, 0);
+
+        // lets play some music :)
+        AudioSystem::GetInstance()->Initialise();
+        AudioSystem::GetInstance()->addSound("bgm", "assets/sounds/bgm.wav", AudioTypes::MUSIC);
+        AudioSystem::GetInstance()->Play("bgm", -1);
+        //
     }
 
     // TODO: Parse a map object through this render function
@@ -109,7 +115,6 @@ struct OpenGLPipeline::Internal
         glm::mat4 cameraMatrix{camera.getViewMatrix() * camera.getProjectionMatrix()};
 
         map.render(static_cast<unsigned int>(uniformLocationMVP), cameraMatrix);
-
         // -------------------------------- GUI --------------------------------
     }
 

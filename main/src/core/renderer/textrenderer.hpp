@@ -2,8 +2,8 @@
 
 #include <iostream>
 #include <vector>
-#include "textblock.hpp"
-#include "../src/core/renderer/character-vertex.hpp"
+#include "../../core/gui/textblock.hpp"
+#include "../../core/renderer/character-vertex.hpp"
 
 #define NUM_ATTRIBS 3
 #define VERTEX_STRIDE 8
