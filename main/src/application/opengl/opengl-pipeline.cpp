@@ -3,6 +3,7 @@
 #include "../../global/tile-settings.hpp"
 #include "../../core/audio/audioSystem.hpp"
 #include "../../../src/core/renderer/textrenderer.hpp"
+#include "../../core/gui/button.hpp"
 #include <stdexcept>
 #include <vector>
 
@@ -88,13 +89,22 @@ struct OpenGLPipeline::Internal
     const GLuint uniformLocationMVP;
     const GLuint uniformLocationTexture;
 
+    const GLuint guiShaderProgramId;
+    const GLuint guiUniformLocationProjection;
+
     // TODO: Move map into a world class
     std::unique_ptr<ast::TileMap> map;
 
+    // gui testing
+    std::unique_ptr<ast::Button> testButton;
+    //
+
     Internal(const std::string& shaderName)
         : shaderProgramId(::createShaderProgram(shaderName)),
+          guiShaderProgramId(::createShaderProgram("text")),
           uniformLocationMVP(glGetUniformLocation(shaderProgramId, "u_mvp")),
-          uniformLocationTexture(glGetUniformLocation(shaderProgramId, "u_texture"))
+          uniformLocationTexture(glGetUniformLocation(shaderProgramId, "u_texture")),
+          guiUniformLocationProjection(glGetUniformLocation(guiShaderProgramId, "projection"))
     {
         glUniform1i(uniformLocationTexture, 0);
 
@@ -103,11 +113,21 @@ struct OpenGLPipeline::Internal
         AudioSystem::GetInstance()->addSound("bgm", "assets/sounds/bgm.wav", AudioTypes::MUSIC);
         AudioSystem::GetInstance()->Play("bgm", -1);
         //
+
+        // test quad for GUI
+        this->testButton = std::make_unique<ast::Button>("Simple Button", glm::vec3(100.f, 100.f, 0.f), glm::vec3(64.f, 16.f, 0.f));
     }
 
     // TODO: Parse a map object through this render function
     void render(ast::OrthoCamera2D& camera, ast::TileMap& map) const
     {
+        this->testButton->update(0.f);
+
+        if (this->testButton->isHovering())
+            std::cout << "Hovering\n";
+        else
+            std::cout << "Not Hovering\n";
+
         // -------------------------------- WORLD --------------------------------
         // Instruct OpenGL to starting using our shader program.
         glUseProgram(shaderProgramId);
@@ -115,7 +135,10 @@ struct OpenGLPipeline::Internal
         glm::mat4 cameraMatrix{camera.getViewMatrix() * camera.getProjectionMatrix()};
 
         map.render(static_cast<unsigned int>(uniformLocationMVP), cameraMatrix);
+
         // -------------------------------- GUI --------------------------------
+        glUseProgram(guiShaderProgramId);
+        this->testButton->render(guiUniformLocationProjection, camera.getProjectionMatrix());
     }
 
     ~Internal()

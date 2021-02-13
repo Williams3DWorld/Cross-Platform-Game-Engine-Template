@@ -1,3 +1,6 @@
+#ifndef __TRANSFORM_OBJECT_H__
+#define __TRANSFORM_OBJECT_H__
+
 #include "../../core/utils/glm-wrapper.hpp"
 #include "gameObject.hpp"
 
@@ -47,3 +50,5 @@ namespace ast
         TransformObject(const char* name, glm::vec3 position, bool updatable);
     };
 } // namespace ast
+
+#endif

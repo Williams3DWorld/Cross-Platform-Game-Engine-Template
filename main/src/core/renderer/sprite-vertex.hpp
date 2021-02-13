@@ -1,3 +1,6 @@
+#ifndef __SPRITE_VERTEX_H__
+#define __SPRITE_VERTEX_H__
+
 #include <array>
 #include "../../global/tile-settings.hpp"
 
@@ -24,3 +27,5 @@ namespace ast
         }
     };
 } // namespace ast
+
+#endif
